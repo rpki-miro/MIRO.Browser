@@ -94,7 +94,7 @@ public class RoaPrefixViewer extends Composite {
 			@Override
 			public void update(ViewerCell cell) {
 				RoaPrefix prefix = (RoaPrefix)cell.getElement();
-				cell.setText(prefix.getMaximumLength().toString());
+				cell.setText(String.valueOf(prefix.getEffectiveMaximumLength()));
 			}
 		});
 	}

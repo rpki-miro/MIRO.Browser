@@ -23,17 +23,18 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.tree.filter;
 
 import java.math.BigInteger;
+import java.net.URI;
 
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.Viewer;
 
-public class StringTreeFilter extends TreeSearchBarFilter {
+public class PrimitiveTreeFilter extends TreeSearchBarFilter {
 
 	private FilterAttribute filterAttribute;
 	
-	public StringTreeFilter(String query, FilterAttribute attr) {
+	public PrimitiveTreeFilter(String query, FilterAttribute attr) {
 		searchQuery = query;
 		filterAttribute = attr;
 	}
@@ -65,6 +66,10 @@ public class StringTreeFilter extends TreeSearchBarFilter {
 			selected = bigIntegerMatches(obj.getSerialNr());
 			break;
 		
+		case REMOTE_LOCATION:
+			selected = uriMatches(obj.getRemoteLocation());
+			break;
+			
 		default:
 			break;
 		}
@@ -74,6 +79,11 @@ public class StringTreeFilter extends TreeSearchBarFilter {
 	}
 	
 	
+	public boolean uriMatches(URI remoteLocation) {
+		return remoteLocation.toString().contains((searchQuery));
+	}
+
+
 	public boolean stringMatches(String s){
 		return s.contains(searchQuery);
 	}

@@ -23,5 +23,5 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.tree.filter;
 
 public enum FilterAttribute {
-	FILENAME, RESOURCE, SUBJECT, ISSUER, SERIAL_NUMBER
+	FILENAME, RESOURCE, SUBJECT, ISSUER, SERIAL_NUMBER, REMOTE_LOCATION
 }

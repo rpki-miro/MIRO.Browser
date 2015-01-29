@@ -93,19 +93,23 @@ public class FilterWidget extends Composite {
 				
 				switch (btnText) {
 					case "Filename":
-						filter = new StringTreeFilter(searchText, FilterAttribute.FILENAME);
+						filter = new PrimitiveTreeFilter(searchText, FilterAttribute.FILENAME);
 						break;
 					
 					case "Subject":
-						filter = new StringTreeFilter(searchText, FilterAttribute.SUBJECT);
+						filter = new PrimitiveTreeFilter(searchText, FilterAttribute.SUBJECT);
 						break;
 						
 					case "Issuer":
-						filter = new StringTreeFilter(searchText, FilterAttribute.ISSUER);
+						filter = new PrimitiveTreeFilter(searchText, FilterAttribute.ISSUER);
 						break;
 						
 					case "Serial Nr.":
-						filter = new StringTreeFilter(searchText, FilterAttribute.SERIAL_NUMBER);
+						filter = new PrimitiveTreeFilter(searchText, FilterAttribute.SERIAL_NUMBER);
+						break;
+						
+					case "Location":
+						filter = new PrimitiveTreeFilter(searchText, FilterAttribute.REMOTE_LOCATION);
 						break;
 
 					case "Resource":
