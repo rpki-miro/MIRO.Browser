@@ -22,6 +22,8 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree.filter;
 
+import java.math.BigInteger;
+
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 
@@ -48,17 +50,20 @@ public class StringTreeFilter extends TreeSearchBarFilter {
 		switch (filterAttribute) {
 		
 		case FILENAME:
-			selected = containsText(obj.getFilename());
+			selected = stringMatches(obj.getFilename());
 			break;
 			
 		case SUBJECT:
-			selected = containsText(obj.getSubject().toString());
+			selected = stringMatches(obj.getSubject().toString());
 			break;
 
 		case ISSUER:
-			selected = containsText(obj.getIssuer().toString());
+			selected = stringMatches(obj.getIssuer().toString());
 			break;
-			
+		
+		case SERIAL_NUMBER:
+			selected = bigIntegerMatches(obj.getSerialNr());
+		
 		default:
 			break;
 		}
@@ -68,8 +73,18 @@ public class StringTreeFilter extends TreeSearchBarFilter {
 	}
 	
 	
-	public boolean containsText(String s){
+	public boolean stringMatches(String s){
 		return s.contains(searchQuery);
+	}
+	
+	public boolean bigIntegerMatches(BigInteger nr) {
+		BigInteger query;
+		try {
+			 query = new BigInteger(searchQuery); 
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return query.compareTo(nr) == 0; 
 	}
 	
 	

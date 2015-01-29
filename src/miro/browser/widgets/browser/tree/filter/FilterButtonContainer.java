@@ -72,6 +72,13 @@ public class FilterButtonContainer extends Composite {
 		issuerButton.setLayoutData(rowData);
 		issuerButton.addListener(SWT.Selection,new SelectedButtonListener());
 
+		Button serialnrButton = new Button(this, SWT.RADIO);
+		serialnrButton.setText("Serial Nr.");
+		serialnrButton.setFont(Fonts.STANDARD_FONT);
+		rowData = new RowData();
+		serialnrButton.setLayoutData(rowData);
+		serialnrButton.addListener(SWT.Selection,new SelectedButtonListener());
+		
 		Button resourceButton = new Button(this, SWT.RADIO);
 		resourceButton.setText("Resource");
 		resourceButton.setFont(Fonts.STANDARD_FONT);

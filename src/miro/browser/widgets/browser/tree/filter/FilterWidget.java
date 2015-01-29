@@ -103,6 +103,10 @@ public class FilterWidget extends Composite {
 					case "Issuer":
 						filter = new StringTreeFilter(searchText, FilterAttribute.ISSUER);
 						break;
+						
+					case "Serial Nr.":
+						filter = new StringTreeFilter(searchText, FilterAttribute.SERIAL_NUMBER);
+						break;
 
 					case "Resource":
 						filter = new IpResourceFilter(searchText);
