@@ -33,19 +33,18 @@ import org.eclipse.jface.viewers.Viewer;
 public class IpResourceFilter extends TreeSearchBarFilter {
 
 	public IpResourceFilter(String t) {
-		super(t);
 	}
 
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 		
-		if(text == null){
+		if(searchQuery == null){
 			return true;
 		}
 		
 		try {
 			ResourceHoldingObject obj = (ResourceHoldingObject) element;
-			IpResource queryRes = IpResource.parse(text);
+			IpResource queryRes = IpResource.parse(searchQuery);
 			if (ownsResource(obj, queryRes)) {
 				return true;
 			} else if (obj instanceof CertificateObject) {

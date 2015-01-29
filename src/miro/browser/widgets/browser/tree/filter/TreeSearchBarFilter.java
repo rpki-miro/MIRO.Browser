@@ -25,24 +25,12 @@ package miro.browser.widgets.browser.tree.filter;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-public class TreeSearchBarFilter extends ViewerFilter {
+public abstract class TreeSearchBarFilter extends ViewerFilter {
 
-	String text;
+	protected String searchQuery;
 	
-	public TreeSearchBarFilter(String t) {
-		text = t;
-	}
-	
-	@Override
-	public boolean select(Viewer viewer, Object parentElement, Object element) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	
-	
-	public String getText(){
-		return text;
+	public String getSearchQuery(){
+		return searchQuery;
 	}
 	
 

@@ -27,42 +27,73 @@ import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.Viewer;
 
-public class FilenameTreeFilter extends TreeSearchBarFilter {
+public class StringTreeFilter extends TreeSearchBarFilter {
 
-
-	public FilenameTreeFilter(String t) {
-		super(t);
+	private FilterAttribute filterAttribute;
+	
+	public StringTreeFilter(String query, FilterAttribute attr) {
+		searchQuery = query;
+		filterAttribute = attr;
 	}
 
 
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 
-		if(text == null){
+		if(searchQuery == null){
 			return true;
 		}
-
-
+	
 		ResourceHoldingObject obj = (ResourceHoldingObject) element;
+		boolean selected = false;
+		switch (filterAttribute) {
 		
-		if(containsText(obj.getFilename())){
-			return true;
-		} else {
+		case FILENAME:
+			selected = containsText(obj.getFilename());
+			break;
 			
-			if(obj instanceof CertificateObject){
-				for(ResourceHoldingObject kid : ((CertificateObject) obj).getChildren()){
-					if(select(viewer,obj,kid)){
-						return true;
-					}
-				}
+		case SUBJECT:
+			if(obj instanceof CertificateObject) {
+				CertificateObject cert = (CertificateObject)obj;
+				selected = containsText(cert.getSubject().toString());
+			} else {
+				selected = false;
 			}
+			break;
+			
+		default:
+			break;
 		}
-		return false;
+
+		return getSelectResult(selected, viewer, obj);
 		
 	}
 	
 	
 	public boolean containsText(String s){
-		return s.contains(text);
+		return s.contains(searchQuery);
+	}
+	
+	
+	public boolean getSelectResult(boolean selected, Viewer viewer, ResourceHoldingObject obj) {
+		if (selected) {
+			return selected;
+		} else {
+			return selectChildren(viewer, obj);
+		}
+	}
+	
+	
+	public boolean selectChildren(Viewer viewer, ResourceHoldingObject obj) {
+		if (obj instanceof CertificateObject) {
+			for (ResourceHoldingObject kid : ((CertificateObject) obj)
+					.getChildren()) {
+				if (select(viewer, obj, kid)) {
+					return true;
+				}
+			}
+		}
+		return false;
+
 	}
 
 }

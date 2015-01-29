@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Listener;
 
 public class FilterButtonContainer extends Composite {
 	
-	Button selectedButton;
+	private Button selectedButton;
 
 	public FilterButtonContainer(Composite parent, int style) {
 		super(parent, style);
@@ -57,6 +57,12 @@ public class FilterButtonContainer extends Composite {
 		filenameButton.setLayoutData(rowData);
 		filenameButton.addListener(SWT.Selection,new SelectedButtonListener());
 		
+		Button subjectButton = new Button(this, SWT.RADIO);
+		subjectButton.setText("Subject");
+		subjectButton.setFont(Fonts.STANDARD_FONT);
+		rowData = new RowData();
+		subjectButton.setLayoutData(rowData);
+		subjectButton.addListener(SWT.Selection,new SelectedButtonListener());
 		
 		
 		Button resourceButton = new Button(this, SWT.RADIO);

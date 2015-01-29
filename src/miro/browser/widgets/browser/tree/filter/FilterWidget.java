@@ -93,7 +93,11 @@ public class FilterWidget extends Composite {
 				
 				switch (btnText) {
 					case "Filename":
-						filter = new FilenameTreeFilter(searchText);
+						filter = new StringTreeFilter(searchText, FilterAttribute.FILENAME);
+						break;
+					
+					case "Subject":
+						filter = new StringTreeFilter(searchText, FilterAttribute.SUBJECT);
 						break;
 						
 					case "Resource":
