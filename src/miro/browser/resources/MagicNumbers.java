@@ -79,7 +79,7 @@ public class MagicNumbers {
 	public static final int CDW_CONTENT_SPACING = 10;
 	
 	//CertificateDisplay, InformationContainer
-	public static final int CDW_INFORMATION_CONTAINER_WIDTH = 550;
+	public static final int CDW_INFORMATION_CONTAINER_WIDTH = 650;
 	public static final int CDW_INFORMATION_CONTAINER_MARGIN_HEIGHT = 0	;
 	public static final int CDW_INFORMATION_CONTAINER_MARGIN_WIDTH = 5;
 	public static final int CDW_INFORMATION_CONTAINER_SPACING = 5;
@@ -90,7 +90,7 @@ public class MagicNumbers {
 	public static final int CDW_RESOURCE_LIST_COLUMN_WIDTH = 175;
 	
 	//ManifestDIsplay, InformationContainer
-	public static final int MDW_INFORMATION_CONTAINER_WIDTH = 550;
+	public static final int MDW_INFORMATION_CONTAINER_WIDTH = 650;
 	public static final int MDW_INFORMATION_CONTAINER_MARGIN_HEIGHT = 0	;
 	public static final int MDW_INFORMATION_CONTAINER_MARGIN_WIDTH = 5;
 	public static final int MDW_INFORMATION_CONTAINER_SPACING = 5;

@@ -22,13 +22,16 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.displaywidgets;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import json.deserializers.ValidationStatus;
 import miro.browser.converters.DateTimeConverter;
+import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.converters.ValidityPeriodConverter;
 import miro.browser.resources.MagicNumbers;
+import miro.validator.types.RepositoryObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
 import miro.validator.types.ValidationResults;
@@ -90,6 +93,12 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 		ValidationCheckConverter checkToStringconv = new ValidationCheckConverter();
 		ValidityPeriodConverter validityPeriodConv = new ValidityPeriodConverter();
 		
+		InformationField filenameField = new TextField(parent, style, String.class,RepositoryObject.class,"Filename: ", MagicNumbers.LINE_HEIGHT, "filename",null);
+		fields.add(filenameField);
+		
+		InformationField locationField = new TextField(parent, style, URI.class, RepositoryObject.class,"Location: ", MagicNumbers.LINE_HEIGHT, "remoteLocation",new URIConverter());
+		fields.add(locationField);
+
 		fields.add(new TextField(parent, style, ValidationStatus.class, ValidationResults.class,"Validation Status: ", MagicNumbers.LINE_HEIGHT*2, "validationStatus",null));
 
 		fields.add(new TextField(parent, style, ArrayList.class, ValidationResults.class,"Errors: ", MagicNumbers.LINE_HEIGHT*2, "errors", checkToStringconv));
@@ -114,7 +123,7 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 		
 		IObservableValue validationResultObservable = PojoProperties.value((Class) resourceHolderObservable.getValueType(), "validationResults", ValidationResults.class).observeDetail(resourceHolderObservable);
 		for(InformationField field : fields){
-			if(field.containerType.equals(ResourceHoldingObject.class) | field.containerType.equals(RoaObject.class)){
+			if(field.containerType.equals(ResourceHoldingObject.class) | field.containerType.equals(RoaObject.class) | field.containerType.equals(RepositoryObject.class)){
 				field.bindField(resourceHolderObservable, dbc);
 			}
 			

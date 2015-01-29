@@ -22,13 +22,16 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.displaywidgets;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import json.deserializers.ValidationStatus;
 import miro.browser.converters.StringListToStringConverter;
+import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.resources.Colors;
 import miro.browser.resources.MagicNumbers;
+import miro.validator.types.RepositoryObject;
 import miro.validator.types.ValidationResults;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -69,8 +72,13 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		setLayout(layout);
 	}
 	public void initFields(Composite parent,int style){
-		StringListToStringConverter stringListconv = new StringListToStringConverter();
 		ValidationCheckConverter checkToStringconv = new ValidationCheckConverter();
+		
+		InformationField filenameField = new TextField(parent, style, String.class,RepositoryObject.class,"Filename: ", MagicNumbers.LINE_HEIGHT, "filename",null);
+		fields.add(filenameField);
+		
+		InformationField locationField = new TextField(parent, style, URI.class, RepositoryObject.class,"Location: ", MagicNumbers.LINE_HEIGHT, "remoteLocation",new URIConverter());
+		fields.add(locationField);
 		
 		InformationField validationStatusField = new TextField(parent, style, ValidationStatus.class,ValidationResults.class,"Validation Status: ", MagicNumbers.LINE_HEIGHT*2, "validationStatus",null);
 		fields.add(validationStatusField);
@@ -133,6 +141,10 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		for (InformationField field : fields) {
 			if (field.containerType.equals(ValidationResults.class)) {
 				field.bindField(validationResultObservable, dbc);
+			}
+			
+			if(field.containerType.equals(RepositoryObject.class)){
+				field.bindField(manifestObservable, dbc);
 			}
 		}
 	}

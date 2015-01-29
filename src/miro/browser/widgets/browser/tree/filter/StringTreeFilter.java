@@ -63,6 +63,7 @@ public class StringTreeFilter extends TreeSearchBarFilter {
 		
 		case SERIAL_NUMBER:
 			selected = bigIntegerMatches(obj.getSerialNr());
+			break;
 		
 		default:
 			break;
