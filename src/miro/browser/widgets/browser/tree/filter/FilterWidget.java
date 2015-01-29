@@ -100,6 +100,10 @@ public class FilterWidget extends Composite {
 						filter = new StringTreeFilter(searchText, FilterAttribute.SUBJECT);
 						break;
 						
+					case "Issuer":
+						filter = new StringTreeFilter(searchText, FilterAttribute.ISSUER);
+						break;
+
 					case "Resource":
 						filter = new IpResourceFilter(searchText);
 						break;

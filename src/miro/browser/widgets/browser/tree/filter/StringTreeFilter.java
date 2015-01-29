@@ -52,12 +52,11 @@ public class StringTreeFilter extends TreeSearchBarFilter {
 			break;
 			
 		case SUBJECT:
-			if(obj instanceof CertificateObject) {
-				CertificateObject cert = (CertificateObject)obj;
-				selected = containsText(cert.getSubject().toString());
-			} else {
-				selected = false;
-			}
+			selected = containsText(obj.getSubject().toString());
+			break;
+
+		case ISSUER:
+			selected = containsText(obj.getIssuer().toString());
 			break;
 			
 		default:
