@@ -22,6 +22,9 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree.filter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import miro.browser.resources.Fonts;
 import miro.browser.widgets.browser.tree.TreeContainer;
 
@@ -36,9 +39,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-
-
-
 
 public class FilterWidget extends Composite {
 
@@ -70,74 +70,65 @@ public class FilterWidget extends Composite {
 		layoutData.right = new FormAttachment(100,0);
 		
 		applyFilterBtn.setLayoutData(layoutData);
-		
-		
-		
 		applyFilterBtn.addListener(SWT.Selection, new Listener() {
 			
 			@Override
 			public void handleEvent(Event event) {
-				
+				List<ViewerFilter> filters = new ArrayList<ViewerFilter>();
 				TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
-				Button selected = radioButtons.getSelected();
-				if(selected == null){
-					treeViewer.resetFilters();
-					treeContainer.toggle();
-					return;
-				}
-				
-				String btnText = selected.getText();
-				String searchText = searchField.getSearchText().getText();
-				
-				TreeSearchBarFilter filter;
-				
-				switch (btnText) {
-					case "Filename":
-						filter = new RadioButtonFilter(searchText, FilterAttribute.FILENAME);
-						break;
-					
-					case "Subject":
-						filter = new RadioButtonFilter(searchText, FilterAttribute.SUBJECT);
-						break;
-						
-					case "Issuer":
-						filter = new RadioButtonFilter(searchText, FilterAttribute.ISSUER);
-						break;
-						
-					case "Serial Nr.":
-						filter = new RadioButtonFilter(searchText, FilterAttribute.SERIAL_NUMBER);
-						break;
-						
-					case "Location":
-						filter = new RadioButtonFilter(searchText, FilterAttribute.REMOTE_LOCATION);
-						break;
 
-					case "Resource":
-						filter = new RadioButtonFilter(searchText, FilterAttribute.RESOURCE);
-						break;
-						
-					default:
-						filter = null;
-						break;
+				Button selectedRadioButton = radioButtons.getSelected();
+				String searchText = searchField.getSearchText().getText();
+				if(selectedRadioButton != null){
+					filters.add(getRadioButtonFilter(selectedRadioButton, searchText));
 				}
-				
-				//If null, thats bad and should not happen. So reset
-				if(filter == null){
-					treeViewer.resetFilters();
-					//temp log, need real logger
-					System.out.println("FilterWidget: Null filter selected");
-				} else {
-					
-					//set new filter (this removes all old filters), refilter and resort
-					ViewerFilter[] filters = {filter};
-					treeViewer.setFilters(filters);
-				}
-				
+
+				// set new filter (this removes all old filters), refilter and
+				// resort
+				treeViewer.setFilters(filters.toArray(new ViewerFilter[]{}));
+
 				treeContainer.toggle();
 			}
 		});
 		
 		
+	}
+	
+	public RadioButtonFilter getRadioButtonFilter(Button selectedBtn, String searchText) {
+		String btnText = selectedBtn.getText();
+		RadioButtonFilter filter;
+		switch (btnText) {
+		case "Filename":
+			filter = new RadioButtonFilter(searchText, FilterAttribute.FILENAME);
+			break;
+
+		case "Subject":
+			filter = new RadioButtonFilter(searchText, FilterAttribute.SUBJECT);
+			break;
+
+		case "Issuer":
+			filter = new RadioButtonFilter(searchText, FilterAttribute.ISSUER);
+			break;
+
+		case "Serial Nr.":
+			filter = new RadioButtonFilter(searchText,
+					FilterAttribute.SERIAL_NUMBER);
+			break;
+
+		case "Location":
+			filter = new RadioButtonFilter(searchText,
+					FilterAttribute.REMOTE_LOCATION);
+			break;
+
+		case "Resource":
+			filter = new RadioButtonFilter(searchText, FilterAttribute.RESOURCE);
+			break;
+
+		default:
+			filter = null;
+			break;
+		}
+		return filter;
 	}
 	
 	public void clearSelection(){

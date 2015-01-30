@@ -142,7 +142,7 @@ public class RadioButtonFilter extends TreeSearchBarFilter {
 			return cert.getResources().contains(res);
 		} else if(obj instanceof RoaObject){
 			RoaObject roa = (RoaObject) obj;
-			if(res.equals(roa.getRoa().getAsn().toString())){
+			if(res.equals(roa.getRoa().getAsn())){
 				return true;
 			}
 			
