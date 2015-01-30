@@ -44,7 +44,7 @@ public class FilterWidget extends Composite {
 
 	Label header;
 	Label chooseFilter;
-	FilterButtonContainer buttons;
+	private RadioButtonContainer radioButtons;
 	FilterSearchField searchField;
 	Button applyFilterBtn;
 	
@@ -79,7 +79,7 @@ public class FilterWidget extends Composite {
 			public void handleEvent(Event event) {
 				
 				TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
-				Button selected = buttons.getSelected();
+				Button selected = radioButtons.getSelected();
 				if(selected == null){
 					treeViewer.resetFilters();
 					treeContainer.toggle();
@@ -93,27 +93,27 @@ public class FilterWidget extends Composite {
 				
 				switch (btnText) {
 					case "Filename":
-						filter = new PrimitiveTreeFilter(searchText, FilterAttribute.FILENAME);
+						filter = new RadioButtonFilter(searchText, FilterAttribute.FILENAME);
 						break;
 					
 					case "Subject":
-						filter = new PrimitiveTreeFilter(searchText, FilterAttribute.SUBJECT);
+						filter = new RadioButtonFilter(searchText, FilterAttribute.SUBJECT);
 						break;
 						
 					case "Issuer":
-						filter = new PrimitiveTreeFilter(searchText, FilterAttribute.ISSUER);
+						filter = new RadioButtonFilter(searchText, FilterAttribute.ISSUER);
 						break;
 						
 					case "Serial Nr.":
-						filter = new PrimitiveTreeFilter(searchText, FilterAttribute.SERIAL_NUMBER);
+						filter = new RadioButtonFilter(searchText, FilterAttribute.SERIAL_NUMBER);
 						break;
 						
 					case "Location":
-						filter = new PrimitiveTreeFilter(searchText, FilterAttribute.REMOTE_LOCATION);
+						filter = new RadioButtonFilter(searchText, FilterAttribute.REMOTE_LOCATION);
 						break;
 
 					case "Resource":
-						filter = new IpResourceFilter(searchText);
+						filter = new RadioButtonFilter(searchText, FilterAttribute.RESOURCE);
 						break;
 						
 					default:
@@ -141,7 +141,7 @@ public class FilterWidget extends Composite {
 	}
 	
 	public void clearSelection(){
-		buttons.clearSelection();
+		radioButtons.clearSelection();
 		searchField.clearSelection();
 	}
 	
@@ -149,7 +149,7 @@ public class FilterWidget extends Composite {
 	private void initSearchField() {
 		searchField = new FilterSearchField(this, SWT.NONE);
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(buttons,20);
+		layoutData.top = new FormAttachment(radioButtons,20);
 		layoutData.left = new FormAttachment(0,0);
 		layoutData.right = new FormAttachment(100,0);
 		
@@ -170,13 +170,13 @@ public class FilterWidget extends Composite {
 	}
 
 	private void initButtonContainer() {
-		buttons = new FilterButtonContainer(this, SWT.NONE);
+		radioButtons = new RadioButtonContainer(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(chooseFilter);
 		layoutData.left = new FormAttachment(0,0);
 		
-		buttons.setLayoutData(layoutData);
+		radioButtons.setLayoutData(layoutData);
 		
 	}
 

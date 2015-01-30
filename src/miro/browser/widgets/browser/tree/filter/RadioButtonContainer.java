@@ -32,11 +32,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-public class FilterButtonContainer extends Composite {
+public class RadioButtonContainer extends Composite {
 	
 	private Button selectedButton;
 
-	public FilterButtonContainer(Composite parent, int style) {
+	public RadioButtonContainer(Composite parent, int style) {
 		super(parent, style);
 		init();
 		initButtons();
@@ -92,11 +92,8 @@ public class FilterButtonContainer extends Composite {
 		rowData = new RowData();
 		resourceButton.setLayoutData(rowData);
 		resourceButton.addListener(SWT.Selection,new SelectedButtonListener());
-		
 	}
-	
-	
-	
+
 	public Button getSelected(){
 		return selectedButton;
 	}

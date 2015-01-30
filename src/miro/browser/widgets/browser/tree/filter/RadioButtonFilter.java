@@ -27,14 +27,17 @@ import java.net.URI;
 
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
+import miro.validator.types.RoaObject;
+import net.ripe.ipresource.IpResource;
+import net.ripe.rpki.commons.crypto.cms.roa.RoaPrefix;
 
 import org.eclipse.jface.viewers.Viewer;
 
-public class PrimitiveTreeFilter extends TreeSearchBarFilter {
+public class RadioButtonFilter extends TreeSearchBarFilter {
 
 	private FilterAttribute filterAttribute;
 	
-	public PrimitiveTreeFilter(String query, FilterAttribute attr) {
+	public RadioButtonFilter(String query, FilterAttribute attr) {
 		searchQuery = query;
 		filterAttribute = attr;
 	}
@@ -68,6 +71,16 @@ public class PrimitiveTreeFilter extends TreeSearchBarFilter {
 		
 		case REMOTE_LOCATION:
 			selected = uriMatches(obj.getRemoteLocation());
+			break;
+			
+		case RESOURCE:
+			IpResource queryRes; 
+			try {
+				queryRes = IpResource.parse(searchQuery);
+			} catch (Exception e) {
+				return false;
+			}
+			selected = ownsResource(obj, queryRes);
 			break;
 			
 		default:
@@ -119,6 +132,29 @@ public class PrimitiveTreeFilter extends TreeSearchBarFilter {
 		}
 		return false;
 
+	}
+	
+	
+	public boolean ownsResource(ResourceHoldingObject obj, IpResource res){
+		
+		if(obj instanceof CertificateObject){
+			CertificateObject cert = (CertificateObject) obj;
+			return cert.getResources().contains(res);
+		} else if(obj instanceof RoaObject){
+			RoaObject roa = (RoaObject) obj;
+			if(res.equals(roa.getRoa().getAsn().toString())){
+				return true;
+			}
+			
+			for(RoaPrefix prefix : roa.getRoa().getPrefixes()){
+				if(prefix.getPrefix().contains(res) | res.contains(prefix.getPrefix())){
+					return true;
+				}
+			}
+		}
+		
+
+		return false;
 	}
 
 }
