@@ -33,15 +33,14 @@ import net.ripe.rpki.commons.crypto.cms.roa.RoaPrefix;
 
 import org.eclipse.jface.viewers.Viewer;
 
-public class RadioButtonFilter extends TreeSearchBarFilter {
+public class AttributeFilter extends TreeSearchBarFilter {
 
 	private FilterAttribute filterAttribute;
 	
-	public RadioButtonFilter(String query, FilterAttribute attr) {
+	public AttributeFilter(String query, FilterAttribute attr) {
 		searchQuery = query;
 		filterAttribute = attr;
 	}
-
 
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 
@@ -91,7 +90,6 @@ public class RadioButtonFilter extends TreeSearchBarFilter {
 		
 	}
 	
-	
 	public boolean uriMatches(URI remoteLocation) {
 		return remoteLocation.toString().contains((searchQuery));
 	}
@@ -111,7 +109,6 @@ public class RadioButtonFilter extends TreeSearchBarFilter {
 		return query.compareTo(nr) == 0; 
 	}
 	
-	
 	public boolean getSelectResult(boolean selected, Viewer viewer, ResourceHoldingObject obj) {
 		if (selected) {
 			return selected;
@@ -119,7 +116,6 @@ public class RadioButtonFilter extends TreeSearchBarFilter {
 			return selectChildren(viewer, obj);
 		}
 	}
-	
 	
 	public boolean selectChildren(Viewer viewer, ResourceHoldingObject obj) {
 		if (obj instanceof CertificateObject) {
@@ -133,7 +129,6 @@ public class RadioButtonFilter extends TreeSearchBarFilter {
 		return false;
 
 	}
-	
 	
 	public boolean ownsResource(ResourceHoldingObject obj, IpResource res){
 		

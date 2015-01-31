@@ -44,7 +44,10 @@ public class FilterWidget extends Composite {
 
 	Label header;
 	Label chooseFilter;
-	private RadioButtonContainer radioButtons;
+	private AttributeButtonContainer attributeButtons;
+	
+	private FileTypeButtonContainer filetypeButtons;
+	
 	FilterSearchField searchField;
 	Button applyFilterBtn;
 	
@@ -56,8 +59,9 @@ public class FilterWidget extends Composite {
 		init();
 		initHeader();
 		initChooseFilter();
-		initButtonContainer();
+		initRadioButtonContainer();
 		initSearchField();
+		initCheckButtonContainer();
 		initApplyButton();
 	}
 	
@@ -66,7 +70,7 @@ public class FilterWidget extends Composite {
 		applyFilterBtn.setText("Apply Filter");
 		
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(searchField,20);
+		layoutData.top = new FormAttachment(filetypeButtons,20);
 		layoutData.right = new FormAttachment(100,0);
 		
 		applyFilterBtn.setLayoutData(layoutData);
@@ -77,12 +81,19 @@ public class FilterWidget extends Composite {
 				List<ViewerFilter> filters = new ArrayList<ViewerFilter>();
 				TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
 
-				Button selectedRadioButton = radioButtons.getSelected();
+				Button selectedAttributeButton = attributeButtons.getSelected();
 				String searchText = searchField.getSearchText().getText();
-				if(selectedRadioButton != null){
-					filters.add(getRadioButtonFilter(selectedRadioButton, searchText));
+				if(selectedAttributeButton != null){
+					filters.add(getAttributeFilter(selectedAttributeButton, searchText));
 				}
 
+				
+				Button selectedFileTypeButton = filetypeButtons.getSelected();
+				if(selectedFileTypeButton != null) {
+					filters.add(getFileTypeFilter(selectedFileTypeButton));
+				}
+				
+				
 				// set new filter (this removes all old filters), refilter and
 				// resort
 				treeViewer.setFilters(filters.toArray(new ViewerFilter[]{}));
@@ -94,53 +105,27 @@ public class FilterWidget extends Composite {
 		
 	}
 	
-	public RadioButtonFilter getRadioButtonFilter(Button selectedBtn, String searchText) {
-		String btnText = selectedBtn.getText();
-		RadioButtonFilter filter;
-		switch (btnText) {
-		case "Filename":
-			filter = new RadioButtonFilter(searchText, FilterAttribute.FILENAME);
-			break;
-
-		case "Subject":
-			filter = new RadioButtonFilter(searchText, FilterAttribute.SUBJECT);
-			break;
-
-		case "Issuer":
-			filter = new RadioButtonFilter(searchText, FilterAttribute.ISSUER);
-			break;
-
-		case "Serial Nr.":
-			filter = new RadioButtonFilter(searchText,
-					FilterAttribute.SERIAL_NUMBER);
-			break;
-
-		case "Location":
-			filter = new RadioButtonFilter(searchText,
-					FilterAttribute.REMOTE_LOCATION);
-			break;
-
-		case "Resource":
-			filter = new RadioButtonFilter(searchText, FilterAttribute.RESOURCE);
-			break;
-
-		default:
-			filter = null;
-			break;
-		}
+	
+	public FileTypeFilter getFileTypeFilter(Button selectedBtn) {
+		return new FileTypeFilter((FilterAttribute) selectedBtn.getData(RadioButtonContainer.FILTER_TYPE_KEY));
+	}
+	
+	public AttributeFilter getAttributeFilter(Button selectedBtn, String searchText) {
+		AttributeFilter filter = new AttributeFilter(searchText, (FilterAttribute) selectedBtn.getData(RadioButtonContainer.FILTER_TYPE_KEY));
 		return filter;
 	}
 	
 	public void clearSelection(){
-		radioButtons.clearSelection();
+		attributeButtons.clearSelection();
 		searchField.clearSelection();
+		filetypeButtons.clearSelection();
 	}
 	
 
 	private void initSearchField() {
 		searchField = new FilterSearchField(this, SWT.NONE);
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(radioButtons,20);
+		layoutData.top = new FormAttachment(attributeButtons,20);
 		layoutData.left = new FormAttachment(0,0);
 		layoutData.right = new FormAttachment(100,0);
 		
@@ -159,23 +144,29 @@ public class FilterWidget extends Composite {
 		chooseFilter.setLayoutData(layoutData);
 		
 	}
+	
+	private void initCheckButtonContainer() {
+		filetypeButtons = new FileTypeButtonContainer(this, SWT.NONE);
+		
+		FormData layoutData = new FormData();
+		layoutData.top = new FormAttachment(searchField);
+		layoutData.left = new FormAttachment(0,0);
+		
+		filetypeButtons.setLayoutData(layoutData);
+	}
 
-	private void initButtonContainer() {
-		radioButtons = new RadioButtonContainer(this, SWT.NONE);
+	private void initRadioButtonContainer() {
+		attributeButtons = new AttributeButtonContainer(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(chooseFilter);
 		layoutData.left = new FormAttachment(0,0);
 		
-		radioButtons.setLayoutData(layoutData);
+		attributeButtons.setLayoutData(layoutData);
 		
 	}
 
 	private void init() {
-//		RowLayout layout = new RowLayout();
-//		layout.type = SWT.VERTICAL;
-//		layout.fill = true;
-		
 		FormLayout layout = new FormLayout();
 		layout.marginHeight = 10;
 		layout.marginWidth = 10;

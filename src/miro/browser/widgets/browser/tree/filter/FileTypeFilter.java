@@ -23,19 +23,70 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.tree.filter;
 
 import miro.validator.types.CertificateObject;
+import miro.validator.types.ResourceHoldingObject;
+import miro.validator.types.RoaObject;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-public class ObjectTypeFilter extends ViewerFilter {
+public class FileTypeFilter extends ViewerFilter{
+	
+	private FilterAttribute filterAttribute;
+	
+	public FileTypeFilter(FilterAttribute attr) {
+		filterAttribute = attr;
+	}
 
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
-		if(element instanceof CertificateObject){
-			return true;
-		} {
-			return false;
+		ResourceHoldingObject obj = (ResourceHoldingObject) element;
+		boolean selected = false;
+		switch (filterAttribute) {
+		
+		case ALL_FILES:
+			selected = true;
+			break;
+		
+		case CER_FILES:
+			selected = isCerFile(obj);
+			break;
+		case ROA_FILES:
+			selected = isRoaFile(obj);
+			break;
+		default:
+			break;
 		}
+
+		return getSelectResult(selected, viewer, obj);
+	}
+
+	private boolean isRoaFile(ResourceHoldingObject obj) {
+		return obj instanceof RoaObject;
+	}
+
+	private boolean isCerFile(ResourceHoldingObject obj) {
+		return obj instanceof CertificateObject;
+	}
+
+	public boolean getSelectResult(boolean selected, Viewer viewer, ResourceHoldingObject obj) {
+		if (selected) {
+			return selected;
+		} else {
+			return selectChildren(viewer, obj);
+		}
+	}
+	
+	public boolean selectChildren(Viewer viewer, ResourceHoldingObject obj) {
+		if (obj instanceof CertificateObject) {
+			for (ResourceHoldingObject kid : ((CertificateObject) obj)
+					.getChildren()) {
+				if (select(viewer, obj, kid)) {
+					return true;
+				}
+			}
+		}
+		return false;
+
 	}
 
 }
