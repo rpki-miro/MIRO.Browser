@@ -1,4 +1,4 @@
-package miro.browser.widgets.browser.tree.filter;
+package miro.browser.widgets.browser.filter.filters;
 
 import miro.validator.types.ResourceHoldingObject;
 

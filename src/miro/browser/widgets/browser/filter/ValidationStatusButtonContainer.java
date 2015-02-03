@@ -1,10 +1,11 @@
-package miro.browser.widgets.browser.tree.filter;
+package miro.browser.widgets.browser.filter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import miro.browser.resources.Fonts;
-import miro.browser.widgets.browser.tree.filter.FilterKeys.FilterKey;
+import miro.browser.widgets.browser.filter.filters.FilterKeys;
+import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
@@ -14,14 +15,13 @@ import org.eclipse.swt.widgets.Composite;
 
 public class ValidationStatusButtonContainer extends Composite implements FilterButtonContainer {
 	
-	List<Button> checkButtons;
+	private List<Button> checkButtons;
 	
 	public ValidationStatusButtonContainer(Composite parent, int style) {
 		super(parent, style);
 		init();
 		
 		initButtons();
-		
 	}
 
 	private void initButtons() {
@@ -58,7 +58,6 @@ public class ValidationStatusButtonContainer extends Composite implements Filter
 	}
 
 	public void clearSelection() {
-
 		for(Button btn : checkButtons){
 			btn.setSelection(false);
 		}

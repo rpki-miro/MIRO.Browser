@@ -20,16 +20,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.tree.filter;
+package miro.browser.widgets.browser.filter.filters;
 
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
 
-public abstract class TreeSearchBarFilter extends ViewerFilter {
-
-	protected String searchQuery;
+public class FilterKeys {
+	public static final String FILTER_TYPE_KEY = "FILTER_TYPE_KEY";
 	
-	public String getSearchQuery(){
-		return searchQuery;
+	
+	public enum FilterKey {
+		FILENAME, RESOURCE, SUBJECT, ISSUER, SERIAL_NUMBER, REMOTE_LOCATION, ALL_FILES, CER_FILES, ROA_FILES, ALL_STATUS, ERROR_STATUS, WARNING_STATUS, PASSED_STATUS
 	}
 }

@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.tree.filter;
+package miro.browser.widgets.browser.filter;
 
 import miro.browser.resources.Colors;
 import miro.browser.resources.Fonts;

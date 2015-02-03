@@ -1,4 +1,4 @@
-package miro.browser.widgets.browser.tree.filter;
+package miro.browser.widgets.browser.filter;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;

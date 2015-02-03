@@ -25,7 +25,7 @@ package miro.browser.widgets.browser.tree;
 
 import java.util.ArrayList;
 
-import miro.browser.widgets.browser.tree.filter.FilterWidget;
+import miro.browser.widgets.browser.filter.FilterWidget;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;

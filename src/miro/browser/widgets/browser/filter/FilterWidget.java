@@ -20,14 +20,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.tree.filter;
+package miro.browser.widgets.browser.filter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import miro.browser.resources.Fonts;
+import miro.browser.widgets.browser.filter.filters.AttributeFilter;
+import miro.browser.widgets.browser.filter.filters.FileTypeFilter;
+import miro.browser.widgets.browser.filter.filters.FilterKeys;
+import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
+import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
+import miro.browser.widgets.browser.filter.filters.ValidationStatusFilter;
+import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
 import miro.browser.widgets.browser.tree.TreeContainer;
-import miro.browser.widgets.browser.tree.filter.FilterKeys.FilterKey;
 import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.jface.viewers.TreeViewer;
@@ -163,6 +169,7 @@ public class FilterWidget extends Composite {
 		attributeButtons.clearSelection();
 		searchField.clearSelection();
 		filetypeButtons.clearSelection();
+		validationStatusButtons.clearSelection();
 	}
 	
 	private void initHeader() {

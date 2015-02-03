@@ -20,9 +20,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.tree.filter;
+package miro.browser.widgets.browser.filter.filters;
 
-import miro.browser.widgets.browser.tree.filter.FilterKeys.FilterKey;
+import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
