@@ -22,20 +22,16 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree.filter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import miro.browser.resources.Fonts;
+import miro.browser.widgets.browser.tree.filter.FilterKeys.FilterKey;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 
-public class FileTypeButtonContainer extends RadioButtonContainer{
+public class FileTypeButtonContainer extends RadioButtonContainer implements FilterButtonContainer{
 	
 	private Button allButton;
 	
@@ -58,7 +54,7 @@ public class FileTypeButtonContainer extends RadioButtonContainer{
 		RowData rowData = new RowData();
 		allButton.setLayoutData(rowData);
 		allButton.addListener(SWT.Selection, new SelectedButtonListener());
-		allButton.setData(FILTER_TYPE_KEY, FilterAttribute.ALL_FILES);
+		allButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.ALL_FILES);
 		allButton.setSelection(true);
 		
 		cerButton = new Button(this, SWT.RADIO);
@@ -67,7 +63,7 @@ public class FileTypeButtonContainer extends RadioButtonContainer{
 		rowData = new RowData();
 		cerButton.setLayoutData(rowData);
 		cerButton.addListener(SWT.Selection, new SelectedButtonListener());
-		cerButton.setData(FILTER_TYPE_KEY, FilterAttribute.CER_FILES);
+		cerButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.CER_FILES);
 
 		roaButton = new Button(this, SWT.RADIO);
 		roaButton.setText("Only .roa files");
@@ -75,7 +71,7 @@ public class FileTypeButtonContainer extends RadioButtonContainer{
 		rowData = new RowData();
 		roaButton.setLayoutData(rowData);
 		roaButton.addListener(SWT.Selection, new SelectedButtonListener());
-		roaButton.setData(FILTER_TYPE_KEY, FilterAttribute.ROA_FILES);
+		roaButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.ROA_FILES);
 		
 	}
 
@@ -87,5 +83,10 @@ public class FileTypeButtonContainer extends RadioButtonContainer{
 		selectedButton.setSelection(false);
 		allButton.setSelection(true);
 		selectedButton = allButton;
+	}
+
+	@Override
+	public Button[] getSelectedButtons() {
+		return new Button[]{selectedButton};
 	}
 }

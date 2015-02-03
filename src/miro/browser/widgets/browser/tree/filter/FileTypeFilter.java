@@ -22,6 +22,7 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree.filter;
 
+import miro.browser.widgets.browser.tree.filter.FilterKeys.FilterKey;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
@@ -31,9 +32,9 @@ import org.eclipse.jface.viewers.ViewerFilter;
 
 public class FileTypeFilter extends ViewerFilter{
 	
-	private FilterAttribute filterAttribute;
+	private FilterKey filterAttribute;
 	
-	public FileTypeFilter(FilterAttribute attr) {
+	public FileTypeFilter(FilterKey attr) {
 		filterAttribute = attr;
 	}
 
@@ -86,7 +87,6 @@ public class FileTypeFilter extends ViewerFilter{
 			}
 		}
 		return false;
-
 	}
 
 }

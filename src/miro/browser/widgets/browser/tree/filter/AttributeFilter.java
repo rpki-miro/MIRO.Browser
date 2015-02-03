@@ -25,6 +25,7 @@ package miro.browser.widgets.browser.tree.filter;
 import java.math.BigInteger;
 import java.net.URI;
 
+import miro.browser.widgets.browser.tree.filter.FilterKeys.FilterKey;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
@@ -35,9 +36,9 @@ import org.eclipse.jface.viewers.Viewer;
 
 public class AttributeFilter extends TreeSearchBarFilter {
 
-	private FilterAttribute filterAttribute;
+	private FilterKey filterAttribute;
 	
-	public AttributeFilter(String query, FilterAttribute attr) {
+	public AttributeFilter(String query, FilterKey attr) {
 		searchQuery = query;
 		filterAttribute = attr;
 	}

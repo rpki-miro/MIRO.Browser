@@ -22,6 +22,12 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree.filter;
 
-public enum FilterAttribute {
-	FILENAME, RESOURCE, SUBJECT, ISSUER, SERIAL_NUMBER, REMOTE_LOCATION, ALL_FILES, CER_FILES, ROA_FILES
+
+public class FilterKeys {
+	public static final String FILTER_TYPE_KEY = "FILTER_TYPE_KEY";
+	
+	
+	public enum FilterKey {
+		FILENAME, RESOURCE, SUBJECT, ISSUER, SERIAL_NUMBER, REMOTE_LOCATION, ALL_FILES, CER_FILES, ROA_FILES, ALL_STATUS, ERROR_STATUS, WARNING_STATUS, PASSED_STATUS
+	}
 }

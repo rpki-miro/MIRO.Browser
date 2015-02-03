@@ -23,6 +23,7 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.tree.filter;
 
 import miro.browser.resources.Fonts;
+import miro.browser.widgets.browser.tree.filter.FilterKeys.FilterKey;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
@@ -32,8 +33,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-public class AttributeButtonContainer extends RadioButtonContainer {
-	
+public class AttributeButtonContainer extends RadioButtonContainer implements FilterButtonContainer{
+
 	public AttributeButtonContainer(Composite parent, int style) {
 		super(parent, style);
 		init();
@@ -54,7 +55,7 @@ public class AttributeButtonContainer extends RadioButtonContainer {
 		RowData rowData = new RowData();
 		filenameButton.setLayoutData(rowData);
 		filenameButton.addListener(SWT.Selection,new SelectedButtonListener());
-		filenameButton.setData(FILTER_TYPE_KEY, FilterAttribute.FILENAME);
+		filenameButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.FILENAME);
 		
 		
 		Button locationButton = new Button(this, SWT.RADIO);
@@ -63,7 +64,7 @@ public class AttributeButtonContainer extends RadioButtonContainer {
 		rowData = new RowData();
 		locationButton.setLayoutData(rowData);
 		locationButton.addListener(SWT.Selection,new SelectedButtonListener());
-		locationButton.setData(FILTER_TYPE_KEY, FilterAttribute.REMOTE_LOCATION);
+		locationButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.REMOTE_LOCATION);
 		
 		Button subjectButton = new Button(this, SWT.RADIO);
 		subjectButton.setText("Subject");
@@ -71,7 +72,7 @@ public class AttributeButtonContainer extends RadioButtonContainer {
 		rowData = new RowData();
 		subjectButton.setLayoutData(rowData);
 		subjectButton.addListener(SWT.Selection,new SelectedButtonListener());
-		subjectButton.setData(FILTER_TYPE_KEY, FilterAttribute.SUBJECT);
+		subjectButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.SUBJECT);
 		
 		
 		Button issuerButton = new Button(this, SWT.RADIO);
@@ -80,7 +81,7 @@ public class AttributeButtonContainer extends RadioButtonContainer {
 		rowData = new RowData();
 		issuerButton.setLayoutData(rowData);
 		issuerButton.addListener(SWT.Selection,new SelectedButtonListener());
-		issuerButton.setData(FILTER_TYPE_KEY, FilterAttribute.ISSUER);
+		issuerButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.ISSUER);
 
 		Button serialnrButton = new Button(this, SWT.RADIO);
 		serialnrButton.setText("Serial Nr.");
@@ -88,7 +89,7 @@ public class AttributeButtonContainer extends RadioButtonContainer {
 		rowData = new RowData();
 		serialnrButton.setLayoutData(rowData);
 		serialnrButton.addListener(SWT.Selection,new SelectedButtonListener());
-		serialnrButton.setData(FILTER_TYPE_KEY, FilterAttribute.SERIAL_NUMBER);
+		serialnrButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.SERIAL_NUMBER);
 		
 		Button resourceButton = new Button(this, SWT.RADIO);
 		resourceButton.setText("Resource");
@@ -96,11 +97,10 @@ public class AttributeButtonContainer extends RadioButtonContainer {
 		rowData = new RowData();
 		resourceButton.setLayoutData(rowData);
 		resourceButton.addListener(SWT.Selection,new SelectedButtonListener());
-		resourceButton.setData(FILTER_TYPE_KEY, FilterAttribute.RESOURCE);
+		resourceButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.RESOURCE);
 	}
 
 	public void clearSelection() {
-
 		//Clear button selection
 		//Unselect
 		if(selectedButton != null){
@@ -109,6 +109,11 @@ public class AttributeButtonContainer extends RadioButtonContainer {
 		//Dereference
 		selectedButton = null;
 
+	}
+
+	@Override
+	public Button[] getSelectedButtons() {
+		return new Button[]{selectedButton};
 	}
 
 }

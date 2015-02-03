@@ -27,6 +27,8 @@ import java.util.List;
 
 import miro.browser.resources.Fonts;
 import miro.browser.widgets.browser.tree.TreeContainer;
+import miro.browser.widgets.browser.tree.filter.FilterKeys.FilterKey;
+import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -44,9 +46,12 @@ public class FilterWidget extends Composite {
 
 	Label header;
 	Label chooseFilter;
+
 	private AttributeButtonContainer attributeButtons;
 	
 	private FileTypeButtonContainer filetypeButtons;
+	
+	private ValidationStatusButtonContainer validationStatusButtons;
 	
 	FilterSearchField searchField;
 	Button applyFilterBtn;
@@ -59,9 +64,10 @@ public class FilterWidget extends Composite {
 		init();
 		initHeader();
 		initChooseFilter();
-		initRadioButtonContainer();
+		initAttributeButtonContainer();
 		initSearchField();
-		initCheckButtonContainer();
+		initFileTypeButtonContainer();
+		initValidationStatusButtonContainer();
 		initApplyButton();
 	}
 	
@@ -70,7 +76,7 @@ public class FilterWidget extends Composite {
 		applyFilterBtn.setText("Apply Filter");
 		
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(filetypeButtons,20);
+		layoutData.top = new FormAttachment(validationStatusButtons,20);
 		layoutData.right = new FormAttachment(100,0);
 		
 		applyFilterBtn.setLayoutData(layoutData);
@@ -81,18 +87,21 @@ public class FilterWidget extends Composite {
 				List<ViewerFilter> filters = new ArrayList<ViewerFilter>();
 				TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
 
-				Button selectedAttributeButton = attributeButtons.getSelected();
-				String searchText = searchField.getSearchText().getText();
-				if(selectedAttributeButton != null){
-					filters.add(getAttributeFilter(selectedAttributeButton, searchText));
-				}
-
-				
-				Button selectedFileTypeButton = filetypeButtons.getSelected();
-				if(selectedFileTypeButton != null) {
-					filters.add(getFileTypeFilter(selectedFileTypeButton));
+				ViewerFilter f;
+				f = getAttributeFilter();
+				if(f != null){
+					filters.add(f);
 				}
 				
+				f = getFileTypeFilter();
+				if(f != null){
+					filters.add(f);
+				}
+			
+				f = getValidationStatusFilter();
+				if(f != null){
+					filters.add(f);
+				}
 				
 				// set new filter (this removes all old filters), refilter and
 				// resort
@@ -105,14 +114,49 @@ public class FilterWidget extends Composite {
 		
 	}
 	
-	
-	public FileTypeFilter getFileTypeFilter(Button selectedBtn) {
-		return new FileTypeFilter((FilterAttribute) selectedBtn.getData(RadioButtonContainer.FILTER_TYPE_KEY));
+	public ValidationStatusFilter getValidationStatusFilter() {
+		Button[] selected = validationStatusButtons.getSelectedButtons();
+		List<ValidationStatus> stats = new ArrayList<ValidationStatus>();
+		
+		ValidationStatus status;
+		FilterKey key;
+		for(Button btn : selected) {
+			key = (FilterKey) btn.getData(FilterKeys.FILTER_TYPE_KEY);
+			switch(key){
+			case PASSED_STATUS:
+				stats.add(ValidationStatus.PASSED);
+				break;
+			case ERROR_STATUS:
+				stats.add(ValidationStatus.ERROR);
+				break;
+			case WARNING_STATUS:
+				stats.add(ValidationStatus.WARNING);
+				break;
+			}
+		}
+		
+		if(!stats.isEmpty()){
+			return new ValidationStatusFilter(stats);
+		} else {
+			return null;
+		}
 	}
 	
-	public AttributeFilter getAttributeFilter(Button selectedBtn, String searchText) {
-		AttributeFilter filter = new AttributeFilter(searchText, (FilterAttribute) selectedBtn.getData(RadioButtonContainer.FILTER_TYPE_KEY));
-		return filter;
+	public FileTypeFilter getFileTypeFilter() {
+		Button selectedFileTypeButton = filetypeButtons.getSelectedButtons()[0];
+		if (selectedFileTypeButton != null) {
+			return new FileTypeFilter((FilterKey) selectedFileTypeButton .getData(FilterKeys.FILTER_TYPE_KEY));
+		}
+		return null;
+	}
+	
+	public AttributeFilter getAttributeFilter() {
+		Button selectedAttributeButton = attributeButtons.getSelectedButtons()[0];
+		String searchText = searchField.getSearchText().getText();
+		if (selectedAttributeButton != null) {
+			return new AttributeFilter(searchText,(FilterKey) selectedAttributeButton.getData(FilterKeys.FILTER_TYPE_KEY));
+		}
+		return null;
 	}
 	
 	public void clearSelection(){
@@ -121,16 +165,16 @@ public class FilterWidget extends Composite {
 		filetypeButtons.clearSelection();
 	}
 	
-
-	private void initSearchField() {
-		searchField = new FilterSearchField(this, SWT.NONE);
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(attributeButtons,20);
-		layoutData.left = new FormAttachment(0,0);
-		layoutData.right = new FormAttachment(100,0);
+	private void initHeader() {
+		header = new Label(this, SWT.NONE);
+		header.setText("Filter Options");
+		header.setFont(Fonts.MEDIUM_HEADER_FONT);
 		
-		searchField.setLayoutData(layoutData);
-
+		FormData layoutData = new FormData();
+		layoutData.top = new FormAttachment(0,0);
+		layoutData.left = new FormAttachment(0,0);
+		
+		header.setLayoutData(layoutData);
 	}
 
 	private void initChooseFilter() {
@@ -145,17 +189,8 @@ public class FilterWidget extends Composite {
 		
 	}
 	
-	private void initCheckButtonContainer() {
-		filetypeButtons = new FileTypeButtonContainer(this, SWT.NONE);
+	private void initAttributeButtonContainer() {
 		
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(searchField);
-		layoutData.left = new FormAttachment(0,0);
-		
-		filetypeButtons.setLayoutData(layoutData);
-	}
-
-	private void initRadioButtonContainer() {
 		attributeButtons = new AttributeButtonContainer(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
@@ -166,6 +201,39 @@ public class FilterWidget extends Composite {
 		
 	}
 
+	private void initSearchField() {
+		searchField = new FilterSearchField(this, SWT.NONE);
+		FormData layoutData = new FormData();
+		layoutData.top = new FormAttachment(attributeButtons,20);
+		layoutData.left = new FormAttachment(0,0);
+		layoutData.right = new FormAttachment(100,0);
+		
+		searchField.setLayoutData(layoutData);
+
+	}
+
+	private void initFileTypeButtonContainer() {
+		filetypeButtons = new FileTypeButtonContainer(this, SWT.NONE);
+		
+		FormData layoutData = new FormData();
+		layoutData.top = new FormAttachment(searchField);
+		layoutData.left = new FormAttachment(0,0);
+		
+		filetypeButtons.setLayoutData(layoutData);
+	}
+	
+	private void initValidationStatusButtonContainer() {
+		validationStatusButtons = new ValidationStatusButtonContainer(this, SWT.NONE);
+		
+		FormData layoutData = new FormData();
+		layoutData.top = new FormAttachment(filetypeButtons);
+		layoutData.left = new FormAttachment(0,0); 
+		
+		validationStatusButtons.setLayoutData(layoutData);
+	}
+	
+
+
 	private void init() {
 		FormLayout layout = new FormLayout();
 		layout.marginHeight = 10;
@@ -174,18 +242,5 @@ public class FilterWidget extends Composite {
 	}
 
 	
-	private void initHeader() {
-		header = new Label(this, SWT.NONE);
-		header.setText("Filter Options");
-		header.setFont(Fonts.MEDIUM_HEADER_FONT);
-		
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(0,0);
-		layoutData.left = new FormAttachment(0,0);
-		
-		header.setLayoutData(layoutData);
-		
-		
-	}
 
 }
