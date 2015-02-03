@@ -23,10 +23,10 @@ THE SOFTWARE.
 package miro.browser.provider;
 
 
-import json.deserializers.ValidationStatus;
 import miro.browser.resources.Images;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.ValidationResults;
+import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
@@ -42,25 +42,17 @@ public class CertificateTreeLabelProvider extends CellLabelProvider {
 		
 		ValidationStatus status = null;
 		ValidationResults results = obj.getValidationResults();
-		
-		if(!results.getErrors().isEmpty()){
-			status = ValidationStatus.INVALID;
-		}
-		else if(!results.getWarnings().isEmpty()){
-			status = ValidationStatus.WARNING;
-		}
-		else {
-			status = ValidationStatus.VALID;
-		}
+	
+		status = results.getValidationStatus();
 		
 		Image i = null;
 		switch (status) {
 		
-		case VALID:
+		case PASSED:
 			i = Images.VALID_ICON;
 			break;
 			
-		case INVALID:
+		case ERROR:
 			i = Images.INVALID_ICON;
 			break;
 			
