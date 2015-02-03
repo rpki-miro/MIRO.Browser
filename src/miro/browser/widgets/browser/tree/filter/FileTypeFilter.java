@@ -30,7 +30,7 @@ import miro.validator.types.RoaObject;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-public class FileTypeFilter extends ViewerFilter{
+public class FileTypeFilter implements ResourceHoldingObjectFilter{
 	
 	private FilterKey filterAttribute;
 	
@@ -38,9 +38,16 @@ public class FileTypeFilter extends ViewerFilter{
 		filterAttribute = attr;
 	}
 
+	private boolean isRoaFile(ResourceHoldingObject obj) {
+		return obj instanceof RoaObject;
+	}
+
+	private boolean isCerFile(ResourceHoldingObject obj) {
+		return obj instanceof CertificateObject;
+	}
+
 	@Override
-	public boolean select(Viewer viewer, Object parentElement, Object element) {
-		ResourceHoldingObject obj = (ResourceHoldingObject) element;
+	public boolean isMatch(ResourceHoldingObject obj) {
 		boolean selected = false;
 		switch (filterAttribute) {
 		
@@ -57,36 +64,7 @@ public class FileTypeFilter extends ViewerFilter{
 		default:
 			break;
 		}
-
-		return getSelectResult(selected, viewer, obj);
-	}
-
-	private boolean isRoaFile(ResourceHoldingObject obj) {
-		return obj instanceof RoaObject;
-	}
-
-	private boolean isCerFile(ResourceHoldingObject obj) {
-		return obj instanceof CertificateObject;
-	}
-
-	public boolean getSelectResult(boolean selected, Viewer viewer, ResourceHoldingObject obj) {
-		if (selected) {
-			return selected;
-		} else {
-			return selectChildren(viewer, obj);
-		}
-	}
-	
-	public boolean selectChildren(Viewer viewer, ResourceHoldingObject obj) {
-		if (obj instanceof CertificateObject) {
-			for (ResourceHoldingObject kid : ((CertificateObject) obj)
-					.getChildren()) {
-				if (select(viewer, obj, kid)) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return selected;
 	}
 
 }

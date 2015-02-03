@@ -84,29 +84,27 @@ public class FilterWidget extends Composite {
 			
 			@Override
 			public void handleEvent(Event event) {
-				List<ViewerFilter> filters = new ArrayList<ViewerFilter>();
 				TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
-
-				ViewerFilter f;
-				f = getAttributeFilter();
+				ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter();
+				
+				ResourceHoldingObjectFilter f = getAttributeFilter();
 				if(f != null){
-					filters.add(f);
+					treeFilter.addFilter((ResourceHoldingObjectFilter) f);
 				}
 				
 				f = getFileTypeFilter();
 				if(f != null){
-					filters.add(f);
+					treeFilter.addFilter((ResourceHoldingObjectFilter) f);
 				}
 			
 				f = getValidationStatusFilter();
 				if(f != null){
-					filters.add(f);
+					treeFilter.addFilter((ResourceHoldingObjectFilter) f);
 				}
-				
+			
 				// set new filter (this removes all old filters), refilter and
 				// resort
-				treeViewer.setFilters(filters.toArray(new ViewerFilter[]{}));
-
+				treeViewer.setFilters(new ViewerFilter[]{treeFilter});
 				treeContainer.toggle();
 			}
 		});
@@ -131,6 +129,8 @@ public class FilterWidget extends Composite {
 				break;
 			case WARNING_STATUS:
 				stats.add(ValidationStatus.WARNING);
+				break;
+			default:
 				break;
 			}
 		}
@@ -232,8 +232,6 @@ public class FilterWidget extends Composite {
 		validationStatusButtons.setLayoutData(layoutData);
 	}
 	
-
-
 	private void init() {
 		FormLayout layout = new FormLayout();
 		layout.marginHeight = 10;

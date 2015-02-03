@@ -34,22 +34,68 @@ import net.ripe.rpki.commons.crypto.cms.roa.RoaPrefix;
 
 import org.eclipse.jface.viewers.Viewer;
 
-public class AttributeFilter extends TreeSearchBarFilter {
+public class AttributeFilter implements ResourceHoldingObjectFilter {
 
 	private FilterKey filterAttribute;
+	
+	private String searchQuery;
 	
 	public AttributeFilter(String query, FilterKey attr) {
 		searchQuery = query;
 		filterAttribute = attr;
 	}
+	
+	public boolean uriMatches(URI remoteLocation) {
+		return remoteLocation.toString().contains((searchQuery));
+	}
 
-	public boolean select(Viewer viewer, Object parentElement, Object element) {
 
+	public boolean stringMatches(String s){
+		return s.contains(searchQuery);
+	}
+	
+	public String getSearchQuery(){
+		return searchQuery;
+	}
+	
+	public boolean bigIntegerMatches(BigInteger nr) {
+		BigInteger query;
+		try {
+			 query = new BigInteger(searchQuery); 
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return query.compareTo(nr) == 0; 
+	}
+	
+	public boolean ownsResource(ResourceHoldingObject obj, IpResource res){
+		
+		if(obj instanceof CertificateObject){
+			CertificateObject cert = (CertificateObject) obj;
+			return cert.getResources().contains(res);
+		} else if(obj instanceof RoaObject){
+			RoaObject roa = (RoaObject) obj;
+			if(res.equals(roa.getRoa().getAsn())){
+				return true;
+			}
+			
+			for(RoaPrefix prefix : roa.getRoa().getPrefixes()){
+				if(prefix.getPrefix().contains(res) | res.contains(prefix.getPrefix())){
+					return true;
+				}
+			}
+		}
+		
+
+		return false;
+	}
+
+	@Override
+	public boolean isMatch(ResourceHoldingObject obj) {
 		if(searchQuery == null){
 			return true;
 		}
 	
-		ResourceHoldingObject obj = (ResourceHoldingObject) element;
 		boolean selected = false;
 		switch (filterAttribute) {
 		
@@ -87,70 +133,6 @@ public class AttributeFilter extends TreeSearchBarFilter {
 			break;
 		}
 
-		return getSelectResult(selected, viewer, obj);
-		
+		return selected;
 	}
-	
-	public boolean uriMatches(URI remoteLocation) {
-		return remoteLocation.toString().contains((searchQuery));
-	}
-
-
-	public boolean stringMatches(String s){
-		return s.contains(searchQuery);
-	}
-	
-	public boolean bigIntegerMatches(BigInteger nr) {
-		BigInteger query;
-		try {
-			 query = new BigInteger(searchQuery); 
-		} catch (NumberFormatException e) {
-			return false;
-		}
-		return query.compareTo(nr) == 0; 
-	}
-	
-	public boolean getSelectResult(boolean selected, Viewer viewer, ResourceHoldingObject obj) {
-		if (selected) {
-			return selected;
-		} else {
-			return selectChildren(viewer, obj);
-		}
-	}
-	
-	public boolean selectChildren(Viewer viewer, ResourceHoldingObject obj) {
-		if (obj instanceof CertificateObject) {
-			for (ResourceHoldingObject kid : ((CertificateObject) obj)
-					.getChildren()) {
-				if (select(viewer, obj, kid)) {
-					return true;
-				}
-			}
-		}
-		return false;
-
-	}
-	
-	public boolean ownsResource(ResourceHoldingObject obj, IpResource res){
-		
-		if(obj instanceof CertificateObject){
-			CertificateObject cert = (CertificateObject) obj;
-			return cert.getResources().contains(res);
-		} else if(obj instanceof RoaObject){
-			RoaObject roa = (RoaObject) obj;
-			if(res.equals(roa.getRoa().getAsn())){
-				return true;
-			}
-			
-			for(RoaPrefix prefix : roa.getRoa().getPrefixes()){
-				if(prefix.getPrefix().contains(res) | res.contains(prefix.getPrefix())){
-					return true;
-				}
-			}
-		}
-		
-
-		return false;
-	}
-
 }

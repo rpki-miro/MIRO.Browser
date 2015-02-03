@@ -56,6 +56,7 @@ public class FileTypeButtonContainer extends RadioButtonContainer implements Fil
 		allButton.addListener(SWT.Selection, new SelectedButtonListener());
 		allButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.ALL_FILES);
 		allButton.setSelection(true);
+		selectedButton = allButton;
 		
 		cerButton = new Button(this, SWT.RADIO);
 		cerButton.setText("Only .cer files");

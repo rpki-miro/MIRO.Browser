@@ -32,6 +32,4 @@ public abstract class TreeSearchBarFilter extends ViewerFilter {
 	public String getSearchQuery(){
 		return searchQuery;
 	}
-	
-
 }
