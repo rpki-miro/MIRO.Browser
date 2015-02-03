@@ -50,33 +50,67 @@ import org.eclipse.swt.widgets.Listener;
 
 public class FilterWidget extends Composite {
 
-	Label header;
-	Label chooseFilter;
+	private Label header;
 
+	private Label attributeLabel;
 	private AttributeButtonContainer attributeButtons;
 	
+	
+	private Label filetypeLabel;
 	private FileTypeButtonContainer filetypeButtons;
 	
+	private Label validationStatusLabel;
 	private ValidationStatusButtonContainer validationStatusButtons;
 	
-	FilterSearchField searchField;
-	Button applyFilterBtn;
+	private FilterSearchField searchField;
+
+	private Button applyFilterBtn;
 	
-	TreeContainer treeContainer;
+	private TreeContainer treeContainer;
 
 	public FilterWidget(Composite parent, int style, TreeContainer treeCont) {
 		super(parent, style);
 		treeContainer = treeCont;
 		init();
 		initHeader();
-		initChooseFilter();
+
+		initAttributeLabel();
 		initAttributeButtonContainer();
+
 		initSearchField();
+		
+		initFileTypeLabel();
 		initFileTypeButtonContainer();
+		
+		initValidationStatusLabel();
 		initValidationStatusButtonContainer();
+
 		initApplyButton();
 	}
 	
+	private void initValidationStatusLabel() {
+		validationStatusLabel = new Label(this, SWT.NONE);
+		validationStatusLabel.setText("Select Validation Status:");
+		validationStatusLabel.setFont(Fonts.SMALL_HEADER_FONT);
+		
+		FormData layoutData = new FormData();
+		layoutData.top = new FormAttachment(filetypeButtons,15);
+		layoutData.left = new FormAttachment(0,0);
+		validationStatusLabel.setLayoutData(layoutData);
+		
+	}
+
+	private void initFileTypeLabel() {
+		filetypeLabel = new Label(this, SWT.NONE);
+		filetypeLabel.setText("Select File Type:");
+		filetypeLabel.setFont(Fonts.SMALL_HEADER_FONT);
+		
+		FormData layoutData = new FormData();
+		layoutData.top = new FormAttachment(searchField,15);
+		layoutData.left = new FormAttachment(0,0);
+		filetypeLabel.setLayoutData(layoutData);
+	}
+
 	private void initApplyButton() {
 		applyFilterBtn = new Button(this, SWT.PUSH);
 		applyFilterBtn.setText("Apply Filter");
@@ -184,15 +218,15 @@ public class FilterWidget extends Composite {
 		header.setLayoutData(layoutData);
 	}
 
-	private void initChooseFilter() {
-		chooseFilter = new Label(this, SWT.NONE);
-		chooseFilter.setText("Choose filter attribute:");
-		chooseFilter.setFont(Fonts.SMALL_HEADER_FONT);
+	private void initAttributeLabel() {
+		attributeLabel = new Label(this, SWT.NONE);
+		attributeLabel.setText("Choose filter attribute:");
+		attributeLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(header,15);
 		layoutData.left = new FormAttachment(0,0);
-		chooseFilter.setLayoutData(layoutData);
+		attributeLabel.setLayoutData(layoutData);
 		
 	}
 	
@@ -201,7 +235,7 @@ public class FilterWidget extends Composite {
 		attributeButtons = new AttributeButtonContainer(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(chooseFilter);
+		layoutData.top = new FormAttachment(attributeLabel);
 		layoutData.left = new FormAttachment(0,0);
 		
 		attributeButtons.setLayoutData(layoutData);
@@ -223,7 +257,7 @@ public class FilterWidget extends Composite {
 		filetypeButtons = new FileTypeButtonContainer(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(searchField);
+		layoutData.top = new FormAttachment(filetypeLabel);
 		layoutData.left = new FormAttachment(0,0);
 		
 		filetypeButtons.setLayoutData(layoutData);
@@ -233,7 +267,7 @@ public class FilterWidget extends Composite {
 		validationStatusButtons = new ValidationStatusButtonContainer(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(filetypeButtons);
+		layoutData.top = new FormAttachment(validationStatusLabel);
 		layoutData.left = new FormAttachment(0,0); 
 		
 		validationStatusButtons.setLayoutData(layoutData);
