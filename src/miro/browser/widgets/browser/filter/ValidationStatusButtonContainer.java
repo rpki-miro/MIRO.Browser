@@ -53,6 +53,7 @@ public class ValidationStatusButtonContainer extends Composite implements Filter
 		RowData rowData = new RowData();
 		button.setLayoutData(rowData);
 		button.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.PASSED_STATUS); 
+		button.setSelection(true);
 		checkButtons.add(button);
 		
 		button = new Button(this, SWT.CHECK);
@@ -61,6 +62,7 @@ public class ValidationStatusButtonContainer extends Composite implements Filter
 		rowData = new RowData();
 		button.setLayoutData(rowData);
 		button.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.WARNING_STATUS);
+		button.setSelection(true);
 		checkButtons.add(button);
 
 		button = new Button(this, SWT.CHECK);
@@ -69,6 +71,7 @@ public class ValidationStatusButtonContainer extends Composite implements Filter
 		rowData = new RowData();
 		button.setLayoutData(rowData);
 		button.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.ERROR_STATUS);
+		button.setSelection(true);
 		checkButtons.add(button);
 
 	}
@@ -81,7 +84,7 @@ public class ValidationStatusButtonContainer extends Composite implements Filter
 
 	public void clearSelection() {
 		for(Button btn : checkButtons){
-			btn.setSelection(false);
+			btn.setSelection(true);
 		}
 	}
 
