@@ -32,6 +32,8 @@ import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
 import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
@@ -47,13 +49,23 @@ public class AttributeFilterOption extends RadioButtonContainer implements Filte
 		super(parent, style);
 		init();
 		initButtons();
-		searchField = new FilterSearchField(this, SWT.NONE);
+		initSearchField();
 	}
 
 	private void init() {
-		RowLayout layout = new RowLayout();
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 3;
 		setLayout(layout);
 		
+	}
+	
+	private void initSearchField() {
+		searchField = new FilterSearchField(this, SWT.NONE);
+		GridData gridData = new GridData();
+		gridData.horizontalSpan = 3;
+		gridData.grabExcessHorizontalSpace = true;
+		gridData.horizontalAlignment = SWT.FILL;
+		searchField.setLayoutData(gridData);
 	}
 
 	private void initButtons() {
@@ -61,52 +73,51 @@ public class AttributeFilterOption extends RadioButtonContainer implements Filte
 		Button filenameButton = new Button(this, SWT.RADIO);
 		filenameButton.setText("Filename");
 		filenameButton.setFont(Fonts.STANDARD_FONT);
-		RowData rowData = new RowData();
-		filenameButton.setLayoutData(rowData);
 		filenameButton.addListener(SWT.Selection,new SelectedButtonListener());
 		filenameButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.FILENAME);
-		
+		GridData gridData = new GridData();
+		filenameButton.setLayoutData(gridData);
 		
 		Button locationButton = new Button(this, SWT.RADIO);
 		locationButton.setText("Location");
 		locationButton.setFont(Fonts.STANDARD_FONT);
-		rowData = new RowData();
-		locationButton.setLayoutData(rowData);
 		locationButton.addListener(SWT.Selection,new SelectedButtonListener());
 		locationButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.REMOTE_LOCATION);
+		gridData = new GridData();
+		locationButton.setLayoutData(gridData);
 		
 		Button subjectButton = new Button(this, SWT.RADIO);
 		subjectButton.setText("Subject");
 		subjectButton.setFont(Fonts.STANDARD_FONT);
-		rowData = new RowData();
-		subjectButton.setLayoutData(rowData);
 		subjectButton.addListener(SWT.Selection,new SelectedButtonListener());
 		subjectButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.SUBJECT);
+		gridData = new GridData();
+		subjectButton.setLayoutData(gridData);
 		
 		
 		Button issuerButton = new Button(this, SWT.RADIO);
 		issuerButton.setText("Issuer");
 		issuerButton.setFont(Fonts.STANDARD_FONT);
-		rowData = new RowData();
-		issuerButton.setLayoutData(rowData);
 		issuerButton.addListener(SWT.Selection,new SelectedButtonListener());
 		issuerButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.ISSUER);
+		gridData = new GridData();
+		issuerButton.setLayoutData(gridData);
 
 		Button serialnrButton = new Button(this, SWT.RADIO);
 		serialnrButton.setText("Serial Nr.");
 		serialnrButton.setFont(Fonts.STANDARD_FONT);
-		rowData = new RowData();
-		serialnrButton.setLayoutData(rowData);
 		serialnrButton.addListener(SWT.Selection,new SelectedButtonListener());
 		serialnrButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.SERIAL_NUMBER);
+		gridData = new GridData();
+		serialnrButton.setLayoutData(gridData);
 		
 		Button resourceButton = new Button(this, SWT.RADIO);
 		resourceButton.setText("Resource");
 		resourceButton.setFont(Fonts.STANDARD_FONT);
-		rowData = new RowData();
-		resourceButton.setLayoutData(rowData);
 		resourceButton.addListener(SWT.Selection,new SelectedButtonListener());
 		resourceButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.RESOURCE);
+		gridData = new GridData();
+		resourceButton.setLayoutData(gridData);
 	}
 
 	public void clearSelection() {
