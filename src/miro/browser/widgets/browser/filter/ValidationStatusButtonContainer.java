@@ -28,6 +28,9 @@ import java.util.List;
 import miro.browser.resources.Fonts;
 import miro.browser.widgets.browser.filter.filters.FilterKeys;
 import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
+import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
+import miro.browser.widgets.browser.filter.filters.ValidationStatusFilter;
+import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
@@ -89,14 +92,35 @@ public class ValidationStatusButtonContainer extends Composite implements Filter
 	}
 
 	@Override
-	public Button[] getSelectedButtons() {
-		List<Button> selected = new ArrayList<Button>();
+	public List<ResourceHoldingObjectFilter> getFilters() {
+		List<ResourceHoldingObjectFilter> filters = new ArrayList<ResourceHoldingObjectFilter>();
+		List<ValidationStatus> stats = new ArrayList<ValidationStatus>();
+		FilterKey key;
 		for(Button btn : checkButtons) {
 			if(btn.getSelection()){
-				selected.add(btn);
+				
+				key = (FilterKey) btn.getData(FilterKeys.FILTER_TYPE_KEY);
+				switch(key){
+				case PASSED_STATUS:
+					stats.add(ValidationStatus.PASSED);
+					break;
+				case ERROR_STATUS:
+					stats.add(ValidationStatus.ERROR);
+					break;
+				case WARNING_STATUS:
+					stats.add(ValidationStatus.WARNING);
+					break;
+				default:
+					break;
+				}
 			}
 		}
-		return selected.toArray(new Button[]{});
+		
+		if(!stats.isEmpty()){
+			filters.add(new ValidationStatusFilter(stats));
+		}
+		
+		return filters;
 	}
 
 }

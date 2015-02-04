@@ -22,9 +22,14 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.filter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import miro.browser.resources.Fonts;
+import miro.browser.widgets.browser.filter.filters.AttributeFilter;
 import miro.browser.widgets.browser.filter.filters.FilterKeys;
 import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
+import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
@@ -36,10 +41,13 @@ import org.eclipse.swt.widgets.Listener;
 
 public class AttributeButtonContainer extends RadioButtonContainer implements FilterButtonContainer{
 
+	private FilterSearchField searchField;
+	
 	public AttributeButtonContainer(Composite parent, int style) {
 		super(parent, style);
 		init();
 		initButtons();
+		searchField = new FilterSearchField(this, SWT.NONE);
 	}
 
 	private void init() {
@@ -113,8 +121,14 @@ public class AttributeButtonContainer extends RadioButtonContainer implements Fi
 	}
 
 	@Override
-	public Button[] getSelectedButtons() {
-		return new Button[]{selectedButton};
+	public List<ResourceHoldingObjectFilter> getFilters() {
+		List<ResourceHoldingObjectFilter> filters = new ArrayList<ResourceHoldingObjectFilter>();
+
+		String searchText = searchField.getSearchText().getText();
+		if (selectedButton != null) {
+			filters.add(new AttributeFilter(searchText,(FilterKey) selectedButton.getData(FilterKeys.FILTER_TYPE_KEY)));
+		}
+		return filters;
 	}
 
 }

@@ -22,12 +22,16 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.filter;
 
+import java.util.List;
+
+import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
+
 import org.eclipse.swt.widgets.Button;
 
 public interface FilterButtonContainer {
 	
 	public void clearSelection();
 	
-	public Button[] getSelectedButtons();
+	public List<ResourceHoldingObjectFilter> getFilters();
 
 }

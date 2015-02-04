@@ -55,14 +55,13 @@ public class FilterWidget extends Composite {
 	private Label attributeLabel;
 	private AttributeButtonContainer attributeButtons;
 	
-	
 	private Label filetypeLabel;
 	private FileTypeButtonContainer filetypeButtons;
 	
 	private Label validationStatusLabel;
 	private ValidationStatusButtonContainer validationStatusButtons;
 	
-	private FilterSearchField searchField;
+	private SigningTimeButtonContainer signingTimeContainer; 
 
 	private Button applyFilterBtn;
 	
@@ -77,17 +76,28 @@ public class FilterWidget extends Composite {
 		initAttributeLabel();
 		initAttributeButtonContainer();
 
-		initSearchField();
-		
 		initFileTypeLabel();
 		initFileTypeButtonContainer();
 		
 		initValidationStatusLabel();
 		initValidationStatusButtonContainer();
-
+		
+		initSigningTimeContainer();
+		
 		initApplyButton();
+		
+
 	}
 	
+	private void initSigningTimeContainer() {
+		signingTimeContainer = new SigningTimeButtonContainer(this, SWT.NONE);
+		FormData layoutData = new FormData();
+		layoutData.top = new FormAttachment(validationStatusButtons);
+		layoutData.left = new FormAttachment(0, 0);
+		signingTimeContainer.setLayoutData(layoutData);
+		
+	}
+
 	private void initValidationStatusLabel() {
 		validationStatusLabel = new Label(this, SWT.NONE);
 		validationStatusLabel.setText("Select Validation Status:");
@@ -106,7 +116,7 @@ public class FilterWidget extends Composite {
 		filetypeLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(searchField,15);
+		layoutData.top = new FormAttachment(attributeButtons,15);
 		layoutData.left = new FormAttachment(0,0);
 		filetypeLabel.setLayoutData(layoutData);
 	}
@@ -127,20 +137,9 @@ public class FilterWidget extends Composite {
 				TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
 				ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter();
 				
-				ResourceHoldingObjectFilter f = getAttributeFilter();
-				if(f != null){
-					treeFilter.addFilter((ResourceHoldingObjectFilter) f);
-				}
-				
-				f = getFileTypeFilter();
-				if(f != null){
-					treeFilter.addFilter((ResourceHoldingObjectFilter) f);
-				}
-			
-				f = getValidationStatusFilter();
-				if(f != null){
-					treeFilter.addFilter((ResourceHoldingObjectFilter) f);
-				}
+				treeFilter.addFilters(attributeButtons.getFilters());
+				treeFilter.addFilters(filetypeButtons.getFilters());
+				treeFilter.addFilters(validationStatusButtons.getFilters());
 			
 				// set new filter (this removes all old filters), refilter and
 				// resort
@@ -148,60 +147,10 @@ public class FilterWidget extends Composite {
 				treeContainer.toggle();
 			}
 		});
-		
-		
 	}
-	
-	public ValidationStatusFilter getValidationStatusFilter() {
-		Button[] selected = validationStatusButtons.getSelectedButtons();
-		List<ValidationStatus> stats = new ArrayList<ValidationStatus>();
-		
-		ValidationStatus status;
-		FilterKey key;
-		for(Button btn : selected) {
-			key = (FilterKey) btn.getData(FilterKeys.FILTER_TYPE_KEY);
-			switch(key){
-			case PASSED_STATUS:
-				stats.add(ValidationStatus.PASSED);
-				break;
-			case ERROR_STATUS:
-				stats.add(ValidationStatus.ERROR);
-				break;
-			case WARNING_STATUS:
-				stats.add(ValidationStatus.WARNING);
-				break;
-			default:
-				break;
-			}
-		}
-		
-		if(!stats.isEmpty()){
-			return new ValidationStatusFilter(stats);
-		} else {
-			return null;
-		}
-	}
-	
-	public FileTypeFilter getFileTypeFilter() {
-		Button selectedFileTypeButton = filetypeButtons.getSelectedButtons()[0];
-		if (selectedFileTypeButton != null) {
-			return new FileTypeFilter((FilterKey) selectedFileTypeButton .getData(FilterKeys.FILTER_TYPE_KEY));
-		}
-		return null;
-	}
-	
-	public AttributeFilter getAttributeFilter() {
-		Button selectedAttributeButton = attributeButtons.getSelectedButtons()[0];
-		String searchText = searchField.getSearchText().getText();
-		if (selectedAttributeButton != null) {
-			return new AttributeFilter(searchText,(FilterKey) selectedAttributeButton.getData(FilterKeys.FILTER_TYPE_KEY));
-		}
-		return null;
-	}
-	
+
 	public void clearSelection(){
 		attributeButtons.clearSelection();
-		searchField.clearSelection();
 		filetypeButtons.clearSelection();
 		validationStatusButtons.clearSelection();
 	}
@@ -240,17 +189,6 @@ public class FilterWidget extends Composite {
 		
 		attributeButtons.setLayoutData(layoutData);
 		
-	}
-
-	private void initSearchField() {
-		searchField = new FilterSearchField(this, SWT.NONE);
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(attributeButtons,20);
-		layoutData.left = new FormAttachment(0,0);
-		layoutData.right = new FormAttachment(100,0);
-		
-		searchField.setLayoutData(layoutData);
-
 	}
 
 	private void initFileTypeButtonContainer() {

@@ -22,9 +22,14 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.filter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import miro.browser.resources.Fonts;
+import miro.browser.widgets.browser.filter.filters.FileTypeFilter;
 import miro.browser.widgets.browser.filter.filters.FilterKeys;
 import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
+import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
@@ -88,7 +93,11 @@ public class FileTypeButtonContainer extends RadioButtonContainer implements Fil
 	}
 
 	@Override
-	public Button[] getSelectedButtons() {
-		return new Button[]{selectedButton};
+	public List<ResourceHoldingObjectFilter> getFilters() {
+		List<ResourceHoldingObjectFilter> filters = new ArrayList<ResourceHoldingObjectFilter>();
+		if (selectedButton != null) {
+			filters.add(new FileTypeFilter((FilterKey) selectedButton.getData(FilterKeys.FILTER_TYPE_KEY)));
+		}
+		return filters;
 	}
 }

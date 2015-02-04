@@ -43,9 +43,7 @@ public class ValidationStatusFilter implements ResourceHoldingObjectFilter{
 	@Override
 	public boolean isMatch(ResourceHoldingObject obj) {
 		boolean selected = false;
-		
 		ValidationStatus status = obj.getValidationResults().getValidationStatus();
-
 		if(filteredStats.contains(status)){
 			selected = true;
 		}

@@ -50,7 +50,10 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 	public void addFilter(ResourceHoldingObjectFilter f){
 		filters.add(f);
 	}
-	
+
+	public void addFilters(List<ResourceHoldingObjectFilter> fs) {
+		filters.addAll(fs);
+	}
 	
 	public boolean matchesAll(ResourceHoldingObject obj){
 		boolean matches = true;
