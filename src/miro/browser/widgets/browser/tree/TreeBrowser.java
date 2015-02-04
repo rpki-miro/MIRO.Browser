@@ -57,16 +57,14 @@ public class TreeBrowser extends Composite {
 			return;
 		}
 
-		tree = new Tree(this,SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.VIRTUAL);
+		tree = new Tree(this,SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.VIRTUAL | SWT.BORDER);
 		treeViewer = new TreeViewer(tree);	
 			
 		
-		ITreeContentProvider content_provider = new CertificateTreeContentProvider();
-		IBaseLabelProvider label_provider = new CertificateTreeLabelProvider();
+		CertificateTreeLabelProvider label_provider = new CertificateTreeLabelProvider();
+		CertificateTreeContentProvider content_provider = new CertificateTreeContentProvider();
 		treeViewer.setContentProvider(content_provider);
 		treeViewer.setLabelProvider(label_provider);
-
-		
 		tree.addSelectionListener(new TabHideListener(browser));
 		
 	}

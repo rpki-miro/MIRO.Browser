@@ -22,6 +22,7 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.filter;
 
+import miro.browser.provider.CertificateTreeLabelProvider;
 import miro.browser.resources.Fonts;
 import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
 import miro.browser.widgets.browser.tree.TreeContainer;
@@ -110,14 +111,13 @@ public class FilterWidget extends Composite {
 			@Override
 			public void handleEvent(Event event) {
 				TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
-				ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter();
 				
+				CertificateTreeLabelProvider labelProvider = (CertificateTreeLabelProvider) treeViewer.getLabelProvider();
+				ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter();
+				labelProvider.setFilter(treeFilter);
 				treeFilter.addFilters(attributeOption.getFilters());
 				treeFilter.addFilters(filetypeOption.getFilters());
 				treeFilter.addFilters(validationStatusOption.getFilters());
-			
-				// set new filter (this removes all old filters), refilter and
-				// resort
 				treeViewer.setFilters(new ViewerFilter[]{treeFilter});
 				treeContainer.toggle();
 			}
@@ -128,6 +128,11 @@ public class FilterWidget extends Composite {
 		attributeOption.clearSelection();
 		filetypeOption.clearSelection();
 		validationStatusOption.clearSelection();
+		
+		TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
+		CertificateTreeLabelProvider labelProvider = (CertificateTreeLabelProvider) treeViewer.getLabelProvider();
+		labelProvider.setFilter(null);
+		
 	}
 	
 	private void initHeader() {

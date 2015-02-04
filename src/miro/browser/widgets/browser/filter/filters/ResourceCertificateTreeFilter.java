@@ -23,11 +23,14 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.filter.filters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import miro.browser.provider.CertificateTreeLabelProvider;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 
+import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
@@ -35,13 +38,15 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 	
 	private List<ResourceHoldingObjectFilter> filters;
 	
+	private HashMap<String, Boolean> markedObjects;
+	
 	public ResourceCertificateTreeFilter() {
 		filters = new ArrayList<ResourceHoldingObjectFilter>();
+		markedObjects = new HashMap<String, Boolean>();
 	}
 
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
-		
 		ResourceHoldingObject obj = (ResourceHoldingObject) element;
 		boolean selected = matchesAll(obj);
 		return getSelectResult(selected, viewer, obj);
@@ -55,6 +60,13 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 		filters.addAll(fs);
 	}
 	
+	public boolean isMarked(ResourceHoldingObject obj) {
+		Boolean result = markedObjects.get(obj.getFilename());
+		result = result == null ? false : result;
+		return result;
+	}
+	
+	
 	public boolean matchesAll(ResourceHoldingObject obj){
 		boolean matches = true;
 		for(ResourceHoldingObjectFilter filter : filters){
@@ -65,6 +77,7 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 
 	public boolean getSelectResult(boolean selected, Viewer viewer, ResourceHoldingObject obj) {
 		if (selected) {
+			markedObjects.put(obj.getFilename(), true);
 			return selected;
 		} else {
 			return selectChildren(viewer, obj);

@@ -23,27 +23,38 @@ THE SOFTWARE.
 package miro.browser.provider;
 
 
+import java.util.HashMap;
+
+import miro.browser.resources.Colors;
 import miro.browser.resources.Images;
+import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.ValidationResults;
 import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.TreeItem;
 
 
-public class CertificateTreeLabelProvider extends CellLabelProvider {
+public class CertificateTreeLabelProvider extends CellLabelProvider{
 
-	@Override
+	private ResourceCertificateTreeFilter filter;
+	
+	public void setFilter(ResourceCertificateTreeFilter f) {
+		filter = f;
+	}
+	
 	public void update(ViewerCell cell) {
 		ResourceHoldingObject obj = (ResourceHoldingObject) cell.getElement();
 		cell.setText(obj.getFilename());
 		
 		ValidationStatus status = null;
 		ValidationResults results = obj.getValidationResults();
-	
 		status = results.getValidationStatus();
+		
 		
 		Image i = null;
 		switch (status) {
@@ -64,9 +75,12 @@ public class CertificateTreeLabelProvider extends CellLabelProvider {
 			break;
 		}
 		cell.setImage(i);
-	}
+		
+		TreeItem item = (TreeItem) cell.getViewerRow().getItem();
+		Color bg;
+		bg = filter == null ? null : filter.isMarked(obj) ? Colors.BLUE : null;
 	
-
-
-
+		item.setBackground(bg);
+		
+	}
 }
