@@ -50,12 +50,15 @@ public class CertificateTreeLabelProvider extends CellLabelProvider{
 	public void update(ViewerCell cell) {
 		ResourceHoldingObject obj = (ResourceHoldingObject) cell.getElement();
 		cell.setText(obj.getFilename());
-		
+		Image i = getImage(obj);
+		cell.setImage(i);
+		setBackgroundColor(cell,obj);
+	}
+	
+	private Image getImage(ResourceHoldingObject obj) {
 		ValidationStatus status = null;
 		ValidationResults results = obj.getValidationResults();
 		status = results.getValidationStatus();
-		
-		
 		Image i = null;
 		switch (status) {
 		
@@ -74,13 +77,13 @@ public class CertificateTreeLabelProvider extends CellLabelProvider{
 		default:
 			break;
 		}
-		cell.setImage(i);
-		
+		return i;
+	}
+	
+	private void setBackgroundColor(ViewerCell cell, ResourceHoldingObject obj) {
 		TreeItem item = (TreeItem) cell.getViewerRow().getItem();
 		Color bg;
 		bg = filter == null ? null : filter.isMarked(obj) ? Colors.DARK_GREY : null;
-	
 		item.setBackground(bg);
-		
 	}
 }
