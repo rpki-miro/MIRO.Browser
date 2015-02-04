@@ -22,19 +22,9 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.filter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import miro.browser.resources.Fonts;
-import miro.browser.widgets.browser.filter.filters.AttributeFilter;
-import miro.browser.widgets.browser.filter.filters.FileTypeFilter;
-import miro.browser.widgets.browser.filter.filters.FilterKeys;
 import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
-import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
-import miro.browser.widgets.browser.filter.filters.ValidationStatusFilter;
-import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
 import miro.browser.widgets.browser.tree.TreeContainer;
-import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -53,16 +43,14 @@ public class FilterWidget extends Composite {
 	private Label header;
 
 	private Label attributeLabel;
-	private AttributeButtonContainer attributeButtons;
+	private AttributeFilterOption attributeOption;
 	
 	private Label filetypeLabel;
-	private FileTypeButtonContainer filetypeButtons;
+	private FileTypeFilterOption filetypeOption;
 	
 	private Label validationStatusLabel;
-	private ValidationStatusButtonContainer validationStatusButtons;
+	private ValidationStatusFilterOption validationStatusOption;
 	
-	private SigningTimeButtonContainer signingTimeContainer; 
-
 	private Button applyFilterBtn;
 	
 	private TreeContainer treeContainer;
@@ -74,37 +62,24 @@ public class FilterWidget extends Composite {
 		initHeader();
 
 		initAttributeLabel();
-		initAttributeButtonContainer();
+		initAttributeOption();
 
 		initFileTypeLabel();
-		initFileTypeButtonContainer();
+		initFileTypeOption();
 		
 		initValidationStatusLabel();
-		initValidationStatusButtonContainer();
-		
-		initSigningTimeContainer();
+		initValidationStatusOption();
 		
 		initApplyButton();
-		
-
 	}
 	
-	private void initSigningTimeContainer() {
-		signingTimeContainer = new SigningTimeButtonContainer(this, SWT.NONE);
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(validationStatusButtons);
-		layoutData.left = new FormAttachment(0, 0);
-		signingTimeContainer.setLayoutData(layoutData);
-		
-	}
-
 	private void initValidationStatusLabel() {
 		validationStatusLabel = new Label(this, SWT.NONE);
 		validationStatusLabel.setText("Select Validation Status:");
 		validationStatusLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(filetypeButtons,15);
+		layoutData.top = new FormAttachment(filetypeOption,15);
 		layoutData.left = new FormAttachment(0,0);
 		validationStatusLabel.setLayoutData(layoutData);
 		
@@ -116,7 +91,7 @@ public class FilterWidget extends Composite {
 		filetypeLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(attributeButtons,15);
+		layoutData.top = new FormAttachment(attributeOption,15);
 		layoutData.left = new FormAttachment(0,0);
 		filetypeLabel.setLayoutData(layoutData);
 	}
@@ -126,7 +101,7 @@ public class FilterWidget extends Composite {
 		applyFilterBtn.setText("Apply Filter");
 		
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(validationStatusButtons,20);
+		layoutData.top = new FormAttachment(validationStatusOption,20);
 		layoutData.right = new FormAttachment(100,0);
 		
 		applyFilterBtn.setLayoutData(layoutData);
@@ -137,9 +112,9 @@ public class FilterWidget extends Composite {
 				TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
 				ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter();
 				
-				treeFilter.addFilters(attributeButtons.getFilters());
-				treeFilter.addFilters(filetypeButtons.getFilters());
-				treeFilter.addFilters(validationStatusButtons.getFilters());
+				treeFilter.addFilters(attributeOption.getFilters());
+				treeFilter.addFilters(filetypeOption.getFilters());
+				treeFilter.addFilters(validationStatusOption.getFilters());
 			
 				// set new filter (this removes all old filters), refilter and
 				// resort
@@ -150,9 +125,9 @@ public class FilterWidget extends Composite {
 	}
 
 	public void clearSelection(){
-		attributeButtons.clearSelection();
-		filetypeButtons.clearSelection();
-		validationStatusButtons.clearSelection();
+		attributeOption.clearSelection();
+		filetypeOption.clearSelection();
+		validationStatusOption.clearSelection();
 	}
 	
 	private void initHeader() {
@@ -179,36 +154,36 @@ public class FilterWidget extends Composite {
 		
 	}
 	
-	private void initAttributeButtonContainer() {
+	private void initAttributeOption() {
 		
-		attributeButtons = new AttributeButtonContainer(this, SWT.NONE);
+		attributeOption = new AttributeFilterOption(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(attributeLabel);
 		layoutData.left = new FormAttachment(0,0);
 		
-		attributeButtons.setLayoutData(layoutData);
+		attributeOption.setLayoutData(layoutData);
 		
 	}
 
-	private void initFileTypeButtonContainer() {
-		filetypeButtons = new FileTypeButtonContainer(this, SWT.NONE);
+	private void initFileTypeOption() {
+		filetypeOption = new FileTypeFilterOption(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(filetypeLabel);
 		layoutData.left = new FormAttachment(0,0);
 		
-		filetypeButtons.setLayoutData(layoutData);
+		filetypeOption.setLayoutData(layoutData);
 	}
 	
-	private void initValidationStatusButtonContainer() {
-		validationStatusButtons = new ValidationStatusButtonContainer(this, SWT.NONE);
+	private void initValidationStatusOption() {
+		validationStatusOption = new ValidationStatusFilterOption(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(validationStatusLabel);
 		layoutData.left = new FormAttachment(0,0); 
 		
-		validationStatusButtons.setLayoutData(layoutData);
+		validationStatusOption.setLayoutData(layoutData);
 	}
 	
 	private void init() {

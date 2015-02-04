@@ -1,5 +1,9 @@
 package miro.browser.widgets.browser.filter;
 
+import java.util.List;
+
+import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -8,7 +12,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
 
-public class SigningTimeButtonContainer extends Composite {
+public class SigningTimeButtonContainer extends Composite implements FilterOption{
 	
 	private DateTime dateSelect;
 
@@ -20,7 +24,6 @@ public class SigningTimeButtonContainer extends Composite {
 	
 	
 	private void initDateSelect() {
-        dateSelect = new DateTime(this, SWT.DATE | SWT.DROP_DOWN | SWT.MEDIUM);	
 	}
 
 
@@ -28,6 +31,20 @@ public class SigningTimeButtonContainer extends Composite {
 		GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 1;
         setLayout(gridLayout);	
+	}
+
+
+	@Override
+	public void clearSelection() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public List<ResourceHoldingObjectFilter> getFilters() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

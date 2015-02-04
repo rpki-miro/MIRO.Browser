@@ -28,7 +28,7 @@ import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
 
 import org.eclipse.swt.widgets.Button;
 
-public interface FilterButtonContainer {
+public interface FilterOption {
 	
 	public void clearSelection();
 	

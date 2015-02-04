@@ -38,11 +38,11 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-public class ValidationStatusButtonContainer extends Composite implements FilterButtonContainer {
+public class ValidationStatusFilterOption extends Composite implements FilterOption {
 	
 	private List<Button> checkButtons;
 	
-	public ValidationStatusButtonContainer(Composite parent, int style) {
+	public ValidationStatusFilterOption(Composite parent, int style) {
 		super(parent, style);
 		init();
 		

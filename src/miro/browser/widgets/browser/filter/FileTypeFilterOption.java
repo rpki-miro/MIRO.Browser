@@ -37,7 +37,7 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-public class FileTypeButtonContainer extends RadioButtonContainer implements FilterButtonContainer{
+public class FileTypeFilterOption extends RadioButtonContainer implements FilterOption{
 	
 	private Button allButton;
 	
@@ -45,7 +45,7 @@ public class FileTypeButtonContainer extends RadioButtonContainer implements Fil
 	
 	private Button roaButton;
 	
-	public FileTypeButtonContainer(Composite parent, int style) {
+	public FileTypeFilterOption(Composite parent, int style) {
 		super(parent, style);
 		
 		init();

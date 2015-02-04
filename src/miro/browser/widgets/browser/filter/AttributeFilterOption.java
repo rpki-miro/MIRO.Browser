@@ -39,11 +39,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-public class AttributeButtonContainer extends RadioButtonContainer implements FilterButtonContainer{
+public class AttributeFilterOption extends RadioButtonContainer implements FilterOption{
 
 	private FilterSearchField searchField;
 	
-	public AttributeButtonContainer(Composite parent, int style) {
+	public AttributeFilterOption(Composite parent, int style) {
 		super(parent, style);
 		init();
 		initButtons();
@@ -117,6 +117,7 @@ public class AttributeButtonContainer extends RadioButtonContainer implements Fi
 		}
 		//Dereference
 		selectedButton = null;
+		searchField.clearSelection();
 
 	}
 
