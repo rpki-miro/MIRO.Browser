@@ -78,7 +78,7 @@ public class CertificateTreeLabelProvider extends CellLabelProvider{
 		
 		TreeItem item = (TreeItem) cell.getViewerRow().getItem();
 		Color bg;
-		bg = filter == null ? null : filter.isMarked(obj) ? Colors.BLUE : null;
+		bg = filter == null ? null : filter.isMarked(obj) ? Colors.DARK_GREY : null;
 	
 		item.setBackground(bg);
 		

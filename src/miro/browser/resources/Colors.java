@@ -57,6 +57,8 @@ public class Colors {
 	
 	public static Color RED;
 	
+	public static Color DARK_GREY;
+	
 	public static Color VALID_OBJECT_COLOR;
 	
 	public static Color INVALID_OBJECT_COLOR;
@@ -77,10 +79,8 @@ public class Colors {
 	}
 	
 	private static void initColors(){
-//		SHELL_BACKGROUND = new Color(DISPLAY, 200,200,200);
 		SHELL_BACKGROUND = new Color(DISPLAY, 255,255,255);
 		
-//		HEADER_BACKGROUND = new Color(DISPLAY, 230, 230, 230);
 		HEADER_BACKGROUND = new Color(DISPLAY, 49, 97, 156);
 		
 		BROWSER_BACKGROUND = SHELL_BACKGROUND;
@@ -95,7 +95,8 @@ public class Colors {
 		RED = new Color(DISPLAY, 255,0,0);
 		BLUE= new Color(DISPLAY, 0,0,255);
 		GREEN = new Color(DISPLAY, 0,255,0);
-		
+		DARK_GREY = new Color(DISPLAY, 170, 170, 170);
+
 		VALID_OBJECT_COLOR = new Color(DISPLAY, 44,160,44);
 		INVALID_OBJECT_COLOR = new Color(DISPLAY, 214, 39, 40);
 		CER_OBJECT_COLOR = new Color(DISPLAY, 31,119,180);
