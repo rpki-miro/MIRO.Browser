@@ -25,22 +25,29 @@ package miro.browser.widgets.browser.tree;
 
 import java.util.ArrayList;
 
+import miro.browser.provider.CertificateTableContentProvider;
+import miro.browser.provider.CertificateTableLabelProvider;
 import miro.browser.widgets.browser.filter.FilterWidget;
 
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class TreeContainer extends Composite {
+public class ViewerContainer extends Composite {
 	
 	ArrayList<TreeToggleObserver> toggleObservers;
 	
 	TreeBrowser treeBrowser;
+	
+	TableBrowser tableBrowser;
+	
 	FilterWidget filter;
 	StackLayout layout;
 	private boolean toggle;
 
-	public TreeContainer(Composite parent, int style) {
+	public ViewerContainer(Composite parent, int style) {
 		super(parent, style);
 		toggleObservers = new ArrayList<TreeToggleObserver>();
 	}
@@ -58,6 +65,7 @@ public class TreeContainer extends Composite {
 	
 	private void initTreeBrowser() {
 		treeBrowser = new TreeBrowser(this, SWT.NONE);
+		tableBrowser = new TableBrowser(this, SWT.NONE);
 	}
 
 	private void initFilter() {
@@ -65,7 +73,7 @@ public class TreeContainer extends Composite {
 		
 	}
 	
-	private void showTree(){
+	public void showTree(){
 		layout.topControl = treeBrowser;
 		layout();
 	}
@@ -92,6 +100,10 @@ public class TreeContainer extends Composite {
 			obs.notifyTreeToggle(toggle);
 		}
 	}
+	public void showTableBrowser() {
+		layout.topControl = tableBrowser;
+		layout();
+	}
 	
 	public void toggle(){
 		/*
@@ -105,6 +117,20 @@ public class TreeContainer extends Composite {
 		}
 		notifyTreeToggleObservers();
 		toggle = !toggle;
+	}
+
+	public TableBrowser getTableBrowser() {
+		return tableBrowser;
+	}
+
+	public void setViewerFilters(ViewerFilter[] viewerFilters) {
+		treeBrowser.getTreeViewer().setFilters(viewerFilters);
+		tableBrowser.getTableViewer().setFilters(viewerFilters);
+	}
+
+	public void resetViewerFilters() {
+		treeBrowser.getTreeViewer().resetFilters();
+		tableBrowser.getTableViewer().resetFilters();
 	}
 
 

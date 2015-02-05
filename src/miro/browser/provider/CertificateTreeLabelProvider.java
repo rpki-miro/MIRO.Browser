@@ -36,6 +36,8 @@ import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 
@@ -81,9 +83,18 @@ public class CertificateTreeLabelProvider extends CellLabelProvider{
 	}
 	
 	private void setBackgroundColor(ViewerCell cell, ResourceHoldingObject obj) {
-		TreeItem item = (TreeItem) cell.getViewerRow().getItem();
 		Color bg;
 		bg = filter == null ? null : filter.isMarked(obj) ? Colors.DARK_GREY : null;
-		item.setBackground(bg);
+		
+		
+		
+		if(cell.getViewerRow().getItem() instanceof TableItem){
+			TableItem item = (TableItem) cell.getViewerRow().getItem();
+			item.setBackground(bg);
+		}
+		if(cell.getViewerRow().getItem() instanceof TreeItem){
+			TreeItem item = (TreeItem) cell.getViewerRow().getItem();
+			item.setBackground(bg);
+		}
 	}
 }

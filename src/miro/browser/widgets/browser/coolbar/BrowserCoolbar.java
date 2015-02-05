@@ -23,8 +23,9 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.coolbar;
 
 import miro.browser.resources.MagicNumbers;
+import miro.browser.updater.ModelUpdater;
 import miro.browser.widgets.browser.RPKIBrowserView;
-import miro.browser.widgets.browser.tree.TreeContainer;
+import miro.browser.widgets.browser.tree.ViewerContainer;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.rap.rwt.RWT;
@@ -77,10 +78,10 @@ public class BrowserCoolbar extends Composite {
 //		setDrawingOrder();
 		
 		/* See if names are loaded, if so display them */
-//    	String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
-//    	if(names != null){
-//    		repoChooser.updateDropDown(names);
-//    	}
+    	String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
+    	if(names != null){
+    		repoChooser.updateDropDown(names);
+    	}
 		
 	}
 	
@@ -89,15 +90,13 @@ public class BrowserCoolbar extends Composite {
 	}
 	
 	private void initFilterControl(){
-//		filterControl = new FilterControl(this, SWT.NONE, browser.getTreeContainer());
-		
 		ToolItem filterItem = new ToolItem(toolbar, SWT.CHECK);
 		filterItem.setText("Show Filter");
 		filterItem.addListener(SWT.Selection, new Listener() {
 			
 			@Override
 			public void handleEvent(Event event) {
-				browser.getTreeContainer().toggle();
+				browser.getViewerContainer().toggle();
 			}
 		});
 		
@@ -107,10 +106,9 @@ public class BrowserCoolbar extends Composite {
 			
 			@Override
 			public void handleEvent(Event event) {
-				TreeContainer treeContainer = browser.getTreeContainer();
-				treeContainer.getFilterWidget().clearSelection();
-				treeContainer.getTreeBrowser().getTreeViewer().resetFilters();
-				
+				ViewerContainer viewerContainer = browser.getViewerContainer();
+				viewerContainer.getFilterWidget().clearSelection();
+				viewerContainer.resetViewerFilters();
 			}
 		});
 		
@@ -120,9 +118,7 @@ public class BrowserCoolbar extends Composite {
 			
 			@Override
 			public void handleEvent(Event event) {
-				TreeViewer treeViewer = browser.getTreeContainer().getTreeBrowser().getTreeViewer();
-				
-				
+				TreeViewer treeViewer = browser.getViewerContainer().getTreeBrowser().getTreeViewer();
 				ToolItem item = (ToolItem) event.widget;
 				if(item.getSelection()){
 					treeViewer.expandAll();
@@ -132,9 +128,21 @@ public class BrowserCoolbar extends Composite {
 			}
 		});
 		
-		
-		
-		
+		ToolItem toggleViewerItem = new ToolItem(toolbar, SWT.CHECK);
+		toggleViewerItem.setText("Show table viewer");
+		toggleViewerItem.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				ToolItem item = (ToolItem) event.widget;
+				if(item.getSelection()){
+					browser.getViewerContainer().showTableBrowser();
+				} else {
+					browser.getViewerContainer().showTree();
+				}
+				
+			}
+		});
 	}
 
 	

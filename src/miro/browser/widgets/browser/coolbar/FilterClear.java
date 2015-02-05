@@ -23,7 +23,7 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.coolbar;
 
 import miro.browser.resources.Fonts;
-import miro.browser.widgets.browser.tree.TreeContainer;
+import miro.browser.widgets.browser.tree.ViewerContainer;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -36,9 +36,9 @@ import org.eclipse.swt.widgets.Listener;
 public class FilterClear extends Composite {
 	
 	Button clearFilterBtn;
-	TreeContainer treeContainer;
+	ViewerContainer treeContainer;
 
-	public FilterClear(Composite parent, int style, TreeContainer treeCont) {
+	public FilterClear(Composite parent, int style, ViewerContainer treeCont) {
 		super(parent, style);
 		treeContainer = treeCont;
 		init();

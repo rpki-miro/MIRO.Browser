@@ -22,7 +22,7 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.coolbar;
 
-import miro.browser.widgets.browser.tree.TreeContainer;
+import miro.browser.widgets.browser.tree.ViewerContainer;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
@@ -35,9 +35,9 @@ public class FilterControl extends Group {
 	FilterToggle filterToggle;
 	FilterClear filterClear;
 	
-	TreeContainer treeContainer;
+	ViewerContainer treeContainer;
 
-	public FilterControl(Composite parent, int style, TreeContainer treeCont) {
+	public FilterControl(Composite parent, int style, ViewerContainer treeCont) {
 		super(parent, style);
 		treeContainer = treeCont;
 		init();

@@ -34,12 +34,13 @@ import miro.browser.widgets.browser.displaywidgets.CrlWidget;
 import miro.browser.widgets.browser.displaywidgets.ManifestWidget;
 import miro.browser.widgets.browser.displaywidgets.RoaDisplay;
 import miro.browser.widgets.browser.displaywidgets.RoaWidget;
-import miro.browser.widgets.browser.tree.TreeContainer;
+import miro.browser.widgets.browser.tree.ViewerContainer;
 import miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -63,7 +64,7 @@ import types.ResourceHolder;
 
 public class RPKIBrowserView extends Composite{
 	
-	private TreeContainer treeContainer;
+	private ViewerContainer viewerContainer;
 	
 	private BrowserCoolbar coolBar;
 	
@@ -94,11 +95,7 @@ public class RPKIBrowserView extends Composite{
 		
 		createSash();
 		
-		treeContainer.init();
-		
 		coolBar.init();
-//		
-//		treeContainer.addTreeToggleObserver(coolBar.getFilterControl().getFilterToggle());
 		
 		initDatabindings();
 	}
@@ -115,7 +112,7 @@ public class RPKIBrowserView extends Composite{
 		final Sash sash = new Sash(this, SWT.VERTICAL);
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(coolBar);
-		layoutData.left = new FormAttachment(treeContainer,-5);
+		layoutData.left = new FormAttachment(viewerContainer,-5);
 		layoutData.width = 5;
 		layoutData.bottom = new FormAttachment(100,0);
 		sash.setLayoutData(layoutData);
@@ -123,9 +120,9 @@ public class RPKIBrowserView extends Composite{
 			@Override
 			public void handleEvent(Event e) {
 		        sash.setBounds(e.x, e.y, e.width, e.height);
-		        FormData formData = (FormData) treeContainer.getLayoutData();
+		        FormData formData = (FormData) viewerContainer.getLayoutData();
 		        formData.width = e.x;
-		        treeContainer.setLayoutData(formData);
+		        viewerContainer.setLayoutData(formData);
 		        layout(true);
 			}
 		});
@@ -143,23 +140,28 @@ public class RPKIBrowserView extends Composite{
 	
 	
 	private void createTreeContainer(){
-		treeContainer = new TreeContainer(this, SWT.NONE);
+		viewerContainer = new ViewerContainer(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(coolBar);
 		layoutData.bottom = new FormAttachment(100,0);
 		layoutData.left = new FormAttachment(0,0);
 		layoutData.width = MagicNumbers.TREE_VIEWER_WIDTH;
-		treeContainer.setLayoutData(layoutData);
-		treeContainer.setBackground(Colors.BROWSER_TREE_BACKGROUND);
-		treeContainer.setBackgroundMode(SWT.INHERIT_FORCE);
+		viewerContainer.setLayoutData(layoutData);
+		viewerContainer.setBackground(Colors.BROWSER_TREE_BACKGROUND);
+		viewerContainer.setBackgroundMode(SWT.INHERIT_FORCE);
+		
+		
+		viewerContainer.init();
+		viewerContainer.getTreeBrowser().getTree().addSelectionListener(new TabHideListener(this));
+		viewerContainer.getTableBrowser().getTable().addSelectionListener(new TabHideListener(this));
 	}
 
 	private void createDisplayContainer() {
 		displayContainer = new TabFolder(this, SWT.NONE);
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(coolBar);	
-		layoutData.left = new FormAttachment(treeContainer);
+		layoutData.left = new FormAttachment(viewerContainer);
 		layoutData.right = new FormAttachment(100,0);
 		layoutData.bottom = new FormAttachment(100,0);
 		displayContainer.setLayoutData(layoutData);
@@ -173,42 +175,32 @@ public class RPKIBrowserView extends Composite{
 	}
 	
 	private void initDatabindings() {
-		TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
+		TreeViewer treeViewer = viewerContainer.getTreeBrowser().getTreeViewer();
 		IViewerObservableValue selection = ViewersObservables.observeSingleSelection(treeViewer);
 		DataBindingContext dbc = new DataBindingContext();
+		certificateDisplay.bindToResourceHolder(selection, dbc);
+		roaDisplay.bindToResourceHolder(selection, dbc);
 		
+		TableViewer tableViewer = viewerContainer.getTableBrowser().getTableViewer();
+		selection = ViewersObservables.observeSingleSelection(tableViewer);
+		dbc = new DataBindingContext();
 		certificateDisplay.bindToResourceHolder(selection, dbc);
 		roaDisplay.bindToResourceHolder(selection, dbc);
 		
 		treeViewer.getTree().addSelectionListener(new ViewerListener(this));
 	}
 	
-	public void setTreeViewerInput(RepositoryTree tree){
-		TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
-		
-		/* Create a fake root element, because TreeViewers never display the root */
-		Certificate fake_root = new Certificate();
-		ArrayList<ResourceHolder> fake_children = new ArrayList<ResourceHolder>();
-		fake_children.add(tree.getTrustAnchor());
-		fake_root.setChildren(fake_children);
-		
-		treeViewer.setInput(fake_root);
-		treeViewer.refresh();
-		
-	}
-	
-	public void setTreeViewerInput(ResourceCertificateTree tree){
-		TreeViewer treeViewer = treeContainer.getTreeBrowser().getTreeViewer();
+	public void setViewerInput(ResourceCertificateTree tree){
+		TreeViewer treeViewer = viewerContainer.getTreeBrowser().getTreeViewer();
 		
 		treeViewer.setInput(tree);
 		treeViewer.refresh();
+		
+		TableViewer tableViewer = viewerContainer.getTableBrowser().getTableViewer();
+		tableViewer.setInput(tree);
+		tableViewer.refresh();
 	}
-
 	
-	public Certificate getCurrentInput() {
-		return (Certificate) treeContainer.getTreeBrowser().getTreeViewer().getInput();
-	}
-
 	public Composite getDisplayContainer() {
 		return displayContainer;
 	}
@@ -221,15 +213,14 @@ public class RPKIBrowserView extends Composite{
 		return coolBar;
 	}
 	
-	public TreeContainer getTreeContainer(){
-		return treeContainer;
+	public ViewerContainer getViewerContainer(){
+		return viewerContainer;
 	}
 	
 	public ArrayList<TabItem> getTabs(){
 		return displayTabs;
 	}
 
-	
 	public CertificateDisplay getCertificateDisplay() {
 		return certificateDisplay;
 	}

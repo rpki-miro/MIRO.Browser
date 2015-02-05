@@ -38,9 +38,9 @@ import org.eclipse.swt.widgets.Tree;
 
 public class TreeBrowser extends Composite {
 	
-	Tree tree;
-	TreeViewer treeViewer;
-	RPKIBrowserView browser;
+	private Tree tree;
+
+	private TreeViewer treeViewer;
 
 	public TreeBrowser(Composite parent, int style) {
 		super(parent, style);
@@ -51,12 +51,6 @@ public class TreeBrowser extends Composite {
 	private void init() {
 		setLayout(new FillLayout());
 
-		browser = findBrowser();
-		if(browser == null){
-			System.out.println("TreeBrowser: Could not find ResourceCertificateBrowserWidget");
-			return;
-		}
-
 		tree = new Tree(this,SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.VIRTUAL | SWT.BORDER);
 		treeViewer = new TreeViewer(tree);	
 			
@@ -65,8 +59,6 @@ public class TreeBrowser extends Composite {
 		CertificateTreeContentProvider content_provider = new CertificateTreeContentProvider();
 		treeViewer.setContentProvider(content_provider);
 		treeViewer.setLabelProvider(label_provider);
-		tree.addSelectionListener(new TabHideListener(browser));
-		
 	}
 	
 	

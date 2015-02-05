@@ -40,9 +40,12 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 	
 	private HashMap<String, Boolean> markedObjects;
 	
-	public ResourceCertificateTreeFilter() {
+	private boolean isTableViewer;
+	
+	public ResourceCertificateTreeFilter(boolean isTableView) {
 		filters = new ArrayList<ResourceHoldingObjectFilter>();
 		markedObjects = new HashMap<String, Boolean>();
+		isTableViewer = isTableView;
 	}
 
 	@Override
@@ -80,7 +83,10 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 			markedObjects.put(obj.getFilename(), true);
 			return selected;
 		} else {
-			return selectChildren(viewer, obj);
+			if(isTableViewer)
+				return false;
+			else
+				return selectChildren(viewer, obj);
 		}
 	}
 	

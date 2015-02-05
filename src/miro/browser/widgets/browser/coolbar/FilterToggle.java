@@ -23,7 +23,7 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.coolbar;
 
 import miro.browser.resources.Fonts;
-import miro.browser.widgets.browser.tree.TreeContainer;
+import miro.browser.widgets.browser.tree.ViewerContainer;
 import miro.browser.widgets.browser.tree.TreeToggleObserver;
 
 import org.eclipse.swt.SWT;
@@ -37,9 +37,9 @@ public class FilterToggle extends Composite implements TreeToggleObserver{
 
 	Button toggleButton;
 	boolean toggle;
-	TreeContainer treeContainer;
+	ViewerContainer treeContainer;
 	
-	public FilterToggle(Composite parent, int style, TreeContainer treeCont) {
+	public FilterToggle(Composite parent, int style, ViewerContainer treeCont) {
 		super(parent, style);
 		treeContainer = treeCont;
 		init();
