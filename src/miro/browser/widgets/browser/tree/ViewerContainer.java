@@ -43,7 +43,6 @@ public class ViewerContainer extends Composite {
 	
 	TableBrowser tableBrowser;
 	
-	FilterWidget filter;
 	StackLayout layout;
 	private boolean toggle;
 
@@ -69,7 +68,7 @@ public class ViewerContainer extends Composite {
 	}
 
 	private void initFilter() {
-		filter = new FilterWidget(this, SWT.NONE, this);
+//		filter = new FilterWidget(this, SWT.NONE, this);
 		
 	}
 	
@@ -79,7 +78,7 @@ public class ViewerContainer extends Composite {
 	}
 	
 	private void showFilter(){
-		layout.topControl = filter;
+//		layout.topControl = filter;
 		layout();
 	}
 	
@@ -87,9 +86,9 @@ public class ViewerContainer extends Composite {
 		return treeBrowser;
 	}
 	
-	public FilterWidget getFilterWidget(){
-		return filter;
-	}
+//	public FilterWidget getFilterWidget(){
+//		return filter;
+//	}
 	
 	public void addTreeToggleObserver(TreeToggleObserver obs){
 		toggleObservers.add(obs);

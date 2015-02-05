@@ -34,6 +34,7 @@ import miro.browser.widgets.browser.displaywidgets.CrlWidget;
 import miro.browser.widgets.browser.displaywidgets.ManifestWidget;
 import miro.browser.widgets.browser.displaywidgets.RoaDisplay;
 import miro.browser.widgets.browser.displaywidgets.RoaWidget;
+import miro.browser.widgets.browser.filter.FilterWidget;
 import miro.browser.widgets.browser.tree.ViewerContainer;
 import miro.validator.types.ResourceCertificateTree;
 
@@ -43,6 +44,7 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -52,6 +54,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Sash;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
@@ -76,6 +79,9 @@ public class RPKIBrowserView extends Composite{
 	
 	private ArrayList<TabItem> displayTabs;
 	
+	private FilterWidget filter;
+	private Shell filterShell;
+	
 	/*to be removed, probably*/
 	CertificateWidget certDisplay;
 	ManifestWidget mftDisplay;
@@ -98,8 +104,28 @@ public class RPKIBrowserView extends Composite{
 		coolBar.init();
 		
 		initDatabindings();
+		
+		initFilter();
 	}
 	
+	private void initFilter() {
+		filterShell = new Shell(getShell(),  SWT.TITLE | SWT.CLOSE);
+		filterShell.setSize(380, 450);
+		filterShell.setLayout(new FillLayout());
+		filter = new FilterWidget(filterShell, SWT.NONE, viewerContainer);
+		filterShell.layout();
+		filterShell.addListener(SWT.Close, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				Shell s = (Shell) event.widget;
+				s.setVisible(false);
+				event.doit = false;
+				
+			}
+		});
+	}
+
 	private void init() {
 		displayTabs = new ArrayList<TabItem>();
 		FormLayout layout = new FormLayout();
@@ -227,5 +253,13 @@ public class RPKIBrowserView extends Composite{
 	
 	public RoaDisplay getRoaDisplay() {
 		return roaDisplay;
+	}
+
+	public FilterWidget getFilterWidget() {
+		return filter;
+	}
+
+	public void showFilter() {
+		filterShell.open();
 	}
 }

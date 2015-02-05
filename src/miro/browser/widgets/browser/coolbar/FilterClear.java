@@ -54,7 +54,7 @@ public class FilterClear extends Composite {
 			
 			@Override
 			public void handleEvent(Event event) {
-				treeContainer.getFilterWidget().clearSelection();
+//				treeContainer.getFilterWidget().clearSelection();
 				treeContainer.getTreeBrowser().getTreeViewer().resetFilters();
 				
 			}

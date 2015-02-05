@@ -44,8 +44,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 
-public class FilterWidget extends Composite {
+public class FilterWidget extends Composite{
 
 	private Label header;
 
@@ -108,7 +109,8 @@ public class FilterWidget extends Composite {
 		applyFilterBtn.setText("Apply Filter");
 		
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(validationStatusOption,20);
+//		layoutData.top = new FormAttachment(validationStatusOption,20);
+		layoutData.bottom = new FormAttachment(100,0);
 		layoutData.right = new FormAttachment(100,0);
 		
 		applyFilterBtn.setLayoutData(layoutData);
@@ -134,11 +136,23 @@ public class FilterWidget extends Composite {
 				
 				ResourceCertificateTreeFilter tableFilter = new ResourceCertificateTreeFilter(true);
 				tableFilter.addFilters(filters);
-//				CertificateTableLabelProvider tableLabelProvider = (CertificateTableLabelProvider) tableViewer.getLabelProvider();
-//				tableLabelProvider.setFilter(treeFilter);
 				tableViewer.setFilters(new ViewerFilter[]{tableFilter});
-				
-				viewerContainer.toggle();
+			}
+		});
+		
+		
+		Button clearFilter = new Button(this, SWT.PUSH);
+		clearFilter.setText("Clear");
+		layoutData = new FormData();
+		layoutData.right = new FormAttachment(applyFilterBtn, -10);
+		layoutData.bottom = new FormAttachment(100,0);
+		clearFilter.setLayoutData(layoutData);
+		
+		clearFilter.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				clearSelection();
 			}
 		});
 	}

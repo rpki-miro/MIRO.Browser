@@ -25,15 +25,18 @@ package miro.browser.widgets.browser.coolbar;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.updater.ModelUpdater;
 import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.filter.FilterWidget;
 import miro.browser.widgets.browser.tree.ViewerContainer;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
@@ -82,7 +85,6 @@ public class BrowserCoolbar extends Composite {
     	if(names != null){
     		repoChooser.updateDropDown(names);
     	}
-		
 	}
 	
 	private void initToolbar(){
@@ -90,13 +92,13 @@ public class BrowserCoolbar extends Composite {
 	}
 	
 	private void initFilterControl(){
-		ToolItem filterItem = new ToolItem(toolbar, SWT.CHECK);
+		ToolItem filterItem = new ToolItem(toolbar, SWT.PUSH);
 		filterItem.setText("Show Filter");
 		filterItem.addListener(SWT.Selection, new Listener() {
 			
 			@Override
 			public void handleEvent(Event event) {
-				browser.getViewerContainer().toggle();
+				browser.showFilter();
 			}
 		});
 		
@@ -106,13 +108,13 @@ public class BrowserCoolbar extends Composite {
 			
 			@Override
 			public void handleEvent(Event event) {
+				browser.getFilterWidget().clearSelection();
 				ViewerContainer viewerContainer = browser.getViewerContainer();
-				viewerContainer.getFilterWidget().clearSelection();
 				viewerContainer.resetViewerFilters();
 			}
 		});
 		
-		ToolItem expandTreeItem = new ToolItem(toolbar, SWT.CHECK);
+		final ToolItem expandTreeItem = new ToolItem(toolbar, SWT.CHECK);
 		expandTreeItem.setText("Expand Tree");
 		expandTreeItem.addListener(SWT.Selection, new Listener() {
 			
@@ -137,14 +139,15 @@ public class BrowserCoolbar extends Composite {
 				ToolItem item = (ToolItem) event.widget;
 				if(item.getSelection()){
 					browser.getViewerContainer().showTableBrowser();
+					expandTreeItem.setEnabled(false);
 				} else {
 					browser.getViewerContainer().showTree();
+					expandTreeItem.setEnabled(true);
 				}
 				
 			}
 		});
 	}
-
 	
 	private void initRepoChooser() {
 		repoChooser = new RepoChooser(this, SWT.NONE, browser);
@@ -172,8 +175,4 @@ public class BrowserCoolbar extends Composite {
 	public FilterControl getFilterControl(){
 		return filterControl;
 	}
-
-	
-	
-	
 }
