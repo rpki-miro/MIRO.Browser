@@ -45,7 +45,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 
-public class RepoChooser extends Group implements ModelObserver{
+public class RepoChooser extends Composite implements ModelObserver{
 	
 	private static final Logger log = LoggerFactory.getLogger(RepoChooser.class, Level.FINEST);
 	
@@ -70,7 +70,7 @@ public class RepoChooser extends Group implements ModelObserver{
 		layout.marginTop = 0;
 		layout.spacing = 0;
 		setLayout(layout);
-		setText("Repository Menu");
+//		setText("Repository Menu");
 	}
 
 	private void initDropDown() {
@@ -135,6 +135,7 @@ public class RepoChooser extends Group implements ModelObserver{
     			break;
     		}	
     	}
+    	dropDown.getParent().getParent().layout();
     	//Notify our selection listener, so the browser tree can update
     	dropDown.notifyListeners(SWT.Selection, new Event());
 	}

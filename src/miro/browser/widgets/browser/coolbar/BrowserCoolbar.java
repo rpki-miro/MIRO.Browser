@@ -23,17 +23,24 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.coolbar;
 
 import miro.browser.resources.MagicNumbers;
-import miro.browser.updater.ModelUpdater;
 import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.tree.TreeContainer;
 
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 
 public class BrowserCoolbar extends Composite {
 
 	private RPKIBrowserView browser;
+	
+	private ToolBar toolbar;
 	
 	private FilterControl filterControl;
 	
@@ -49,10 +56,7 @@ public class BrowserCoolbar extends Composite {
 
 	public void init(){
 		setBackgroundMode(SWT.INHERIT_FORCE);
-		
 		setData(RWT.CUSTOM_VARIANT, "browserCoolbar");
-		
-		
 		
 		RowLayout layout = new RowLayout();
 		layout.type = SWT.HORIZONTAL;
@@ -65,27 +69,77 @@ public class BrowserCoolbar extends Composite {
 		layout.spacing = MagicNumbers.COOLBAR_SPACING;
 		setLayout(layout);
 
+		
+		initToolbar();
 		initRepoChooser();
 		initFilterControl();
 		initUpdateTime();
-		setDrawingOrder();
+//		setDrawingOrder();
 		
 		/* See if names are loaded, if so display them */
-    	String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
-    	if(names != null){
-    		repoChooser.updateDropDown(names);
-    	}
+//    	String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
+//    	if(names != null){
+//    		repoChooser.updateDropDown(names);
+//    	}
 		
+	}
+	
+	private void initToolbar(){
+		toolbar = new ToolBar(this, SWT.NONE);
 	}
 	
 	private void initFilterControl(){
-		filterControl = new FilterControl(this, SWT.NONE, browser.getTreeContainer());
+//		filterControl = new FilterControl(this, SWT.NONE, browser.getTreeContainer());
+		
+		ToolItem filterItem = new ToolItem(toolbar, SWT.CHECK);
+		filterItem.setText("Show Filter");
+		filterItem.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				browser.getTreeContainer().toggle();
+			}
+		});
+		
+		ToolItem clearFilterItem = new ToolItem(toolbar, SWT.PUSH);
+		clearFilterItem.setText("Clear Filter");
+		clearFilterItem.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				TreeContainer treeContainer = browser.getTreeContainer();
+				treeContainer.getFilterWidget().clearSelection();
+				treeContainer.getTreeBrowser().getTreeViewer().resetFilters();
+				
+			}
+		});
+		
+		ToolItem expandTreeItem = new ToolItem(toolbar, SWT.CHECK);
+		expandTreeItem.setText("Expand Tree");
+		expandTreeItem.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				TreeViewer treeViewer = browser.getTreeContainer().getTreeBrowser().getTreeViewer();
+				
+				
+				ToolItem item = (ToolItem) event.widget;
+				if(item.getSelection()){
+					treeViewer.expandAll();
+				} else {
+					treeViewer.collapseAll();
+				}
+			}
+		});
+		
+		
+		
+		
 	}
-	
+
 	
 	private void initRepoChooser() {
 		repoChooser = new RepoChooser(this, SWT.NONE, browser);
-	
 	}
 	
 	private void initUpdateTime() {

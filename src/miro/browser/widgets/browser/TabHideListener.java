@@ -88,51 +88,6 @@ public class TabHideListener implements SelectionListener {
 		}
 		
 		browser.layout();
-		
-//		ResourceHolder obj = (ResourceHolder) e.item.getData();
-//		
-//		//Dispose all
-//		for(TabItem tab : browser.getTabs()){
-//			tab.dispose();
-//		}
-//		
-//		TabItem tab;
-//		
-//		if(obj instanceof Certificate){
-//			CertificateDisplay certificateDisplay = browser.getCertificateDisplay();
-//			
-//			
-//			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
-//			browser.addTab(tab);
-//			tab.setText("Certificate");
-//			tab.setControl(certificateDisplay.getCertificateWidget().getParent());
-//			
-//			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
-//			browser.addTab(tab);
-//			tab.setText("Manifest");
-//			tab.setControl(browser.getCertificateDisplay().getManifestWidget().getParent());
-//			
-//			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
-//			browser.addTab(tab);
-//			tab.setText("CRL");
-//			tab.setControl(browser.getCertificateDisplay().getCrlWidget().getParent());
-//			
-//		}
-//		
-//		if(obj instanceof Roa){
-//			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
-//			browser.addTab(tab);
-//			tab.setText("ROA");
-//			tab.setControl(browser.getRoaDisplay().getRoaWidget().getParent());
-//			
-//			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
-//			browser.addTab(tab);
-//			tab.setText("EE Certificate");
-//			tab.setControl(browser.getRoaDisplay().getCertificateWidget().getParent());
-//		}
-//		
-//		browser.layout();
-		
 	}
 
 	@Override

@@ -48,6 +48,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.TabFolder;
@@ -96,8 +97,8 @@ public class RPKIBrowserView extends Composite{
 		treeContainer.init();
 		
 		coolBar.init();
-		
-		treeContainer.addTreeToggleObserver(coolBar.getFilterControl().getFilterToggle());
+//		
+//		treeContainer.addTreeToggleObserver(coolBar.getFilterControl().getFilterToggle());
 		
 		initDatabindings();
 	}

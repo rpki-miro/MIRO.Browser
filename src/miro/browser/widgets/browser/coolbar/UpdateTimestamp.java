@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
-public class UpdateTimestamp extends Group{
+public class UpdateTimestamp extends Composite{
 	
 	private static final Logger log = LoggerFactory.getLogger(UpdateTimestamp.class, Level.FINEST);
 	
@@ -48,7 +48,7 @@ public class UpdateTimestamp extends Group{
 
 	private void init() {
 		setLayout(new FillLayout());
-		setText("Last updated");
+//		setText("Last updated");
 		
 	}
 	
