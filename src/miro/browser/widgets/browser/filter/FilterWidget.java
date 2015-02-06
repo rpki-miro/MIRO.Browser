@@ -135,6 +135,8 @@ public class FilterWidget extends Composite{
 
 				
 				ResourceCertificateTreeFilter tableFilter = new ResourceCertificateTreeFilter(true);
+//				CertificateTreeLabelProvider tableLabelProvider = (CertificateTreeLabelProvider) tableViewer.getLabelProvider();
+//				tableLabelProvider.setFilter(tableFilter);
 				tableFilter.addFilters(filters);
 				tableViewer.setFilters(new ViewerFilter[]{tableFilter});
 			}

@@ -68,13 +68,13 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		super(parent, style);
 		style = SWT.NONE;
 		setDisplayLayout();
-		createTitleBar("Resource Certificate", style);
+		initTitleBar("Resource Certificate", style);
 		createResourceSetViewer(this, style);
 		createInformationContainer(this,style);
 		this.layout();
 	}
 	
-	private void setDisplayLayout(){
+	public void setDisplayLayout(){
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		layout.horizontalSpacing = 0;
@@ -85,7 +85,7 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		setLayout(layout);
 	}
 	
-	public void createTitleBar(String heading,int style) {
+	public void initTitleBar(String heading,int style) {
 		titleBar = new Composite(this,style);
 		GridData gridData = new GridData();
 		gridData.horizontalSpan = 2;
@@ -114,26 +114,10 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 	}
 	
 	public void createInformationContainer(Composite parent, int style) {
-		informationContainer = new Composite(parent,style);
-
+		super.createInformationContainer(this, style);
 		GridData gridData = new GridData();
 		gridData.widthHint = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
 		informationContainer.setLayoutData(gridData);
-		
-		
-		RowLayout layout = new RowLayout();
-		layout.type = SWT.VERTICAL;
-		layout.marginTop = 0;
-		layout.marginBottom = 0;
-		layout.marginLeft = 0;
-		layout.marginRight = 0;
-		
-		layout.marginHeight = MagicNumbers.CDW_INFORMATION_CONTAINER_MARGIN_HEIGHT;
-		layout.marginWidth =  MagicNumbers.CDW_INFORMATION_CONTAINER_MARGIN_WIDTH;
-		layout.spacing = MagicNumbers.CDW_INFORMATION_CONTAINER_SPACING;
-		informationContainer.setLayout(layout);
-		
-		initFields(informationContainer,style);
 	}
 	
 

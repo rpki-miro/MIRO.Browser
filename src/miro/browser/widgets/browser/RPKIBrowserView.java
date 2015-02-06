@@ -82,26 +82,19 @@ public class RPKIBrowserView extends Composite{
 	private FilterWidget filter;
 	private Shell filterShell;
 	
-	/*to be removed, probably*/
-	CertificateWidget certDisplay;
-	ManifestWidget mftDisplay;
-	RoaWidget roaWidget;
-	CrlWidget crlDisplay;
-	
 	public RPKIBrowserView(Composite parent, int style) {
 		super(parent, style);
 		
 		init();
 		
 		createCoolBar();
+		coolBar.init();
 		
-		createTreeContainer();
+		createViewerContainer();
 		
 		createDisplayContainer();
 		
 		createSash();
-		
-		coolBar.init();
 		
 		initDatabindings();
 		
@@ -165,7 +158,7 @@ public class RPKIBrowserView extends Composite{
 	}
 	
 	
-	private void createTreeContainer(){
+	private void createViewerContainer(){
 		viewerContainer = new ViewerContainer(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
@@ -206,14 +199,15 @@ public class RPKIBrowserView extends Composite{
 		DataBindingContext dbc = new DataBindingContext();
 		certificateDisplay.bindToResourceHolder(selection, dbc);
 		roaDisplay.bindToResourceHolder(selection, dbc);
+		treeViewer.getTree().addSelectionListener(new ViewerListener(this));
 		
 		TableViewer tableViewer = viewerContainer.getTableBrowser().getTableViewer();
 		selection = ViewersObservables.observeSingleSelection(tableViewer);
 		dbc = new DataBindingContext();
 		certificateDisplay.bindToResourceHolder(selection, dbc);
 		roaDisplay.bindToResourceHolder(selection, dbc);
+		tableViewer.getTable().addSelectionListener(new ViewerListener(this));
 		
-		treeViewer.getTree().addSelectionListener(new ViewerListener(this));
 	}
 	
 	public void setViewerInput(ResourceCertificateTree tree){

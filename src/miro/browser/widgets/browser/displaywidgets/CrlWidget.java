@@ -29,6 +29,7 @@ import json.deserializers.ValidationStatus;
 import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.resources.Colors;
+import miro.browser.resources.Fonts;
 import miro.browser.resources.MagicNumbers;
 import miro.validator.types.RepositoryObject;
 import miro.validator.types.ValidationResults;
@@ -43,24 +44,25 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
 
 
 public class CrlWidget extends DisplayWidget implements ResourceHolderObservableBinder{
 	
 	private RevokedCertificateViewer revokedCertViewer;
-
+	
 	public CrlWidget(Composite parent, int style) {
 		super(parent, style);
 		style = SWT.NONE;
 		setDisplayLayout();
-		createTitleBar("Certificate Revokation List", style);
-		createContent(style);
+		initTitleBar("Certificate Revokation List", style);
+		createInformationContainer(this, style);
 		createRevokedCertificateViewer(this, style);
 		this.layout();
 	}
 	
-	private void setDisplayLayout(){
+	public void setDisplayLayout(){
 		RowLayout layout = new RowLayout();
 		layout.marginTop = 0;
 		layout.marginBottom = 0;
@@ -74,15 +76,31 @@ public class CrlWidget extends DisplayWidget implements ResourceHolderObservable
 		layout.spacing = 0;
 		setLayout(layout);
 	}
-	@Override
-	public void bindDisplayWidget(IObservableValue crlObservable, DataBindingContext dbc){
-		super.bindDisplayWidget(crlObservable, dbc);
+	
+	public void initTitleBar(String heading,int style) {
+		titleBar = new Composite(this,style);
+		RowData layoutData = new RowData();
+		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
+		titleBar.setLayoutData(layoutData);
 		
-		//Bind viewer
-		IObservableList revokedCertObservable =  PojoProperties.list((Class) crlObservable.getValueType(), "revokedCertificates", ArrayList.class).observeDetail(crlObservable);
-		ViewerSupport.bind((StructuredViewer) tableViewer, revokedCertObservable, PojoProperties.
-			    values(new String[] { "serial_nr", "revocation_time"}));
 		
+		RowLayout layout = new RowLayout();
+		titleBar.setLayout(layout);
+		
+		
+		Label title = new Label(titleBar, SWT.NONE);
+		title.setText(heading);
+		layoutData = new RowData();
+		title.setLayoutData(layoutData);
+		title.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
+		
+	}
+
+	public void createInformationContainer(Composite parent, int style) {
+		super.createInformationContainer(this, style);
+		RowData rowData = new RowData();
+		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
+		informationContainer.setLayoutData(rowData);
 	}
 	
 	public void createRevokedCertificateViewer(Composite parent, int style) {
@@ -123,29 +141,6 @@ public class CrlWidget extends DisplayWidget implements ResourceHolderObservable
 		parent.layout();
 	}
 	
-	
-	public  void createContent(int style) {
-		content = new Composite(this,style);
-		RowData rowData = new RowData();
-		content.setLayoutData(rowData);
-		
-		RowLayout layout  = new RowLayout();
-		layout.wrap = true;
-		layout.marginTop = 0;
-		layout.marginBottom = 0;
-		layout.marginLeft = 0;
-		layout.marginRight = 0;
-		layout.fill = true;
-		layout.type = SWT.VERTICAL;
-		layout.marginHeight = MagicNumbers.DISPLAYWIDGET_MARGIN_HEIGHT;
-		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
-		layout.spacing = MagicNumbers.CDW_CONTENT_SPACING;
-		
-		content.setBackground(Colors.BROWSER_DISPLAY_WIDGETS_BACKGROUND);
-		content.setLayout(layout);
-		createInformationContainer(content,style);
-	}
-
 	@Override
 	public void bindToResourceHolder(IObservableValue crlObservable,
 			DataBindingContext dbc) {

@@ -81,7 +81,6 @@ public class RoaDisplay implements ResourceHolderObservableBinder{
 	public void showResources(RoaObject obj) {
 		roaWidget.getRoaPrefixViewer().setInput(obj);
 		certificateWidget.getResourceSetViewer().setInput(obj.getEeCert().getResources());
-		
 	}
 	
 }
