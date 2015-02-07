@@ -81,7 +81,6 @@ public class ManifestFilesViewer extends Composite {
 			}
 		});
 		
-		
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table, SWT.NONE));
 		newCol.getColumn().setWidth(MagicNumbers.MFT_HASH_LIST_HASHVALUE_COLUMN_WIDTH);
 		newCol.getColumn().setText("Hash");
@@ -93,9 +92,6 @@ public class ManifestFilesViewer extends Composite {
 				cell.setText(ByteArrayPrinter.bytesToHex(pair.getHash()));
 			}
 		});
-		
-		
-		
 		
 		table.addListener(SWT.DefaultSelection, new Listener() {
 			

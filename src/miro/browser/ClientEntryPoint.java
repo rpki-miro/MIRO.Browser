@@ -28,8 +28,6 @@ import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.widgets.Composite;
 
 public class ClientEntryPoint extends AbstractEntryPoint {
-
-
 	/**
 	 * @wbp.parser.entryPoint
 	 */

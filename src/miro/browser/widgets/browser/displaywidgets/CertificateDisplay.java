@@ -63,7 +63,6 @@ public class CertificateDisplay implements ResourceHolderObservableBinder{
 		scrollingContainer.setExpandVertical(true);
 		scrollingContainer.setBackground(Colors.BROWSER_DISPLAY_WIDGETS_BACKGROUND);
 		return scrollingContainer;
-	
 	}
 
 	@Override

@@ -39,7 +39,6 @@ public abstract class InformationField extends Composite {
 	Label label;
 	int minHeight;
 	
-	//What type to bind to
 	Class type;
 	Class containerType;
 	

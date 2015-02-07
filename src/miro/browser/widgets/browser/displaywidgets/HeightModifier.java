@@ -40,7 +40,6 @@ import org.eclipse.swt.widgets.Text;
 
 public class HeightModifier implements Listener{
 	
-	
 	private InformationField field;
 
 	public HeightModifier(InformationField f) {

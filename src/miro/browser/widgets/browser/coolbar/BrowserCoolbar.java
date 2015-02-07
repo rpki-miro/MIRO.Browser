@@ -46,8 +46,6 @@ public class BrowserCoolbar extends Composite {
 	
 	private ToolBar toolbar;
 	
-	private FilterControl filterControl;
-	
 	private RepoChooser repoChooser;
 	
 	private UpdateTimestamp updateTime;
@@ -56,7 +54,6 @@ public class BrowserCoolbar extends Composite {
 		super(parent, style);
 		browser = (RPKIBrowserView) parent;
 	}
-
 
 	public void init(){
 		setBackgroundMode(SWT.INHERIT_FORCE);
@@ -78,7 +75,6 @@ public class BrowserCoolbar extends Composite {
 		initRepoChooser();
 		initFilterControl();
 		initUpdateTime();
-//		setDrawingOrder();
 		
 		/* See if names are loaded, if so display them */
     	String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
@@ -161,18 +157,7 @@ public class BrowserCoolbar extends Composite {
 		return updateTime;
 	}
 	
-	private void setDrawingOrder(){
-		filterControl.moveAbove(null);
-		repoChooser.moveBelow(filterControl);
-		updateTime.moveBelow(repoChooser);
-		
-	}
-
 	public RepoChooser getRepoChooser() {
 		return repoChooser;
-	}
-	
-	public FilterControl getFilterControl(){
-		return filterControl;
 	}
 }

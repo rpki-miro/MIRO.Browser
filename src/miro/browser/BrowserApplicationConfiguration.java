@@ -36,14 +36,10 @@ import org.eclipse.rap.rwt.client.WebClient;
 import org.eclipse.rap.rwt.internal.application.ApplicationImpl;
 import org.eclipse.rap.rwt.service.ApplicationContext;
 
-
-
 public class BrowserApplicationConfiguration implements
 		ApplicationConfiguration {
 
 	public void configure(Application application) {
-		
-		
 		/*
 		 * TODO:
 		 * statische Resourcen (immoment nur images) im ResourceManager speichern	

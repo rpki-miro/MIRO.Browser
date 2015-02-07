@@ -57,15 +57,12 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-
 @SuppressWarnings("serial")
 public class CertificateWidget extends DisplayWidget implements ResourceHolderObservableBinder {
 	
 	private RPKIBrowserView browser;
 	
 	private ResourceSetViewer resourceSetViewer;
-	ScrolledComposite scroller;
-	
 	
 	public CertificateWidget(Composite parent, int style, RPKIBrowserView b) {
 		super(parent, style);
@@ -105,7 +102,6 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		title.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
 		
 	}
-	
 	
 	public void createResourceSetViewer(Composite parent, int style){
 		resourceSetViewer = new ResourceSetViewer(parent, style);

@@ -58,8 +58,6 @@ public class RoaDisplay implements ResourceHolderObservableBinder{
 		
 		IObservableValue eeCertObsValue = PojoProperties.value((Class) selection.getValueType(), "eeCert", CertificateObject.class).observeDetail(selection);
 		certificateWidget.bindToResourceHolder(eeCertObsValue, dbc);
-
-		
 	}
 	
 	private ScrolledComposite createScrollingContainer(Composite parent){

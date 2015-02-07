@@ -44,7 +44,6 @@ import com.google.common.collect.Iterables;
 
 public class ResourceSetViewer extends Composite{
 	
-	
 	private TableViewer tableViewer;
 
 	public ResourceSetViewer(Composite parent, int style) {
@@ -68,7 +67,6 @@ public class ResourceSetViewer extends Composite{
 			public void update(ViewerCell cell) {
 				IpResource res = ( IpResource )cell.getElement();
 				cell.setText(res.toString());
-				
 			}
 		});
 	}

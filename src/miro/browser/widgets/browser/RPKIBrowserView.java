@@ -62,12 +62,9 @@ import types.Certificate;
 import types.RepositoryTree;
 import types.ResourceHolder;
 
-
-
-
 public class RPKIBrowserView extends Composite{
 	
-	private ViewerManager viewerContainer;
+	private ViewerManager viewerManager;
 	
 	private BrowserCoolbar coolBar;
 	
@@ -80,6 +77,7 @@ public class RPKIBrowserView extends Composite{
 	private ArrayList<TabItem> displayTabs;
 	
 	private FilterWidget filter;
+
 	private Shell filterShell;
 	
 	public RPKIBrowserView(Composite parent, int style) {
@@ -98,6 +96,7 @@ public class RPKIBrowserView extends Composite{
 		initDatabindings();
 		
 		initFilter();
+		
 		coolBar.init();
 	}
 	
@@ -105,7 +104,7 @@ public class RPKIBrowserView extends Composite{
 		filterShell = new Shell(getShell(),  SWT.TITLE | SWT.CLOSE);
 		filterShell.setSize(380, 450);
 		filterShell.setLayout(new FillLayout());
-		filter = new FilterWidget(filterShell, SWT.NONE, viewerContainer);
+		filter = new FilterWidget(filterShell, SWT.NONE, viewerManager);
 		filterShell.layout();
 		filterShell.addListener(SWT.Close, new Listener() {
 			
@@ -131,7 +130,7 @@ public class RPKIBrowserView extends Composite{
 		final Sash sash = new Sash(this, SWT.VERTICAL);
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(coolBar);
-		layoutData.left = new FormAttachment(viewerContainer,-5);
+		layoutData.left = new FormAttachment(viewerManager,-5);
 		layoutData.width = 5;
 		layoutData.bottom = new FormAttachment(100,0);
 		sash.setLayoutData(layoutData);
@@ -139,13 +138,12 @@ public class RPKIBrowserView extends Composite{
 			@Override
 			public void handleEvent(Event e) {
 		        sash.setBounds(e.x, e.y, e.width, e.height);
-		        FormData formData = (FormData) viewerContainer.getLayoutData();
+		        FormData formData = (FormData) viewerManager.getLayoutData();
 		        formData.width = e.x;
-		        viewerContainer.setLayoutData(formData);
+		        viewerManager.setLayoutData(formData);
 		        layout(true);
 			}
 		});
-		
 	}
 
 	private void createCoolBar() {
@@ -157,30 +155,28 @@ public class RPKIBrowserView extends Composite{
 		coolBar.setLayoutData(layoutData);
 	}
 	
-	
 	private void createViewerContainer(){
-		viewerContainer = new ViewerManager(this, SWT.NONE);
+		viewerManager = new ViewerManager(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(coolBar);
 		layoutData.bottom = new FormAttachment(100,0);
 		layoutData.left = new FormAttachment(0,0);
 		layoutData.width = MagicNumbers.TREE_VIEWER_WIDTH;
-		viewerContainer.setLayoutData(layoutData);
-		viewerContainer.setBackground(Colors.BROWSER_TREE_BACKGROUND);
-		viewerContainer.setBackgroundMode(SWT.INHERIT_FORCE);
+		viewerManager.setLayoutData(layoutData);
+		viewerManager.setBackground(Colors.BROWSER_TREE_BACKGROUND);
+		viewerManager.setBackgroundMode(SWT.INHERIT_FORCE);
 		
-		
-		viewerContainer.init();
-		viewerContainer.getTreeBrowser().getTree().addSelectionListener(new TabHideListener(this));
-		viewerContainer.getTableBrowser().getTable().addSelectionListener(new TabHideListener(this));
+		viewerManager.init();
+		viewerManager.getTreeBrowser().getTree().addSelectionListener(new TabHideListener(this));
+		viewerManager.getTableBrowser().getTable().addSelectionListener(new TabHideListener(this));
 	}
 
 	private void createDisplayContainer() {
 		displayContainer = new TabFolder(this, SWT.NONE);
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(coolBar);	
-		layoutData.left = new FormAttachment(viewerContainer);
+		layoutData.left = new FormAttachment(viewerManager);
 		layoutData.right = new FormAttachment(100,0);
 		layoutData.bottom = new FormAttachment(100,0);
 		displayContainer.setLayoutData(layoutData);
@@ -194,22 +190,20 @@ public class RPKIBrowserView extends Composite{
 	}
 	
 	private void initDatabindings() {
-		TreeViewer treeViewer = viewerContainer.getTreeBrowser().getTreeViewer();
+		TreeViewer treeViewer = viewerManager.getTreeBrowser().getTreeViewer();
 		IViewerObservableValue selection = ViewersObservables.observeSingleSelection(treeViewer);
 		DataBindingContext dbc = new DataBindingContext();
 		certificateDisplay.bindToResourceHolder(selection, dbc);
 		roaDisplay.bindToResourceHolder(selection, dbc);
 		treeViewer.getTree().addSelectionListener(new ViewerListener(this));
 		
-		TableViewer tableViewer = viewerContainer.getTableBrowser().getTableViewer();
+		TableViewer tableViewer = viewerManager.getTableBrowser().getTableViewer();
 		selection = ViewersObservables.observeSingleSelection(tableViewer);
 		dbc = new DataBindingContext();
 		certificateDisplay.bindToResourceHolder(selection, dbc);
 		roaDisplay.bindToResourceHolder(selection, dbc);
 		tableViewer.getTable().addSelectionListener(new ViewerListener(this));
-		
 	}
-	
 	
 	public Composite getDisplayContainer() {
 		return displayContainer;
@@ -224,7 +218,7 @@ public class RPKIBrowserView extends Composite{
 	}
 	
 	public ViewerManager getViewerContainer(){
-		return viewerContainer;
+		return viewerManager;
 	}
 	
 	public ArrayList<TabItem> getTabs(){
@@ -252,6 +246,5 @@ public class RPKIBrowserView extends Composite{
 			tab.dispose();
 		}
 		displayTabs.clear();
-		
 	}
 }

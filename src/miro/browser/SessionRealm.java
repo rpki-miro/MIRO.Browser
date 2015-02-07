@@ -21,9 +21,6 @@ THE SOFTWARE.
  * 
  * */
 package miro.browser;
-
-
-
 import miro.browser.resources.Colors;
 import miro.browser.resources.Fonts;
 import miro.browser.resources.Images;
@@ -46,6 +43,7 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Composite;
 
 public class SessionRealm implements Runnable {
+
 	private Composite parent;
 	
 	public SessionRealm(Composite p){
@@ -120,7 +118,6 @@ public class SessionRealm implements Runnable {
 		layoutData.left = new FormAttachment(0, MagicNumbers.SHELL_OUTER_GAPS);
 		layoutData.right = new FormAttachment(100, - MagicNumbers.SHELL_OUTER_GAPS);
 		layoutData.top = new FormAttachment(0,  MagicNumbers.SHELL_OUTER_GAPS);
-//		layoutData.height = MagicNumbers.HEADER_HEIGHT;
 		header.setLayoutData(layoutData);
 	}
 	

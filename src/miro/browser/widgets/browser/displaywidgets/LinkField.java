@@ -84,16 +84,4 @@ public class LinkField extends InformationField {
 		modelToUi.setConverter(converter);
 		dbc.bindValue(fieldObservable, detailObservable, null, modelToUi);
 	}
-	
-	private class IssuerLinkListener implements Listener {
-
-		@Override
-		public void handleEvent(Event event) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	}
-	
-	
 }

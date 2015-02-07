@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.TabItem;
 
 public class TabHideListener implements SelectionListener {
 
-	RPKIBrowserView browser;
+	private RPKIBrowserView browser;
 	
 	public TabHideListener(RPKIBrowserView b) {
 		browser = b;
@@ -45,7 +45,6 @@ public class TabHideListener implements SelectionListener {
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		
 
 		ResourceHoldingObject obj = (ResourceHoldingObject) e.item.getData();
 		

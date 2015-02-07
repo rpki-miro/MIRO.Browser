@@ -36,7 +36,6 @@ import org.eclipse.swt.widgets.TreeItem;
 @SuppressWarnings("serial")
 public class ViewerListener implements SelectionListener {
 
-	int i = 1;
 	private RPKIBrowserView browser;
 	
 	public ViewerListener(RPKIBrowserView b) {
