@@ -22,6 +22,8 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser;
 
+import java.util.ArrayList;
+
 import miro.browser.widgets.browser.displaywidgets.CertificateDisplay;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
@@ -47,9 +49,11 @@ public class TabHideListener implements SelectionListener {
 
 		ResourceHoldingObject obj = (ResourceHoldingObject) e.item.getData();
 		
-		//Dispose all
-		for(TabItem tab : browser.getTabs()){
+		browser.clearTabs();
+		ArrayList<TabItem> tabs = browser.getTabs();
+		for(TabItem tab : tabs){
 			tab.dispose();
+			tabs.remove(tab);
 		}
 		
 		TabItem tab;
@@ -71,7 +75,6 @@ public class TabHideListener implements SelectionListener {
 			browser.addTab(tab);
 			tab.setText("CRL");
 			tab.setControl(browser.getCertificateDisplay().getCrlWidget().getParent());
-			TabFolder tabs = (TabFolder) browser.getDisplayContainer();
 			
 			
 		}

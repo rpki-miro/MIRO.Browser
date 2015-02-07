@@ -21,9 +21,6 @@ Composite.statsWidget {
 	background-color:#E6E6E6;
 }
 
-
-Label.browserLink {
-	color: #5882B5;
-	text-decoration: underline;
-	
+Link-Hyperlink.browserLink {
+	color: #31619C;
 }

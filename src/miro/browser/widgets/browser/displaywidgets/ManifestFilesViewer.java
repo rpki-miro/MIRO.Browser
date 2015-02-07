@@ -26,8 +26,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import miro.browser.resources.MagicNumbers;
+import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.util.ByteArrayPrinter;
+import miro.validator.types.CertificateObject;
 import miro.validator.types.ManifestObject;
+import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -38,21 +41,28 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.TabFolder;
 
 public class ManifestFilesViewer extends Composite {
 	
 	private TableViewer tableViewer;
 	
-	public ManifestFilesViewer(Composite parent, int style) {
+	private RPKIBrowserView browser;
+	
+	public ManifestFilesViewer(Composite parent, int style, RPKIBrowserView b) {
 		super(parent, style);
 		setLayout(new FillLayout());	
 		tableViewer = new TableViewer(this, SWT.V_SCROLL | SWT.H_SCROLL );
 		tableViewer.setContentProvider(new ManifestFilesContentProvider());
 		createColumns(tableViewer.getTable());
+		browser = b;
 	}
-	
 	
 	public void createColumns(Table table) {
 		
@@ -71,6 +81,7 @@ public class ManifestFilesViewer extends Composite {
 			}
 		});
 		
+		
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table, SWT.NONE));
 		newCol.getColumn().setWidth(MagicNumbers.MFT_HASH_LIST_HASHVALUE_COLUMN_WIDTH);
 		newCol.getColumn().setText("Hash");
@@ -80,6 +91,35 @@ public class ManifestFilesViewer extends Composite {
 			public void update(ViewerCell cell) {
 				FileHashPair pair = (FileHashPair)cell.getElement();
 				cell.setText(ByteArrayPrinter.bytesToHex(pair.getHash()));
+			}
+		});
+		
+		
+		
+		
+		table.addListener(SWT.DefaultSelection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				FileHashPair pair = (FileHashPair) ((TableItem)event.item).getData();
+				
+				if(pair.filename.endsWith(".crl")){
+					for(TabItem tab : browser.getTabs()) {
+						if(tab.getText().equals("CRL")){
+							TabFolder folder = (TabFolder) browser.getDisplayContainer();
+							folder.setSelection(tab);
+							return;
+						}
+					}
+				} else {
+					CertificateObject obj = (CertificateObject) browser.getViewerContainer().getSelectedObject();
+					for(ResourceHoldingObject kid : obj.getChildren()){
+						if(kid.getFilename().equals(pair.filename)){
+							browser.getViewerContainer().setSelection(kid);
+							return;
+						}
+					}
+				}
 			}
 		});
 		

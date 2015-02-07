@@ -246,4 +246,12 @@ public class RPKIBrowserView extends Composite{
 	public void showFilter() {
 		filterShell.open();
 	}
+
+	public void clearTabs() {
+		for(TabItem tab : displayTabs){
+			tab.dispose();
+		}
+		displayTabs.clear();
+		
+	}
 }

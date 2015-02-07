@@ -32,6 +32,7 @@ import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.resources.Colors;
 import miro.browser.resources.Fonts;
 import miro.browser.resources.MagicNumbers;
+import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.validator.types.RepositoryObject;
 import miro.validator.types.ValidationResults;
 
@@ -49,13 +50,13 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 
 	private ManifestFilesViewer filesViewer;
 	
-	public ManifestWidget(Composite parent, int style) {
+	public ManifestWidget(Composite parent, int style, RPKIBrowserView b) {
 		super(parent, style);
 		style = SWT.NONE;
 		setDisplayLayout();
 		initTitleBar("Manifest", style);
 		createInformationContainer(this,style);
-		createFilesViewer(this,style);
+		createFilesViewer(this,style,b);
 		this.layout();
 	}
 	
@@ -120,13 +121,9 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
 		informationContainer.setLayoutData(rowData);
 	}
-	public void createFilesViewer(Composite parent, int style) {
-		filesViewer = new ManifestFilesViewer(this, style);
-		
+	public void createFilesViewer(Composite parent, int style, RPKIBrowserView b) {
+		filesViewer = new ManifestFilesViewer(this, style,b);
 		RowData rowData = new RowData();
-		
-		//No need to set width, since the layout has fill = true and is VERTICAL, so it will
-		//take the same width as informationContainer at the start
 		rowData.height =  MagicNumbers.MFT_HASH_LIST_HEIGHT;
 		filesViewer.setLayoutData(rowData);	
 	}
