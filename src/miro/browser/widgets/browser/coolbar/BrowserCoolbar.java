@@ -141,7 +141,7 @@ public class BrowserCoolbar extends Composite {
 					browser.getViewerContainer().showTableBrowser();
 					expandTreeItem.setEnabled(false);
 				} else {
-					browser.getViewerContainer().showTree();
+					browser.getViewerContainer().showTreeBrowser();
 					expandTreeItem.setEnabled(true);
 				}
 				

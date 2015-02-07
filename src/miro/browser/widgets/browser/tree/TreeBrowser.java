@@ -22,20 +22,19 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.List;
 
 import miro.browser.provider.CertificateTreeContentProvider;
 import miro.browser.provider.CertificateTreeLabelProvider;
-import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.validator.types.ResourceHoldingObject;
 
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -66,39 +65,22 @@ public class TreeBrowser extends Composite {
 		treeViewer.setLabelProvider(label_provider);
 	}
 	
-	
-	
-	private RPKIBrowserView findBrowser(){
-		Composite parent = getParent();
-		while(parent != null){
-			if(parent instanceof RPKIBrowserView){
-				return (RPKIBrowserView) parent;
+	public void setSelection(ResourceHoldingObject obj) {
+		Method findItem;
+		try {
+			findItem = StructuredViewer.class.getDeclaredMethod("doFindItem", Object.class);
+			findItem.setAccessible(true);
+			TreeItem item = (TreeItem) findItem.invoke(treeViewer, obj);
+			if(item == null){
+				return;
 			}
-			parent = parent.getParent();
+			treeViewer.getTree().setSelection(item);
+			Event ev = new Event();
+			ev.item = item;
+			treeViewer.getTree().notifyListeners(SWT.Selection, ev);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return null;
-		
-	}
-	
-	public void setInput(Object input){
-		treeViewer.setInput(input);
-		
-		itemMap = new HashMap<ResourceHoldingObject, TreeItem>();
-		List<TreeItem> currentLevel = new ArrayList<TreeItem>();
-		List<TreeItem> nextLevel = new ArrayList<TreeItem>();
-		
-		currentLevel.addAll(Arrays.asList(tree.getItems()));
-		while(!currentLevel.isEmpty()){
-			for(TreeItem item : currentLevel){
-				itemMap.put((ResourceHoldingObject) item.getData(), item);
-				nextLevel.addAll(Arrays.asList(item.getItems()));
-			}
-			currentLevel = nextLevel;
-			nextLevel = new ArrayList<TreeItem>();
-		}
-		treeViewer.refresh();
-		System.out.println("break");
-		
 		
 	}
 	

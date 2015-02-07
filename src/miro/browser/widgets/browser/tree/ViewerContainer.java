@@ -26,6 +26,7 @@ package miro.browser.widgets.browser.tree;
 import java.util.ArrayList;
 
 import miro.validator.types.ResourceCertificateTree;
+import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -66,7 +67,7 @@ public class ViewerContainer extends Composite {
 		layout.marginWidth = 0;
 		this.setLayout(layout);
 		initTreeBrowser();
-		showTree();
+		showTreeBrowser();
 		
 	}
 
@@ -86,7 +87,15 @@ public class ViewerContainer extends Composite {
 	}
 
 	
-	public void showTree(){
+	public void showTreeBrowser(){
+		if(layout.topControl == tableBrowser){
+			Table table = tableBrowser.getTable();
+			if(table.getSelectionCount() > 0) {
+				TableItem item = table.getSelection()[0];
+				ResourceHoldingObject obj = (ResourceHoldingObject) item.getData();
+				treeBrowser.setSelection(obj);
+			}
+		}
 		layout.topControl = treeBrowser;
 		layout();
 	}
@@ -105,6 +114,14 @@ public class ViewerContainer extends Composite {
 		}
 	}
 	public void showTableBrowser() {
+		if(layout.topControl == treeBrowser){
+			Tree tree = treeBrowser.getTree();
+			if(tree.getSelectionCount() > 0) {
+				TreeItem item = tree.getSelection()[0];
+				ResourceHoldingObject obj = (ResourceHoldingObject) item.getData();
+				tableBrowser.setSelection(obj);
+			}
+		}
 		layout.topControl = tableBrowser;
 		layout();
 	}

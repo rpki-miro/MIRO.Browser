@@ -22,9 +22,13 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import miro.browser.provider.CertificateTableContentProvider;
 import miro.browser.provider.CertificateTableLabelProvider;
 import miro.browser.provider.CertificateTreeLabelProvider;
+import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
@@ -34,6 +38,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 
 public class TableBrowser extends Composite {
 	
@@ -61,6 +66,25 @@ public class TableBrowser extends Composite {
 
 	public Table getTable() {
 		return tableViewer.getTable();
+	}
+
+	public void setSelection(ResourceHoldingObject obj) {
+		Method findItem;
+		try {
+			findItem = TableViewer.class.getDeclaredMethod("doFindItem", Object.class);
+			findItem.setAccessible(true);
+			TableItem item = (TableItem) findItem.invoke(tableViewer, obj);
+			if(item == null){
+				return;
+			}
+			tableViewer.getTable().setSelection(item);
+			Event ev = new Event();
+			ev.item = item;
+			tableViewer.getTable().notifyListeners(SWT.Selection, ev);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 

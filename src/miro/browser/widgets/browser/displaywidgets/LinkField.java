@@ -1,5 +1,8 @@
 package miro.browser.widgets.browser.displaywidgets;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import miro.browser.widgets.browser.RPKIBrowserView;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -8,6 +11,7 @@ import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -54,9 +58,36 @@ public class LinkField extends InformationField {
 				
 				if(parent != null){
 					tree.setSelection(item.getParentItem());
+					Method method = null;
+					try {
+						method = TableViewer.class.getDeclaredMethod("doFindItem", Object.class);
+						method.setAccessible(true);
+					} catch (NoSuchMethodException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					try {
+						Object result = method.invoke(browser.getViewerContainer().getTableBrowser().getTableViewer(), item.getData());
+						System.out.println(result.toString());
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 					Event ev = new Event();
 					ev.item = item.getParentItem();
 					tree.notifyListeners(SWT.Selection, ev);
+					browser.getViewerContainer().showTreeBrowser();
 				}
 			}
 		});
@@ -72,6 +103,9 @@ public class LinkField extends InformationField {
 		modelToUi.setConverter(converter);
 		dbc.bindValue(fieldObservable, detailObservable, null, modelToUi);
 	}
+	
+	
+	
 	
 	
 }
