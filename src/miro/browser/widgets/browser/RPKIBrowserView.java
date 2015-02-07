@@ -35,7 +35,7 @@ import miro.browser.widgets.browser.displaywidgets.ManifestWidget;
 import miro.browser.widgets.browser.displaywidgets.RoaDisplay;
 import miro.browser.widgets.browser.displaywidgets.RoaWidget;
 import miro.browser.widgets.browser.filter.FilterWidget;
-import miro.browser.widgets.browser.tree.ViewerContainer;
+import miro.browser.widgets.browser.tree.ViewerManager;
 import miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -67,7 +67,7 @@ import types.ResourceHolder;
 
 public class RPKIBrowserView extends Composite{
 	
-	private ViewerContainer viewerContainer;
+	private ViewerManager viewerContainer;
 	
 	private BrowserCoolbar coolBar;
 	
@@ -159,7 +159,7 @@ public class RPKIBrowserView extends Composite{
 	
 	
 	private void createViewerContainer(){
-		viewerContainer = new ViewerContainer(this, SWT.NONE);
+		viewerContainer = new ViewerManager(this, SWT.NONE);
 		
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(coolBar);
@@ -223,7 +223,7 @@ public class RPKIBrowserView extends Composite{
 		return coolBar;
 	}
 	
-	public ViewerContainer getViewerContainer(){
+	public ViewerManager getViewerContainer(){
 		return viewerContainer;
 	}
 	

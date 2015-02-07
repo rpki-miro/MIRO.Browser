@@ -1,6 +1,6 @@
 package miro.browser.widgets.browser.displaywidgets;
 
-import miro.browser.widgets.browser.tree.ViewerContainer;
+import miro.browser.widgets.browser.tree.ViewerManager;
 import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.swt.widgets.Event;
@@ -8,9 +8,9 @@ import org.eclipse.swt.widgets.Listener;
 
 public class IssuerLinkListener implements Listener {
 
-	private ViewerContainer viewerContainer;
+	private ViewerManager viewerContainer;
 	
-	public IssuerLinkListener(ViewerContainer c) {
+	public IssuerLinkListener(ViewerManager c) {
 		viewerContainer = c;
 	}
 

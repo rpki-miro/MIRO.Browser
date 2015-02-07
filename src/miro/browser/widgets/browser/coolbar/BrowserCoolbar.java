@@ -26,7 +26,7 @@ import miro.browser.resources.MagicNumbers;
 import miro.browser.updater.ModelUpdater;
 import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.browser.widgets.browser.filter.FilterWidget;
-import miro.browser.widgets.browser.tree.ViewerContainer;
+import miro.browser.widgets.browser.tree.ViewerManager;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.rap.rwt.RWT;
@@ -109,7 +109,7 @@ public class BrowserCoolbar extends Composite {
 			@Override
 			public void handleEvent(Event event) {
 				browser.getFilterWidget().clearSelection();
-				ViewerContainer viewerContainer = browser.getViewerContainer();
+				ViewerManager viewerContainer = browser.getViewerContainer();
 				viewerContainer.resetViewerFilters();
 			}
 		});

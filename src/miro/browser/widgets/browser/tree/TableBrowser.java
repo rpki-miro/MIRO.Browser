@@ -26,7 +26,6 @@ import java.lang.reflect.Method;
 
 import miro.browser.provider.CertificateTableContentProvider;
 import miro.browser.provider.CertificateTreeLabelProvider;
-import miro.browser.widgets.browser.displaywidgets.RENAMETHIS;
 import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.TableViewer;
@@ -37,7 +36,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-public class TableBrowser extends Composite implements RENAMETHIS{
+public class TableBrowser extends Composite implements ViewerContainer{
 	
 	private TableViewer tableViewer;
 	

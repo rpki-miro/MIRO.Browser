@@ -30,7 +30,7 @@ import miro.browser.provider.CertificateTreeLabelProvider;
 import miro.browser.resources.Fonts;
 import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
 import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
-import miro.browser.widgets.browser.tree.ViewerContainer;
+import miro.browser.widgets.browser.tree.ViewerManager;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -61,9 +61,9 @@ public class FilterWidget extends Composite{
 	
 	private Button applyFilterBtn;
 	
-	private ViewerContainer viewerContainer;
+	private ViewerManager viewerContainer;
 
-	public FilterWidget(Composite parent, int style, ViewerContainer treeCont) {
+	public FilterWidget(Composite parent, int style, ViewerManager treeCont) {
 		super(parent, style);
 		viewerContainer = treeCont;
 		init();
