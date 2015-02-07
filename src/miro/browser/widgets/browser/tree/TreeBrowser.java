@@ -27,6 +27,7 @@ import java.util.HashMap;
 
 import miro.browser.provider.CertificateTreeContentProvider;
 import miro.browser.provider.CertificateTreeLabelProvider;
+import miro.browser.widgets.browser.displaywidgets.RENAMETHIS;
 import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -39,14 +40,12 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 
-public class TreeBrowser extends Composite {
+public class TreeBrowser extends Composite implements RENAMETHIS{
 	
 	private Tree tree;
 
 	private TreeViewer treeViewer;
 	
-	private HashMap<ResourceHoldingObject, TreeItem> itemMap;
-
 	public TreeBrowser(Composite parent, int style) {
 		super(parent, style);
 		init();
@@ -90,6 +89,15 @@ public class TreeBrowser extends Composite {
 	
 	public TreeViewer getTreeViewer(){
 		return treeViewer;
+	}
+
+	@Override
+	public ResourceHoldingObject getSelection() {
+		if(tree.getSelectionCount() > 0){
+			TreeItem item = tree.getSelection()[0];
+			return (ResourceHoldingObject) item.getData();
+		}
+		return null;
 	}
 
 }

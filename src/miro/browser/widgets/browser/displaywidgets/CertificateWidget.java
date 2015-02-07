@@ -150,7 +150,8 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		InformationField skiField = new TextField(parent, style, byte[].class, CertificateObject.class,"SKI: ", MagicNumbers.LINE_HEIGHT, "subjectKeyIdentifier",new ByteArrayConverter());
 		fields.add(skiField);
 
-		InformationField issuerField = new LinkField(parent, style, X500Principal.class, CertificateObject.class,"Issuer: ", MagicNumbers.LINE_HEIGHT*2,"issuer", new X500PrincipalLinkConverter(), browser);
+		LinkField issuerField = new LinkField(parent, style, X500Principal.class, CertificateObject.class,"Issuer: ", MagicNumbers.LINE_HEIGHT*2,"issuer", new X500PrincipalLinkConverter(), browser);
+		issuerField.getLink().addListener(SWT.Selection, new IssuerLinkListener(browser.getViewerContainer()));
 		fields.add(issuerField);
 
 		InformationField akiField = new TextField(parent, style, byte[].class, CertificateObject.class,"AKI: ", MagicNumbers.LINE_HEIGHT, "aki", new ByteArrayConverter());

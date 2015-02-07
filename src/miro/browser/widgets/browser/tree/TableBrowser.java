@@ -22,12 +22,11 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import miro.browser.provider.CertificateTableContentProvider;
-import miro.browser.provider.CertificateTableLabelProvider;
 import miro.browser.provider.CertificateTreeLabelProvider;
+import miro.browser.widgets.browser.displaywidgets.RENAMETHIS;
 import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.TableViewer;
@@ -35,14 +34,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-public class TableBrowser extends Composite {
+public class TableBrowser extends Composite implements RENAMETHIS{
 	
 	private TableViewer tableViewer;
+	
+	private Table table;
 
 	public TableBrowser(Composite parent, int style) {
 		super(parent, style);
@@ -50,14 +49,7 @@ public class TableBrowser extends Composite {
 		tableViewer = new TableViewer(this,SWT.VIRTUAL);
 		tableViewer.setLabelProvider(new CertificateTreeLabelProvider());
 		tableViewer.setContentProvider(new CertificateTableContentProvider());
-		tableViewer.getTable().addListener(SWT.Selection, new Listener() {
-			
-			@Override
-			public void handleEvent(Event event) {
-				
-				System.out.println("break");
-			}
-		});
+		table = tableViewer.getTable();
 	}
 
 	public TableViewer getTableViewer() {
@@ -65,7 +57,7 @@ public class TableBrowser extends Composite {
 	}
 
 	public Table getTable() {
-		return tableViewer.getTable();
+		return table;
 	}
 
 	public void setSelection(ResourceHoldingObject obj) {
@@ -85,6 +77,15 @@ public class TableBrowser extends Composite {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public ResourceHoldingObject getSelection() {
+		if(table.getSelectionCount() > 0) {
+			TableItem item = table.getSelection()[0];
+			return (ResourceHoldingObject) item.getData();
+		}
+		return null;
 	}
 	
 

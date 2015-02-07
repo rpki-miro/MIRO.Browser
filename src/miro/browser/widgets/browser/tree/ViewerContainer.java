@@ -23,8 +23,7 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.tree;
 
 
-import java.util.ArrayList;
-
+import miro.browser.widgets.browser.displaywidgets.RENAMETHIS;
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 
@@ -34,31 +33,23 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import com.google.common.collect.BiMap;
-
 public class ViewerContainer extends Composite {
-	
-	private BiMap<TreeItem, TableItem> itemMap;
-	
-	ArrayList<TreeToggleObserver> toggleObservers;
 	
 	TreeBrowser treeBrowser;
 	
 	TableBrowser tableBrowser;
 	
 	StackLayout layout;
-	private boolean toggle;
+	
+	RENAMETHIS selectedBrowser;
 
 	public ViewerContainer(Composite parent, int style) {
 		super(parent, style);
-		toggleObservers = new ArrayList<TreeToggleObserver>();
 	}
 
 	public void init() {
@@ -85,7 +76,6 @@ public class ViewerContainer extends Composite {
 		treeBrowser = new TreeBrowser(this, SWT.NONE);
 		tableBrowser = new TableBrowser(this, SWT.NONE);
 	}
-
 	
 	public void showTreeBrowser(){
 		if(layout.topControl == tableBrowser){
@@ -96,6 +86,7 @@ public class ViewerContainer extends Composite {
 				treeBrowser.setSelection(obj);
 			}
 		}
+		selectedBrowser = treeBrowser;
 		layout.topControl = treeBrowser;
 		layout();
 	}
@@ -104,15 +95,6 @@ public class ViewerContainer extends Composite {
 		return treeBrowser;
 	}
 	
-	public void addTreeToggleObserver(TreeToggleObserver obs){
-		toggleObservers.add(obs);
-	}
-	
-	public void notifyTreeToggleObservers(){
-		for(TreeToggleObserver obs : toggleObservers){
-			obs.notifyTreeToggle(toggle);
-		}
-	}
 	public void showTableBrowser() {
 		if(layout.topControl == treeBrowser){
 			Tree tree = treeBrowser.getTree();
@@ -123,6 +105,7 @@ public class ViewerContainer extends Composite {
 			}
 		}
 		layout.topControl = tableBrowser;
+		selectedBrowser = tableBrowser;
 		layout();
 	}
 	
@@ -138,6 +121,14 @@ public class ViewerContainer extends Composite {
 	public void resetViewerFilters() {
 		treeBrowser.getTreeViewer().resetFilters();
 		tableBrowser.getTableViewer().resetFilters();
+	}
+
+	public ResourceHoldingObject getSelectedObject() {
+		return selectedBrowser.getSelection();
+	}
+
+	public void setSelection(ResourceHoldingObject issuer) {
+		selectedBrowser.setSelection(issuer);
 	}
 
 
