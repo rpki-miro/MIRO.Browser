@@ -25,17 +25,26 @@ package miro.browser.widgets.browser.tree;
 
 import java.util.ArrayList;
 
-import miro.browser.provider.CertificateTableContentProvider;
-import miro.browser.provider.CertificateTableLabelProvider;
-import miro.browser.widgets.browser.filter.FilterWidget;
+import miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+
+import com.google.common.collect.BiMap;
 
 public class ViewerContainer extends Composite {
+	
+	private BiMap<TreeItem, TableItem> itemMap;
 	
 	ArrayList<TreeToggleObserver> toggleObservers;
 	
@@ -57,9 +66,18 @@ public class ViewerContainer extends Composite {
 		layout.marginWidth = 0;
 		this.setLayout(layout);
 		initTreeBrowser();
-		initFilter();
 		showTree();
 		
+	}
+
+	public void setViewerInput(ResourceCertificateTree tree){
+		TreeViewer treeViewer = treeBrowser.getTreeViewer();
+		treeViewer.setInput(tree);
+		treeViewer.refresh();
+
+		TableViewer tableViewer = tableBrowser.getTableViewer();
+		tableViewer.setInput(tree);
+		tableViewer.refresh();
 	}
 	
 	private void initTreeBrowser() {
@@ -67,28 +85,15 @@ public class ViewerContainer extends Composite {
 		tableBrowser = new TableBrowser(this, SWT.NONE);
 	}
 
-	private void initFilter() {
-//		filter = new FilterWidget(this, SWT.NONE, this);
-		
-	}
 	
 	public void showTree(){
 		layout.topControl = treeBrowser;
 		layout();
 	}
 	
-	private void showFilter(){
-//		layout.topControl = filter;
-		layout();
-	}
-	
 	public TreeBrowser getTreeBrowser(){
 		return treeBrowser;
 	}
-	
-//	public FilterWidget getFilterWidget(){
-//		return filter;
-//	}
 	
 	public void addTreeToggleObserver(TreeToggleObserver obs){
 		toggleObservers.add(obs);
@@ -104,20 +109,6 @@ public class ViewerContainer extends Composite {
 		layout();
 	}
 	
-	public void toggle(){
-		/*
-		 * toggle is false at the start, and we want tree as our start widget
-		 * So !toggle should lead to filter being shown, and toggle to tree being shown
-		 */
-		if(!toggle){
-			showFilter();
-		} else {
-			showTree();
-		}
-		notifyTreeToggleObservers();
-		toggle = !toggle;
-	}
-
 	public TableBrowser getTableBrowser() {
 		return tableBrowser;
 	}

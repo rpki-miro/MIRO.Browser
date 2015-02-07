@@ -25,18 +25,17 @@ package miro.browser.widgets.browser.displaywidgets;
 import miro.browser.resources.MagicNumbers;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 public abstract class InformationField extends Composite {
 
-	RowData infoFieldRowData;
 	Label label;
 	int minHeight;
 	
@@ -44,14 +43,18 @@ public abstract class InformationField extends Composite {
 	Class type;
 	Class containerType;
 	
-	int oldWidth;
+	String propertyName;
+	
+	IConverter converter;
 
 	
-	public InformationField(Composite parent, int style, Class t, Class cont, String labelText, int mH) {
+	public InformationField(Composite parent, int style, Class t, Class cont, String labelText, int mH, String name, IConverter conv) {
 		super(parent, style);
 		minHeight = mH;
 		type = t;
 		containerType = cont;
+		propertyName = name;
+		converter = conv;
 
 		
 		FormLayout layout = new FormLayout();
@@ -76,11 +79,10 @@ public abstract class InformationField extends Composite {
 
 	}
 	
-	
+	public int getMinHeight(){
+		return minHeight;
+	}
+
 	public abstract void bindField(IObservableValue selection, DataBindingContext dbc);
-		
 
-
-
-	
 }

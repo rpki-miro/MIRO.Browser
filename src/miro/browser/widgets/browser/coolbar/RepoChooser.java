@@ -100,7 +100,7 @@ public class RepoChooser extends Composite implements ModelObserver{
 				ResourceCertificateTree certTree = (ResourceCertificateTree) RWT.getApplicationContext().getAttribute(selectedName);
 
 				browser.getBrowserCoolbar().getUpdateTimestamp().updateTimestamp(certTree.getTimeStamp());
-				browser.setViewerInput(certTree);
+				browser.getViewerContainer().setViewerInput(certTree);
 			}
 		});
 	}

@@ -26,12 +26,17 @@ import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 
 @SuppressWarnings("serial")
 public class ViewerListener implements SelectionListener {
 
+	int i = 1;
 	private RPKIBrowserView browser;
 	
 	public ViewerListener(RPKIBrowserView b) {

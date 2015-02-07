@@ -88,7 +88,6 @@ public class RPKIBrowserView extends Composite{
 		init();
 		
 		createCoolBar();
-		coolBar.init();
 		
 		createViewerContainer();
 		
@@ -99,6 +98,7 @@ public class RPKIBrowserView extends Composite{
 		initDatabindings();
 		
 		initFilter();
+		coolBar.init();
 	}
 	
 	private void initFilter() {
@@ -188,8 +188,8 @@ public class RPKIBrowserView extends Composite{
 		displayContainer.setBackground(Colors.BROWSER_DISPLAY_CONTAINER_BACKGROUND);
 		displayContainer.setLayout(new RowLayout());
 		
-		certificateDisplay = new CertificateDisplay(displayContainer);
-		roaDisplay = new RoaDisplay(displayContainer);
+		certificateDisplay = new CertificateDisplay(displayContainer,this);
+		roaDisplay = new RoaDisplay(displayContainer, this);
 		
 	}
 	
@@ -210,16 +210,6 @@ public class RPKIBrowserView extends Composite{
 		
 	}
 	
-	public void setViewerInput(ResourceCertificateTree tree){
-		TreeViewer treeViewer = viewerContainer.getTreeBrowser().getTreeViewer();
-		
-		treeViewer.setInput(tree);
-		treeViewer.refresh();
-		
-		TableViewer tableViewer = viewerContainer.getTableBrowser().getTableViewer();
-		tableViewer.setInput(tree);
-		tableViewer.refresh();
-	}
 	
 	public Composite getDisplayContainer() {
 		return displayContainer;

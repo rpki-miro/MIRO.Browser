@@ -55,7 +55,7 @@ public class FilterToggle extends Composite implements TreeToggleObserver{
 			
 			@Override
 			public void handleEvent(Event event) {
-				treeContainer.toggle();
+//				treeContainer.toggle();
 			}
 		});
 	}

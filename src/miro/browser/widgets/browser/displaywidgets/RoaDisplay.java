@@ -23,6 +23,7 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.displaywidgets;
 
 import miro.browser.resources.Colors;
+import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.RoaObject;
 
@@ -39,13 +40,13 @@ public class RoaDisplay implements ResourceHolderObservableBinder{
 	
 	private CertificateWidget certificateWidget;
 	
-	public RoaDisplay(Composite parent) {
+	public RoaDisplay(Composite parent, RPKIBrowserView b) {
 		ScrolledComposite scroller = createScrollingContainer(parent);
 		roaWidget = new RoaWidget(scroller, SWT.NONE);
 		scroller.setContent(roaWidget);
 		
 		scroller = createScrollingContainer(parent);
-		certificateWidget = new CertificateWidget(scroller, SWT.NONE);
+		certificateWidget = new CertificateWidget(scroller, SWT.NONE, b);
 		scroller.setContent(certificateWidget);
 	}
 

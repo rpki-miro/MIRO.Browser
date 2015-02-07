@@ -57,12 +57,11 @@ public class TabHideListener implements SelectionListener {
 		if(obj instanceof CertificateObject){
 			CertificateDisplay certificateDisplay = browser.getCertificateDisplay();
 			
-			
 			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
 			browser.addTab(tab);
 			tab.setText("Certificate");
 			tab.setControl(certificateDisplay.getCertificateWidget().getParent());
-			
+
 			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
 			browser.addTab(tab);
 			tab.setText("Manifest");
@@ -72,6 +71,8 @@ public class TabHideListener implements SelectionListener {
 			browser.addTab(tab);
 			tab.setText("CRL");
 			tab.setControl(browser.getCertificateDisplay().getCrlWidget().getParent());
+			TabFolder tabs = (TabFolder) browser.getDisplayContainer();
+			
 			
 		}
 		

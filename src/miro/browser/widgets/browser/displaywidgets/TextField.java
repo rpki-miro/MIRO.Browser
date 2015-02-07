@@ -42,28 +42,17 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Text;
 
 public class TextField extends InformationField {
 
 	Text text;
-	RowData textRowData;
-	
-	//What to bind to 
-	String propertyName;
-	
-	IConverter converter;
-	UpdateValueStrategy modelToUi;
-	UpdateValueStrategy UItoModel;
-	
-	Rectangle savedSize;
-	
 	
 	public TextField(Composite parent, int style, Class type, Class cont, String labelText, int mH, String name, IConverter conv) {
-		super(parent, style, type,cont, labelText, mH);
-		propertyName = name;
-		converter = conv;
+		super(parent, style, type,cont, labelText, mH, name, conv);
 		text = new Text(this, style | SWT.WRAP | SWT.READ_ONLY);
+		text.setEditable(false);
 		
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(0,0);
@@ -72,74 +61,7 @@ public class TextField extends InformationField {
 		layoutData.right = new FormAttachment(100,0);
 		text.setLayoutData(layoutData);
 	
-		
-		//This listener gets called if the input for the textField changes.
-		//It calculates the new height this field should have and sets it
-		text.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent event) {
-				
-				
-				Text s = (Text) event.getSource();
-				String textString = s.getText();
-				
-				if(textString == null | textString.length() == 0){
-					textString = "None";
-					s.setText(textString);
-				} 
-				
-				int newLineCount = StringUtils.countMatches(textString, "\n");
-				
-				RowData rowData = (RowData) TextField.this.getLayoutData();
-				GC gc = new GC(s);
-				//Calculate new height, based on strinWidth
-			    int stringWidth = gc.stringExtent(textString).x;
-			    
-			    if(rowData.width > 1000){
-			    	
-			    	System.out.println("Textfield width: "+rowData.width);
-			    }
-			    
-			    
-			    
-			    //Divide by our width, factor is how many lines we expect from this input
-				double factor = stringWidth/(double)(rowData.width - MagicNumbers.INF_FIELD_LABEL_WIDTH);
-				
-				//Calculate our new preferred height
-				int height = (int) (Math.ceil(factor)*MagicNumbers.LINE_HEIGHT);
-				for(int i = 0;i<newLineCount;i++){
-					height += 20;
-				}
-				
-				if(height == 0 | height >= minHeight){
-					rowData.height = height;
-				} else if(height < minHeight){
-					rowData.height = minHeight;
-				}
-				TextField.this.setLayoutData(rowData);
-				
-				
-				//Find browser
-				Composite c = getParent();
-				while(!(c instanceof DisplayWidget)){
-					c = c.getParent();
-				}
-				
-				DisplayWidget dw = (DisplayWidget) c;
-				
-				Point size = dw.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-				
-				
-				
-				
-				
-				ScrolledComposite scroller = (ScrolledComposite) dw.getParent();
-				scroller.setMinHeight(size.y);
-				dw.layout(true);
-				
-				
-			}
-		});
+		text.addListener(SWT.Modify, new HeightModifier(this));
 	}
 	
 	
@@ -147,13 +69,9 @@ public class TextField extends InformationField {
 		IObservableValue fieldObservable = SWTObservables.observeText(text);
 
 		IObservableValue detailObservable = PojoProperties.value( (Class) selection.getValueType(), propertyName, type).observeDetail(selection);
-		modelToUi = new UpdateValueStrategy();
+		UpdateValueStrategy modelToUi = new UpdateValueStrategy();
 		
 		modelToUi.setConverter(converter);
-		dbc.bindValue(fieldObservable, detailObservable, UItoModel, modelToUi);
+		dbc.bindValue(fieldObservable, detailObservable, null, modelToUi);
 	}
-	
-	
-	
-
 }

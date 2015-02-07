@@ -30,6 +30,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.Table;
 
@@ -43,6 +45,14 @@ public class TableBrowser extends Composite {
 		tableViewer = new TableViewer(this,SWT.VIRTUAL);
 		tableViewer.setLabelProvider(new CertificateTreeLabelProvider());
 		tableViewer.setContentProvider(new CertificateTableContentProvider());
+		tableViewer.getTable().addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				
+				System.out.println("break");
+			}
+		});
 	}
 
 	public TableViewer getTableViewer() {
@@ -52,6 +62,7 @@ public class TableBrowser extends Composite {
 	public Table getTable() {
 		return tableViewer.getTable();
 	}
+	
 
 	
 	

@@ -36,8 +36,10 @@ import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.converters.ValidityPeriodConverter;
 import miro.browser.converters.X500PrincipalConverter;
+import miro.browser.converters.X500PrincipalLinkConverter;
 import miro.browser.resources.Fonts;
 import miro.browser.resources.MagicNumbers;
+import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.ValidationResults;
@@ -59,13 +61,15 @@ import org.eclipse.swt.widgets.Label;
 @SuppressWarnings("serial")
 public class CertificateWidget extends DisplayWidget implements ResourceHolderObservableBinder {
 	
+	private RPKIBrowserView browser;
 	
 	private ResourceSetViewer resourceSetViewer;
 	ScrolledComposite scroller;
 	
 	
-	public CertificateWidget(Composite parent, int style) {
+	public CertificateWidget(Composite parent, int style, RPKIBrowserView b) {
 		super(parent, style);
+		browser = b;
 		style = SWT.NONE;
 		setDisplayLayout();
 		initTitleBar("Resource Certificate", style);
@@ -146,7 +150,7 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		InformationField skiField = new TextField(parent, style, byte[].class, CertificateObject.class,"SKI: ", MagicNumbers.LINE_HEIGHT, "subjectKeyIdentifier",new ByteArrayConverter());
 		fields.add(skiField);
 
-		InformationField issuerField = new TextField(parent, style, X500Principal.class, CertificateObject.class,"Issuer: ", MagicNumbers.LINE_HEIGHT*2,"issuer", new X500PrincipalConverter());
+		InformationField issuerField = new LinkField(parent, style, X500Principal.class, CertificateObject.class,"Issuer: ", MagicNumbers.LINE_HEIGHT*2,"issuer", new X500PrincipalLinkConverter(), browser);
 		fields.add(issuerField);
 
 		InformationField akiField = new TextField(parent, style, byte[].class, CertificateObject.class,"AKI: ", MagicNumbers.LINE_HEIGHT, "aki", new ByteArrayConverter());

@@ -22,18 +22,22 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import miro.browser.provider.CertificateTreeContentProvider;
 import miro.browser.provider.CertificateTreeLabelProvider;
 import miro.browser.widgets.browser.RPKIBrowserView;
-import miro.browser.widgets.browser.TabHideListener;
+import miro.validator.types.ResourceHoldingObject;
 
-import org.eclipse.jface.viewers.IBaseLabelProvider;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 
 
 public class TreeBrowser extends Composite {
@@ -41,6 +45,8 @@ public class TreeBrowser extends Composite {
 	private Tree tree;
 
 	private TreeViewer treeViewer;
+	
+	private HashMap<ResourceHoldingObject, TreeItem> itemMap;
 
 	public TreeBrowser(Composite parent, int style) {
 		super(parent, style);
@@ -51,9 +57,8 @@ public class TreeBrowser extends Composite {
 	private void init() {
 		setLayout(new FillLayout());
 
-		tree = new Tree(this,SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.VIRTUAL | SWT.BORDER);
+		tree = new Tree(this, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL |  SWT.BORDER);
 		treeViewer = new TreeViewer(tree);	
-			
 		
 		CertificateTreeLabelProvider label_provider = new CertificateTreeLabelProvider();
 		CertificateTreeContentProvider content_provider = new CertificateTreeContentProvider();
@@ -72,6 +77,28 @@ public class TreeBrowser extends Composite {
 			parent = parent.getParent();
 		}
 		return null;
+		
+	}
+	
+	public void setInput(Object input){
+		treeViewer.setInput(input);
+		
+		itemMap = new HashMap<ResourceHoldingObject, TreeItem>();
+		List<TreeItem> currentLevel = new ArrayList<TreeItem>();
+		List<TreeItem> nextLevel = new ArrayList<TreeItem>();
+		
+		currentLevel.addAll(Arrays.asList(tree.getItems()));
+		while(!currentLevel.isEmpty()){
+			for(TreeItem item : currentLevel){
+				itemMap.put((ResourceHoldingObject) item.getData(), item);
+				nextLevel.addAll(Arrays.asList(item.getItems()));
+			}
+			currentLevel = nextLevel;
+			nextLevel = new ArrayList<TreeItem>();
+		}
+		treeViewer.refresh();
+		System.out.println("break");
+		
 		
 	}
 	
