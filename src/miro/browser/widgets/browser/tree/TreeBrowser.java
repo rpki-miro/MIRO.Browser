@@ -32,6 +32,7 @@ import miro.validator.types.ResourceHoldingObject;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -62,25 +63,14 @@ public class TreeBrowser extends Composite implements ViewerContainer{
 		CertificateTreeContentProvider content_provider = new CertificateTreeContentProvider();
 		treeViewer.setContentProvider(content_provider);
 		treeViewer.setLabelProvider(label_provider);
+		
+		tree.setData(RWT.MARKUP_ENABLED,Boolean.TRUE);
+		
 	}
 	
 	public void setSelection(ResourceHoldingObject obj) {
-//		Method findItem;
-//		try {
-//			findItem = StructuredViewer.class.getDeclaredMethod("doFindItem", Object.class);
-//			findItem.setAccessible(true);
-//			TreeItem item = (TreeItem) findItem.invoke(treeViewer, obj);
-//			if(item == null){
-//				return;
-//			}
-//			treeViewer.getTree().setSelection(item);
-//			Event ev = new Event();
-//			ev.item = item;
-//			treeViewer.getTree().notifyListeners(SWT.Selection, ev);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
 		treeViewer.setSelection(new StructuredSelection(obj));
+		treeViewer.reveal(obj);
 		
 	}
 	

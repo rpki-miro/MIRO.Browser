@@ -25,6 +25,7 @@ package miro.browser.converters;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import miro.browser.resources.ValidationTranslation;
 import net.ripe.rpki.commons.validation.ValidationCheck;
 
 import org.eclipse.core.databinding.conversion.IConverter;
@@ -51,16 +52,18 @@ public class ValidationCheckConverter implements IConverter {
 		}
 		
 		Iterator<ValidationCheck> iter = list.iterator();
+		String c;
 		while (iter.hasNext()) {
 			ValidationCheck check = (ValidationCheck) iter.next();
-			result += ValidationCheckToString(check); 
+			c = ValidationTranslation.getTranslation(check);
+			
+			
+			
+			result += c; 
 			if(iter.hasNext()){
-				result += ", ";
+				result += "\n";
 			}
 		}
-		
-		
-		// TODO Auto-generated method stub
 		return result;
 	}
 	

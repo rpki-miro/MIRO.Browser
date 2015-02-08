@@ -57,7 +57,7 @@ public class LinkField extends InformationField {
 	public LinkField(Composite parent, int style, Class t, Class cont,
 			String labelText, int mH, String name, IConverter conv, RPKIBrowserView b) {
 		super(parent, style, t, cont, labelText, mH, name, conv);
-		link = new Link(this, style | SWT.READ_ONLY);
+		link = new Link(this, style );
 		browser = b;
 		
 		FormData layoutData = new FormData();

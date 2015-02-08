@@ -59,6 +59,7 @@ public class TableBrowser extends Composite implements ViewerContainer{
 
 	public void setSelection(ResourceHoldingObject obj) {
 		tableViewer.setSelection(new StructuredSelection(obj));
+		tableViewer.reveal(obj);
 		
 	}
 

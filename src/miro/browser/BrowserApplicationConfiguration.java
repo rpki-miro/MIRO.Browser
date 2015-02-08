@@ -27,6 +27,7 @@ package miro.browser;
 import java.util.HashMap;
 import java.util.Map;
 
+import miro.browser.resources.ValidationTranslation;
 import miro.browser.updater.ModelUpdater;
 
 import org.eclipse.rap.rwt.application.Application;
@@ -49,6 +50,11 @@ public class BrowserApplicationConfiguration implements
 		ApplicationContext context = ((ApplicationImpl)application).getApplicationContext();
 		
 		application.addStyleSheet( "example", "theme/example.css" );
+	
+		ValidationTranslation.readTranslation();
+		
+		
+		
 		
 		
 		new Thread(new ModelUpdater(context)).start();
