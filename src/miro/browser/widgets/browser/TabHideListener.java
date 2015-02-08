@@ -29,13 +29,17 @@ import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
 
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-public class TabHideListener implements SelectionListener {
+public class TabHideListener implements ISelectionChangedListener{
 
 	private RPKIBrowserView browser;
 	
@@ -44,10 +48,12 @@ public class TabHideListener implements SelectionListener {
 	}
 
 	@Override
-	public void widgetSelected(SelectionEvent e) {
-
-		ResourceHoldingObject obj = (ResourceHoldingObject) e.item.getData();
+	public void selectionChanged(SelectionChangedEvent event) {
 		
+		IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+		
+		
+		ResourceHoldingObject obj = (ResourceHoldingObject) selection.getFirstElement();
 		browser.clearTabs();
 		ArrayList<TabItem> tabs = browser.getTabs();
 		for(TabItem tab : tabs){
@@ -91,11 +97,5 @@ public class TabHideListener implements SelectionListener {
 		}
 		
 		browser.layout();
-	}
-
-	@Override
-	public void widgetDefaultSelected(SelectionEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 }

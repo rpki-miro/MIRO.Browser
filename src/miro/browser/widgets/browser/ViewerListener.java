@@ -26,15 +26,12 @@ import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 
 @SuppressWarnings("serial")
-public class ViewerListener implements SelectionListener {
+public class ViewerListener implements ISelectionChangedListener {
 
 	private RPKIBrowserView browser;
 	
@@ -43,9 +40,10 @@ public class ViewerListener implements SelectionListener {
 	}
 	
 	@Override
-	public void widgetSelected(SelectionEvent e) {
+	public void selectionChanged(SelectionChangedEvent event) {
 		
-		ResourceHoldingObject obj = (ResourceHoldingObject) e.item.getData();
+		IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+		ResourceHoldingObject obj  = (ResourceHoldingObject) selection.getFirstElement();
 		if(obj instanceof CertificateObject){
 			browser.getCertificateDisplay().showResources((CertificateObject)obj);
 		}
@@ -53,11 +51,7 @@ public class ViewerListener implements SelectionListener {
 		if(obj instanceof RoaObject){
 			browser.getRoaDisplay().showResources((RoaObject)obj);
 		}
-	}
-
-	@Override
-	public void widgetDefaultSelected(SelectionEvent e) {
-
+		
 	}
 
 }

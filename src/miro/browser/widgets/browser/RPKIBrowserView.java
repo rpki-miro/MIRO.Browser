@@ -41,6 +41,8 @@ import miro.validator.types.ResourceCertificateTree;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -168,8 +170,8 @@ public class RPKIBrowserView extends Composite{
 		viewerManager.setBackgroundMode(SWT.INHERIT_FORCE);
 		
 		viewerManager.init();
-		viewerManager.getTreeBrowser().getTree().addSelectionListener(new TabHideListener(this));
-		viewerManager.getTableBrowser().getTable().addSelectionListener(new TabHideListener(this));
+		viewerManager.getTreeBrowser().getTreeViewer().addSelectionChangedListener(new TabHideListener(this));
+		viewerManager.getTableBrowser().getTableViewer().addSelectionChangedListener(new TabHideListener(this));
 	}
 
 	private void createDisplayContainer() {
@@ -195,14 +197,14 @@ public class RPKIBrowserView extends Composite{
 		DataBindingContext dbc = new DataBindingContext();
 		certificateDisplay.bindToResourceHolder(selection, dbc);
 		roaDisplay.bindToResourceHolder(selection, dbc);
-		treeViewer.getTree().addSelectionListener(new ViewerListener(this));
+		treeViewer.addSelectionChangedListener(new ViewerListener(this));
 		
 		TableViewer tableViewer = viewerManager.getTableBrowser().getTableViewer();
 		selection = ViewersObservables.observeSingleSelection(tableViewer);
 		dbc = new DataBindingContext();
 		certificateDisplay.bindToResourceHolder(selection, dbc);
 		roaDisplay.bindToResourceHolder(selection, dbc);
-		tableViewer.getTable().addSelectionListener(new ViewerListener(this));
+		tableViewer.addSelectionChangedListener(new ViewerListener(this));
 	}
 	
 	public Composite getDisplayContainer() {
