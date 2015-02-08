@@ -44,6 +44,7 @@ import miro.logging.LoggerFactory;
 import miro.validator.ResourceCertificateTreeValidator;
 import miro.validator.stats.ResultExtractor;
 import miro.validator.stats.types.RPKIRepositoryStats;
+import miro.validator.stats.types.Result;
 import miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.rap.rwt.service.ApplicationContext;
@@ -264,11 +265,32 @@ public class ModelUpdater implements Runnable {
 		}
 		context.setAttribute(MODEL_NAMES_KEY, modelKeys);
 		
-		/* Put the stats keys in the context, so observers know where the stats objects are */
+		
 		Arrays.sort(statsKeys);
-		context.setAttribute(STATS_NAMES_KEY, statsKeys);
+		RPKIRepositoryStats totalStats = getTotalStats(statsKeys);
+		String[] allStatsKeys = new String[statsKeys.length + 1];
+		allStatsKeys[0] = "Stats." + totalStats.getName();
+		for(int i = 1; i< allStatsKeys.length;i++){
+			allStatsKeys[i] = statsKeys[i-1];
+		}
+		
+		context.setAttribute(allStatsKeys[0], totalStats);
+		
+		/* Put the stats keys in the context, so observers know where the stats objects are */
+		context.setAttribute(STATS_NAMES_KEY, allStatsKeys);
 	}
 	
+	private RPKIRepositoryStats getTotalStats(String[] statsKeys) {
+		
+		RPKIRepositoryStats totalStats = new RPKIRepositoryStats("total", "time", "ta", new Result("total"), new ArrayList<Result>());
+		for(String statsKey : statsKeys) {
+			RPKIRepositoryStats stats = (RPKIRepositoryStats) context.getAttribute(statsKey);
+			totalStats.addStats(stats);
+		}
+		return totalStats;
+		
+	}
+
 	private String getRepositoryName(String name) {
 		
 		/* Use the filename without its extension suffix */
