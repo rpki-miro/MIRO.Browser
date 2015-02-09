@@ -74,17 +74,6 @@ public class SessionRealm implements Runnable {
 		RPKIBrowserView browser = new RPKIBrowserView(mainWidget,SWT.BORDER);
 		mainWidget.setBrowser(browser);
 		
-
-		
-		ScrolledComposite scroller = new ScrolledComposite(mainWidget, SWT.V_SCROLL | SWT.H_SCROLL);
-		scroller.setExpandHorizontal(true);
-		scroller.setExpandVertical(true);
-		StatsView statsContainer = new StatsView(scroller, SWT.BORDER);
-		mainWidget.setStatsContainer(scroller);
-		scroller.setContent(statsContainer);
-		Point size = statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-		scroller.setMinSize(statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		
 		
 		//Query
 		QueryWidget queryPage = new QueryWidget(mainWidget, SWT.NONE);

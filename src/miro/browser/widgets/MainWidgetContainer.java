@@ -24,8 +24,12 @@ package miro.browser.widgets;
 
 import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.browser.widgets.query.QueryWidget;
+import miro.browser.widgets.stats.StatsView;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 
 public class MainWidgetContainer extends Composite {
@@ -73,10 +77,24 @@ public class MainWidgetContainer extends Composite {
 	}
 	
 	public void showStats(){
+		if(statsContainer == null){
+			initStats();
+		}
 		layout.topControl = statsContainer;
 		this.layout();
 	}
 	
+	private void initStats() {
+		ScrolledComposite scroller = new ScrolledComposite(this, SWT.V_SCROLL | SWT.H_SCROLL);
+		scroller.setExpandHorizontal(true);
+		scroller.setExpandVertical(true);
+		StatsView statsContainer = new StatsView(scroller, SWT.BORDER);
+		setStatsContainer(scroller);
+		scroller.setContent(statsContainer);
+		Point size = statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		scroller.setMinSize(statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+	}
+
 	public boolean browserShowing(){
 		return layout.topControl.equals(browser);
 	}
