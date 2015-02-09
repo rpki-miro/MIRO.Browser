@@ -168,7 +168,6 @@ public class ModelUpdater implements Runnable {
 	
 	public void update(URI[] prefetchURIs) {
 		getModels(prefetchURIs);
-//		readModels();
 		notifyObservers();
 	}
 	
@@ -282,7 +281,7 @@ public class ModelUpdater implements Runnable {
 	
 	private RPKIRepositoryStats getTotalStats(String[] statsKeys) {
 		
-		RPKIRepositoryStats totalStats = new RPKIRepositoryStats("total", "time", "ta", new Result("total"), new ArrayList<Result>());
+		RPKIRepositoryStats totalStats = new RPKIRepositoryStats("All repositories", "-", "-", new Result("Total"), new ArrayList<Result>());
 		for(String statsKey : statsKeys) {
 			RPKIRepositoryStats stats = (RPKIRepositoryStats) context.getAttribute(statsKey);
 			totalStats.addStats(stats);
