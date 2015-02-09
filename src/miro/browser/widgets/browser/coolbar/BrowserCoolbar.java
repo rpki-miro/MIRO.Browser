@@ -22,21 +22,19 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.coolbar;
 
-import miro.browser.resources.MagicNumbers;
 import miro.browser.updater.ModelUpdater;
 import miro.browser.widgets.browser.RPKIBrowserView;
-import miro.browser.widgets.browser.filter.FilterWidget;
 import miro.browser.widgets.browser.tree.ViewerManager;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
@@ -59,15 +57,17 @@ public class BrowserCoolbar extends Composite {
 		setBackgroundMode(SWT.INHERIT_FORCE);
 		setData(RWT.CUSTOM_VARIANT, "browserCoolbar");
 		
-		RowLayout layout = new RowLayout();
-		layout.type = SWT.HORIZONTAL;
-		layout.marginHeight = MagicNumbers.COOLBAR_MARGIN_HEIGHT;
-		layout.marginWidth = MagicNumbers.COOLBAR_MARGIN_WIDTH;
-		layout.marginBottom = 0;
-		layout.marginTop = 0;
-		layout.marginLeft = 0;
-		layout.marginRight = 0;
-		layout.spacing = MagicNumbers.COOLBAR_SPACING;
+//		RowLayout layout = new RowLayout();
+//		layout.type = SWT.HORIZONTAL;
+//		layout.marginHeight = MagicNumbers.COOLBAR_MARGIN_HEIGHT;
+//		layout.marginWidth = MagicNumbers.COOLBAR_MARGIN_WIDTH;
+//		layout.marginBottom = 0;
+//		layout.marginTop = 0;
+//		layout.marginLeft = 0;
+//		layout.marginRight = 0;
+//		layout.spacing = MagicNumbers.COOLBAR_SPACING;
+		
+		FormLayout layout = new FormLayout();
 		setLayout(layout);
 
 		
@@ -85,6 +85,9 @@ public class BrowserCoolbar extends Composite {
 	
 	private void initToolbar(){
 		toolbar = new ToolBar(this, SWT.NONE);
+		FormData layoutData = new FormData();
+		layoutData.left = new FormAttachment(0,0);
+		toolbar.setLayoutData(layoutData);
 	}
 	
 	private void initFilterControl(){
@@ -143,14 +146,22 @@ public class BrowserCoolbar extends Composite {
 				
 			}
 		});
+		
+		ToolItem sep = new ToolItem(toolbar, SWT.SEPARATOR);
+		sep.setControl(repoChooser.getDropDown());
+		sep.setWidth(200);
 	}
 	
 	private void initRepoChooser() {
-		repoChooser = new RepoChooser(this, SWT.NONE, browser);
+		repoChooser = new RepoChooser(toolbar, SWT.NONE, browser);
 	}
 	
 	private void initUpdateTime() {
 		updateTime = new UpdateTimestamp(this, SWT.NONE);
+		FormData layoutData = new FormData();
+		layoutData.right = new FormAttachment(100,0);
+		layoutData.bottom = new FormAttachment(100,0);
+		updateTime.setLayoutData(layoutData);
 	}
 	
 	public UpdateTimestamp getUpdateTimestamp(){

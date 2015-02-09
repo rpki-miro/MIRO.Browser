@@ -54,7 +54,7 @@ public class UpdateTimestamp extends Composite{
 	
 	private void initTimeText() {
 		updateTime = new Label(this, SWT.NONE);
-		updateTime.setFont(Fonts.MEDIUM_HEADER_FONT);
+//		updateTime.setFont(Fonts.MEDIUM_HEADER_FONT);
 	}
 	
 	public void updateTimestamp(String newTimestamp) {

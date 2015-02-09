@@ -61,7 +61,6 @@ public class RepoChooser extends Composite implements ModelObserver{
 		initDropDown();
 	}
 
-
 	private void init() {
 		RowLayout layout = new RowLayout();
 		layout.marginBottom = 0;
@@ -70,11 +69,10 @@ public class RepoChooser extends Composite implements ModelObserver{
 		layout.marginTop = 0;
 		layout.spacing = 0;
 		setLayout(layout);
-//		setText("Repository Menu");
 	}
 
 	private void initDropDown() {
-		dropDown = new CCombo(this, SWT.READ_ONLY | SWT.FLAT);
+		dropDown = new CCombo(getParent(), SWT.READ_ONLY | SWT.FLAT);
 		RowData rowData = new RowData();
 		rowData.height = 25;
 		dropDown.setLayoutData(rowData);
@@ -92,11 +90,6 @@ public class RepoChooser extends Composite implements ModelObserver{
 				}
 				
 				String selectedName = combo.getItem(selection);
-				//RepositoryTree repoTree = (RepositoryTree) RWT.getApplicationContext().getAttribute(selectedName);
-//				browser.getBrowserCoolbar().getUpdateTimestamp().updateTimestamp(repoTree.getTimeStamp());
-//				browser.setTreeViewerInput(repoTree);
-				
-				
 				ResourceCertificateTree certTree = (ResourceCertificateTree) RWT.getApplicationContext().getAttribute(selectedName);
 
 				browser.getBrowserCoolbar().getUpdateTimestamp().updateTimestamp(certTree.getTimeStamp());
