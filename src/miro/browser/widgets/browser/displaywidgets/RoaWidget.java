@@ -30,8 +30,8 @@ import miro.browser.converters.DateTimeConverter;
 import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.converters.ValidityPeriodConverter;
-import miro.browser.resources.Fonts;
 import miro.browser.resources.MagicNumbers;
+import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.validator.types.RepositoryObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
@@ -45,7 +45,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.joda.time.DateTime;
 
 
@@ -53,11 +52,11 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 	
 	private RoaPrefixViewer prefixViewer;
 	
-	public RoaWidget(Composite parent, int style) {
-		super(parent, style);
+	public RoaWidget(Composite parent, int style,RPKIBrowserView b) {
+		super(parent, style,b);
 		style = SWT.NONE;
 		setDisplayLayout();
-		initTitleBar("Route Authorization Object", style);
+		initTitleBar("Route Authorization Object");
 		createInformationContainer(this, style);
 		createRoaPrefixViewer(style);
 		this.layout();
@@ -78,24 +77,13 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 		setLayout(layout);
 	}
 
-	public void initTitleBar(String heading,int style) {
-		titleBar = new Composite(this,style);
+	public void initTitleBar(String heading) {
+		super.initTitleBar(heading);
 		RowData layoutData = new RowData();
 		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
 		titleBar.setLayoutData(layoutData);
-		
-		
-		RowLayout layout = new RowLayout();
-		titleBar.setLayout(layout);
-		
-		
-		Label title = new Label(titleBar, SWT.NONE);
-		title.setText(heading);
-		layoutData = new RowData();
-		title.setLayoutData(layoutData);
-		title.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
-		
 	}
+
 	public void createRoaPrefixViewer( int style) {
 		prefixViewer = new RoaPrefixViewer(this, style);
 		

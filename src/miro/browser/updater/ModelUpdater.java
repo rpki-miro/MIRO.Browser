@@ -47,6 +47,7 @@ import miro.validator.stats.types.RPKIRepositoryStats;
 import miro.validator.stats.types.Result;
 import miro.validator.types.ResourceCertificateTree;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.rap.rwt.service.ApplicationContext;
 
 import types.RepositoryTree;
@@ -233,7 +234,7 @@ public class ModelUpdater implements Runnable {
 		
 		ResourceCertificateTreeValidator treeValidator = new ResourceCertificateTreeValidator(inputPath);
 		try {
-			//FileUtils.cleanDirectory(new File(inputPath));
+//			FileUtils.cleanDirectory(new File(inputPath));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

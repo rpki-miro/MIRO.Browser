@@ -49,7 +49,11 @@ public class BrowserApplicationConfiguration implements
 		@SuppressWarnings("restriction")
 		ApplicationContext context = ((ApplicationImpl)application).getApplicationContext();
 		
-		application.addStyleSheet( "example", "theme/example.css" );
+		application.addStyleSheet( "miro", "theme/miro_theme.css" );
+		application.addStyleSheet("scout", "theme/scout.css");
+		application.addStyleSheet("controls", "theme/controls.css");
+		application.addStyleSheet("business", "theme/business.css");
+		application.addStyleSheet("fancy", "theme/fancy.css");
 	
 		ValidationTranslation.readTranslation();
 		
@@ -60,7 +64,7 @@ public class BrowserApplicationConfiguration implements
 		new Thread(new ModelUpdater(context)).start();
 		Map<String, String> properties = new HashMap<String, String>();
 		
-		properties.put( WebClient.THEME_ID, "example" );
+		properties.put( WebClient.THEME_ID, "fancy" );
 		properties.put(WebClient.PAGE_TITLE, "Resource Certificate Monitor");
 		application.addEntryPoint("/", ClientEntryPoint.class,
 				properties);

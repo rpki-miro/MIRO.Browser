@@ -51,10 +51,10 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 	private ManifestFilesViewer filesViewer;
 	
 	public ManifestWidget(Composite parent, int style, RPKIBrowserView b) {
-		super(parent, style);
+		super(parent, style,b);
 		style = SWT.NONE;
 		setDisplayLayout();
-		initTitleBar("Manifest", style);
+		initTitleBar("Manifest");
 		createInformationContainer(this,style);
 		createFilesViewer(this,style,b);
 		this.layout();
@@ -75,23 +75,11 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		setLayout(layout);
 	}
 	
-	public void initTitleBar(String heading,int style) {
-		titleBar = new Composite(this,style);
+	public void initTitleBar(String heading) {
+		super.initTitleBar(heading);
 		RowData layoutData = new RowData();
 		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
 		titleBar.setLayoutData(layoutData);
-		
-		
-		RowLayout layout = new RowLayout();
-		titleBar.setLayout(layout);
-		
-		
-		Label title = new Label(titleBar, SWT.NONE);
-		title.setText(heading);
-		layoutData = new RowData();
-		title.setLayoutData(layoutData);
-		title.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
-		
 	}
 	public void initFields(Composite parent,int style){
 		ValidationCheckConverter checkToStringconv = new ValidationCheckConverter();

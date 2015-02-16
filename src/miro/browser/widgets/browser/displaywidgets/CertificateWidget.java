@@ -65,11 +65,11 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 	private ResourceSetViewer resourceSetViewer;
 	
 	public CertificateWidget(Composite parent, int style, RPKIBrowserView b) {
-		super(parent, style);
+		super(parent, style, b);
 		browser = b;
 		style = SWT.NONE;
 		setDisplayLayout();
-		initTitleBar("Resource Certificate", style);
+		initTitleBar("Resource Certificate");
 		createResourceSetViewer(this, style);
 		createInformationContainer(this,style);
 		this.layout();
@@ -86,21 +86,11 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		setLayout(layout);
 	}
 	
-	public void initTitleBar(String heading,int style) {
-		titleBar = new Composite(this,style);
+	public void initTitleBar(String heading) {
+		super.initTitleBar(heading);
 		GridData gridData = new GridData();
 		gridData.horizontalSpan = 2;
 		titleBar.setLayoutData(gridData);
-		
-		RowLayout layout = new RowLayout();
-		titleBar.setLayout(layout);
-		
-		Label title = new Label(titleBar, SWT.NONE);
-		title.setText(heading);
-		RowData layoutData = new RowData();
-		title.setLayoutData(layoutData);
-		title.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
-		
 	}
 	
 	public void createResourceSetViewer(Composite parent, int style){

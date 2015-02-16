@@ -53,7 +53,7 @@ public class CertificateDisplay implements ResourceHolderObservableBinder{
 		scroller.setContent(manifestWidget);
 		
 		scroller = createScrollingContainer(parent);
-		crlWidget = new CrlWidget(scroller, SWT.NONE);
+		crlWidget = new CrlWidget(scroller, SWT.NONE,b);
 		scroller.setContent(crlWidget);
 	}
 	

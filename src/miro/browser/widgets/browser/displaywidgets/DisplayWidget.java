@@ -24,15 +24,26 @@ package miro.browser.widgets.browser.displaywidgets;
 
 import java.util.ArrayList;
 
+import miro.browser.download.DownloadHandler;
 import miro.browser.resources.Colors;
+import miro.browser.resources.Fonts;
 import miro.browser.resources.MagicNumbers;
+import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.validator.types.CertificateObject;
+import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Listener;
 
 public abstract class DisplayWidget extends Composite {
+	
+	protected RPKIBrowserView browser; 
 	
 	protected Composite titleBar;
 	
@@ -40,17 +51,58 @@ public abstract class DisplayWidget extends Composite {
 	
 	protected ArrayList<InformationField> fields;
 
-	public DisplayWidget(Composite parent, int style) {
+	public abstract void initFields(Composite parent, int style);
+	
+	public abstract void setDisplayLayout();
+
+	public DisplayWidget(Composite parent, int style, RPKIBrowserView b ) {
 		super(parent, style);
+		browser = b;
 		setDisplayLayout();
 		setBackground(Colors.BROWSER_DISPLAY_WIDGETS_BACKGROUND);
 		setBackgroundMode(SWT.INHERIT_DEFAULT);
 		fields = new ArrayList<InformationField>();
 	}
 	
-	public abstract void initFields(Composite parent, int style);
-	
-	public abstract void setDisplayLayout();
+	public void initTitleBar(String heading) {
+		titleBar = new Composite(this,SWT.NONE);
+		
+		RowLayout layout = new RowLayout();
+		titleBar.setLayout(layout);
+		
+		Label title = new Label(titleBar, SWT.NONE);
+		title.setText(heading);
+		RowData layoutData = new RowData();
+		title.setLayoutData(layoutData);
+		title.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
+		
+		Link download = new Link(titleBar, SWT.NONE);
+		download.setText("<a>ASCII download</a>");
+		download.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				ResourceHoldingObject obj = browser.getViewerContainer().getSelectedObject();
+				
+				DownloadHandler dlhand  = new DownloadHandler();
+				if(DisplayWidget.this instanceof CertificateWidget |
+					DisplayWidget.this instanceof RoaWidget){
+					dlhand.sendDownload(obj);
+				}
+				
+				if(DisplayWidget.this instanceof ManifestWidget) {
+					if(obj instanceof CertificateObject){
+						dlhand.sendDownload(((CertificateObject)obj).getManifest());
+					}
+				}
+
+				if(DisplayWidget.this instanceof CrlWidget) {
+					if(obj instanceof CertificateObject)
+						dlhand.sendDownload(((CertificateObject)obj).getCrl());
+				}
+			}
+		});
+	}
 	
 	public void createInformationContainer(Composite parent, int style){
 		informationContainer = new Composite(parent,style);
@@ -69,7 +121,6 @@ public abstract class DisplayWidget extends Composite {
 		
 		initFields(informationContainer,style);
 	}
-	
 	
 	public void layoutFields(int width){
 		RowData rowData;

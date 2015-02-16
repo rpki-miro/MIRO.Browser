@@ -42,7 +42,7 @@ public class RoaDisplay implements ResourceHolderObservableBinder{
 	
 	public RoaDisplay(Composite parent, RPKIBrowserView b) {
 		ScrolledComposite scroller = createScrollingContainer(parent);
-		roaWidget = new RoaWidget(scroller, SWT.NONE);
+		roaWidget = new RoaWidget(scroller, SWT.NONE,b);
 		scroller.setContent(roaWidget);
 		
 		scroller = createScrollingContainer(parent);
