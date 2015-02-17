@@ -8,9 +8,21 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import miro.validator.export.json.ByteArrayToHexSerializer;
+import miro.validator.export.json.CRLSerializer;
+import miro.validator.export.json.CertificateObjectJsonSerializer;
+import miro.validator.export.json.IpResourceSetSerializer;
 import miro.validator.export.json.ManifestSerializer;
 import miro.validator.export.json.RepositoryObjectSerializer;
+import miro.validator.export.json.RoaSerializer;
+import miro.validator.export.json.ValidationResultsSerializer;
+import miro.validator.types.CRLObject;
+import miro.validator.types.CertificateObject;
+import miro.validator.types.ManifestObject;
 import miro.validator.types.RepositoryObject;
+import miro.validator.types.RoaObject;
+import miro.validator.types.ValidationResults;
+import net.ripe.ipresource.IpResourceSet;
 
 import org.apache.commons.io.IOUtils;
 import org.eclipse.rap.rwt.RWT;
@@ -42,11 +54,19 @@ public class DownloadHandler {
 
         public DownloadService(RepositoryObject obj) {
             this.obj = obj;
-            this.filename = obj.getFilename();
+            this.filename = obj.getFilename() + ".json";
             this.id = calculateId();
             
 			GsonBuilder builder = new GsonBuilder();
+			builder.setPrettyPrinting();
 			builder.registerTypeAdapter(RepositoryObject.class, new RepositoryObjectSerializer());
+			builder.registerTypeAdapter(CertificateObject.class, new CertificateObjectJsonSerializer());
+			builder.registerTypeAdapter(ManifestObject.class, new ManifestSerializer());
+			builder.registerTypeAdapter(CRLObject.class, new CRLSerializer());
+			builder.registerTypeAdapter(RoaObject.class, new RoaSerializer());
+			builder.registerTypeAdapter(ValidationResults.class, new ValidationResultsSerializer());
+			builder.registerTypeAdapter(IpResourceSet.class, new IpResourceSetSerializer());
+			builder.registerTypeAdapter(byte[].class, new ByteArrayToHexSerializer());
 			Gson gson = builder.create();
 			text = gson.toJson(obj, RepositoryObject.class);
         }
@@ -89,7 +109,7 @@ public class DownloadHandler {
                 response.setHeader("Content-Disposition", "attachment; filename=\"" + filename
                         + "\"");
                 StringBuffer sb = new StringBuffer(text);
-                ByteArrayInputStream in = new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
+                ByteArrayInputStream in = new ByteArrayInputStream(sb.toString().getBytes("ASCII"));
                 ServletOutputStream out = response.getOutputStream();
                 
                 IOUtils.copy(in, out);

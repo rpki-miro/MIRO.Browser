@@ -31,6 +31,7 @@ import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
+import miro.validator.types.RoaObject;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
@@ -85,8 +86,7 @@ public abstract class DisplayWidget extends Composite {
 				ResourceHoldingObject obj = browser.getViewerContainer().getSelectedObject();
 				
 				DownloadHandler dlhand  = new DownloadHandler();
-				if(DisplayWidget.this instanceof CertificateWidget |
-					DisplayWidget.this instanceof RoaWidget){
+				if(DisplayWidget.this instanceof RoaWidget){
 					dlhand.sendDownload(obj);
 				}
 				
@@ -100,6 +100,17 @@ public abstract class DisplayWidget extends Composite {
 					if(obj instanceof CertificateObject)
 						dlhand.sendDownload(((CertificateObject)obj).getCrl());
 				}
+				
+				if(DisplayWidget.this instanceof CertificateWidget){
+					
+					if(obj instanceof RoaObject){
+						dlhand.sendDownload(((RoaObject)obj).getEeCert());
+					} else {
+						dlhand.sendDownload(obj);
+					}
+				}
+				
+				
 			}
 		});
 	}

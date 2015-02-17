@@ -64,7 +64,7 @@ public class BrowserApplicationConfiguration implements
 		new Thread(new ModelUpdater(context)).start();
 		Map<String, String> properties = new HashMap<String, String>();
 		
-		properties.put( WebClient.THEME_ID, "fancy" );
+		properties.put( WebClient.THEME_ID, "miro" );
 		properties.put(WebClient.PAGE_TITLE, "Resource Certificate Monitor");
 		application.addEntryPoint("/", ClientEntryPoint.class,
 				properties);
