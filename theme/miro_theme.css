@@ -1,0 +1,26 @@
+Link-Hyperlink {
+	color: #FFFFFF;
+}
+
+
+Label.heading {
+	color: #FFFFFF;
+	font: 24px Verdana;
+}
+
+
+Composite.browserCoolbar {
+	background-color: #E6E6E6;
+}
+
+Composite.header {
+	background-color: #31619C;
+}
+
+Composite.statsWidget {
+	background-color:#E6E6E6;
+}
+
+Link-Hyperlink.browserLink {
+	color: #31619C;
+}

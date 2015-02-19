@@ -234,7 +234,7 @@ public class ModelUpdater implements Runnable {
 		
 		ResourceCertificateTreeValidator treeValidator = new ResourceCertificateTreeValidator(inputPath);
 		try {
-//			FileUtils.cleanDirectory(new File(inputPath));
+			FileUtils.cleanDirectory(new File(inputPath));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

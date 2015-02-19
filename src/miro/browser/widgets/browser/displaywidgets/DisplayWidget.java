@@ -33,6 +33,7 @@ import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
@@ -78,6 +79,7 @@ public abstract class DisplayWidget extends Composite {
 		title.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
 		
 		Link download = new Link(titleBar, SWT.NONE);
+		download.setData(RWT.CUSTOM_VARIANT,"browserLink");
 		download.setText("<a>ASCII download</a>");
 		download.addListener(SWT.Selection, new Listener() {
 			
