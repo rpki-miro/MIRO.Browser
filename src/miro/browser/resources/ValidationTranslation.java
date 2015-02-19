@@ -33,7 +33,7 @@ public class ValidationTranslation {
 				line = bufferedReader.readLine();
 			}
 			bufferedReader.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

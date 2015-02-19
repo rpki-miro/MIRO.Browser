@@ -6,8 +6,6 @@
       <plugin id="MIRO.Browser"/>
       <plugin id="MIRO.Dependencies"/>
       <plugin id="MIRO.Reader"/>
-      <plugin id="MIRO.RepoReader"/>
-      <plugin id="MIRO.Stats"/>
       <plugin id="MIRO.Validator"/>
       <plugin id="com.google.gson"/>
       <plugin id="com.ibm.icu.base"/>
@@ -53,8 +51,6 @@
       <plugin id="MIRO.Browser" autoStart="true" startLevel="0" />
       <plugin id="MIRO.Dependencies" autoStart="true" startLevel="0" />
       <plugin id="MIRO.Reader" autoStart="true" startLevel="0" />
-      <plugin id="MIRO.RepoReader" autoStart="true" startLevel="0" />
-      <plugin id="MIRO.Stats" autoStart="true" startLevel="0" />
       <plugin id="MIRO.Validator" autoStart="true" startLevel="0" />
       <plugin id="com.google.gson" autoStart="true" startLevel="0" />
       <plugin id="com.ibm.icu.base" autoStart="true" startLevel="0" />

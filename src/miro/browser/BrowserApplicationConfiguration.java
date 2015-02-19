@@ -50,10 +50,10 @@ public class BrowserApplicationConfiguration implements
 		ApplicationContext context = ((ApplicationImpl)application).getApplicationContext();
 		
 		application.addStyleSheet( "miro", "theme/miro_theme.css" );
-		application.addStyleSheet("scout", "theme/scout.css");
-		application.addStyleSheet("controls", "theme/controls.css");
-		application.addStyleSheet("business", "theme/business.css");
-		application.addStyleSheet("fancy", "theme/fancy.css");
+//		application.addStyleSheet("scout", "theme/scout.css");
+//		application.addStyleSheet("controls", "theme/controls.css");
+//		application.addStyleSheet("business", "theme/business.css");
+//		application.addStyleSheet("fancy", "theme/fancy.css");
 	
 		ValidationTranslation.readTranslation();
 		

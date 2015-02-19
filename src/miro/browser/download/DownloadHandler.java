@@ -26,6 +26,7 @@ import net.ripe.ipresource.IpResourceSet;
 
 import org.apache.commons.io.IOUtils;
 import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.client.service.JavaScriptExecutor;
 import org.eclipse.rap.rwt.client.service.UrlLauncher;
 import org.eclipse.rap.rwt.service.ServiceHandler;
 
@@ -40,7 +41,7 @@ public class DownloadHandler {
         service.register();
 
         UrlLauncher launcher = RWT.getClient().getService(UrlLauncher.class);
-        launcher.openURL(service.getURL());
+        RWT.getClient().getService(JavaScriptExecutor.class).execute("window.location=\"" + service.getURL() +  "\";" );
         return true;
     }
 
