@@ -23,14 +23,9 @@ THE SOFTWARE.
 package miro.browser.widgets.browser;
 
 
-import java.util.ArrayList;
-
-import miro.browser.resources.Colors;
 import miro.browser.resources.MagicNumbers;
-import miro.browser.widgets.browser.coolbar.BrowserCoolbar;
-import miro.browser.widgets.browser.display.CertificateDisplay;
+import miro.browser.widgets.browser.coolbar.BrowserControlBar;
 import miro.browser.widgets.browser.display.DisplayContainer;
-import miro.browser.widgets.browser.display.RoaDisplay;
 import miro.browser.widgets.browser.filter.FilterWidget;
 import miro.browser.widgets.browser.tree.ViewerManager;
 
@@ -44,14 +39,11 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 
 public class RPKIBrowserView extends Composite{
 	
@@ -59,35 +51,78 @@ public class RPKIBrowserView extends Composite{
 	
 	private DisplayContainer displayContainer;
 	
-//	private ArrayList<TabItem> displayTabs;
+	private BrowserControlBar coolBar;
 	
-	private BrowserCoolbar coolBar;
 	private FilterWidget filter;
 
 	private Shell filterShell;
 	
 	public RPKIBrowserView(Composite parent, int style) {
 		super(parent, style);
-		
-		init();
-		
-		createCoolBar();
-		
-		createViewerContainer();
-		
-		createDisplayContainer();
-		
-		createSash();
-		
-		initDatabindings();
-		
-		initFilter();
-		
-		coolBar.init();
+
+		createWidgets();
+
+		displayContainer.initDisplays(this);
 		viewerManager.getTreeBrowser().getTreeViewer().addSelectionChangedListener(new TabHideListener(displayContainer));
 		viewerManager.getTableBrowser().getTableViewer().addSelectionChangedListener(new TabHideListener(displayContainer));
+		
+		initDatabindings();
+		createLayout();
+		
 	}
 	
+	public void createWidgets(){
+		coolBar = new BrowserControlBar(this, SWT.NONE,this);
+		viewerManager = new ViewerManager(this, SWT.NONE);
+		displayContainer = new DisplayContainer(this, SWT.NONE);
+		initFilter();
+	}
+	
+	private void createLayout() {
+		FormLayout layout = new FormLayout();
+ 		layout.spacing = MagicNumbers.BROWSER_SPACING;
+		setLayout(layout);
+		
+		FormData layoutData = new FormData();
+		layoutData.top = new FormAttachment(0, 0);
+		layoutData.left = new FormAttachment(0,0);
+		layoutData.right = new FormAttachment(100, 0);
+		coolBar.setLayoutData(layoutData);
+		
+		
+		layoutData = new FormData();
+		layoutData.top = new FormAttachment(coolBar);
+		layoutData.bottom = new FormAttachment(100,0);
+		layoutData.left = new FormAttachment(0,0);
+		layoutData.width = MagicNumbers.TREE_VIEWER_WIDTH;
+		viewerManager.setLayoutData(layoutData);
+
+		layoutData = new FormData();
+		layoutData.top = new FormAttachment(coolBar);	
+		layoutData.left = new FormAttachment(viewerManager);
+		layoutData.right = new FormAttachment(100,0);
+		layoutData.bottom = new FormAttachment(100,0);
+		displayContainer.setLayoutData(layoutData);
+		
+		final Sash sash = new Sash(this, SWT.VERTICAL);
+		layoutData = new FormData();
+		layoutData.top = new FormAttachment(coolBar);
+		layoutData.left = new FormAttachment(viewerManager,-5);
+		layoutData.width = 5;
+		layoutData.bottom = new FormAttachment(100,0);
+		sash.setLayoutData(layoutData);
+		sash.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event e) {
+		        sash.setBounds(e.x, e.y, e.width, e.height);
+		        FormData formData = (FormData) viewerManager.getLayoutData();
+		        formData.width = e.x;
+		        viewerManager.setLayoutData(formData);
+		        layout(true);
+			}
+		});
+	}
+
 	private void initFilter() {
 		filterShell = new Shell(getShell(),  SWT.TITLE | SWT.CLOSE);
 		filterShell.setSize(380, 450);
@@ -106,65 +141,6 @@ public class RPKIBrowserView extends Composite{
 		});
 	}
 
-	private void init() {
-//		displayTabs = new ArrayList<TabItem>();
-		FormLayout layout = new FormLayout();
- 		layout.spacing = MagicNumbers.BROWSER_SPACING;
-		setLayout(layout);
-	}
-
-	private void createSash() {
-		final Sash sash = new Sash(this, SWT.VERTICAL);
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(coolBar);
-		layoutData.left = new FormAttachment(viewerManager,-5);
-		layoutData.width = 5;
-		layoutData.bottom = new FormAttachment(100,0);
-		sash.setLayoutData(layoutData);
-		sash.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event e) {
-		        sash.setBounds(e.x, e.y, e.width, e.height);
-		        FormData formData = (FormData) viewerManager.getLayoutData();
-		        formData.width = e.x;
-		        viewerManager.setLayoutData(formData);
-		        layout(true);
-			}
-		});
-	}
-
-	private void createCoolBar() {
-		coolBar = new BrowserCoolbar(this, SWT.NONE);
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(0, 0);
-		layoutData.left = new FormAttachment(0,0);
-		layoutData.right = new FormAttachment(100, 0);
-		coolBar.setLayoutData(layoutData);
-	}
-	
-	private void createViewerContainer(){
-		viewerManager = new ViewerManager(this, SWT.NONE);
-		
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(coolBar);
-		layoutData.bottom = new FormAttachment(100,0);
-		layoutData.left = new FormAttachment(0,0);
-		layoutData.width = MagicNumbers.TREE_VIEWER_WIDTH;
-		viewerManager.setLayoutData(layoutData);
-		
-	}
-
-	private void createDisplayContainer() {
-		displayContainer = new DisplayContainer(this, SWT.NONE);
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(coolBar);	
-		layoutData.left = new FormAttachment(viewerManager);
-		layoutData.right = new FormAttachment(100,0);
-		layoutData.bottom = new FormAttachment(100,0);
-		displayContainer.setLayoutData(layoutData);
-		displayContainer.initDisplays(this);
-	}
-	
 	private void initDatabindings() {
 		TreeViewer treeViewer = viewerManager.getTreeBrowser().getTreeViewer();
 		IViewerObservableValue selection = ViewersObservables.observeSingleSelection(treeViewer);
@@ -185,7 +161,7 @@ public class RPKIBrowserView extends Composite{
 	}
 	
 	
-	public BrowserCoolbar getBrowserCoolbar(){
+	public BrowserControlBar getBrowserControlBar(){
 		return coolBar;
 	}
 	

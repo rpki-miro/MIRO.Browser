@@ -22,69 +22,64 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.coolbar;
 
+import java.util.Arrays;
+
+import miro.browser.updater.ModelObserver;
 import miro.browser.updater.ModelUpdater;
+import miro.browser.updater.ObserverType;
 import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.browser.widgets.browser.tree.ViewerManager;
+import miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
-public class BrowserCoolbar extends Composite {
+public class BrowserControlBar extends Composite implements ModelObserver {
 
 	private RPKIBrowserView browser;
 	
 	private ToolBar toolbar;
 	
-	private RepoChooser repoChooser;
+	private CCombo dropDown;
 	
-	private UpdateTimestamp updateTime;
+	private Label updateTimestamp;
 	
-	public BrowserCoolbar(Composite parent, int style) {
+	public BrowserControlBar(Composite parent, int style, RPKIBrowserView b) {
 		super(parent, style);
-		browser = (RPKIBrowserView) parent;
-	}
-
-	public void init(){
-		setBackgroundMode(SWT.INHERIT_FORCE);
 		setData(RWT.CUSTOM_VARIANT, "browserCoolbar");
+		ModelUpdater.addObserver(this, ObserverType.MODEL);
+		browser = b; 
 		
-		FormLayout layout = new FormLayout();
-		setLayout(layout);
-
-		
+		createWidgets();
 		initToolbar();
-		initRepoChooser();
-		initFilterControl();
-		initUpdateTime();
-		
-		/* See if names are loaded, if so display them */
-    	String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
-    	if(names != null){
-    		repoChooser.updateDropDown(names);
-    	}
+		createLayout();
 	}
 	
-	private void initToolbar(){
+	public void createWidgets(){
 		toolbar = new ToolBar(this, SWT.NONE);
-		FormData layoutData = new FormData();
-		layoutData.left = new FormAttachment(0,0);
-		toolbar.setLayoutData(layoutData);
+		dropDown = new CCombo(toolbar, SWT.READ_ONLY | SWT.FLAT);
+		updateTimestamp = new Label(this, SWT.NONE);
 	}
 	
-	private void initFilterControl(){
+	
+	/**
+	 * Creates the ToolItems contained by the ToolBar including their various handlers
+	 */
+	private void initToolbar(){
 		ToolItem filterItem = new ToolItem(toolbar, SWT.PUSH);
 		filterItem.setText("Show Filter");
 		filterItem.addListener(SWT.Selection, new Listener() {
-			
 			@Override
 			public void handleEvent(Event event) {
 				browser.showFilter();
@@ -120,7 +115,7 @@ public class BrowserCoolbar extends Composite {
 		});
 		
 		ToolItem toggleViewerItem = new ToolItem(toolbar, SWT.CHECK);
-		toggleViewerItem.setText("Show table viewer");
+		toggleViewerItem.setText("Show List View");
 		toggleViewerItem.addListener(SWT.Selection, new Listener() {
 			
 			@Override
@@ -137,28 +132,99 @@ public class BrowserCoolbar extends Composite {
 			}
 		});
 		
+		
+		/* A separator item can hold a CCombo */
 		ToolItem sep = new ToolItem(toolbar, SWT.SEPARATOR);
-		sep.setControl(repoChooser.getDropDown());
+		sep.setControl(dropDown);
 		sep.setWidth(200);
+		dropDown.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event e) {
+				
+				/* Find the selected model name */
+				CCombo combo = (CCombo) e.widget;
+				int selection = combo.getSelectionIndex();
+				if(selection == -1){
+					return;
+				}
+				String selectedName = combo.getItem(selection);
+				
+				
+				/* Get the corresponding model and set as input*/
+				ResourceCertificateTree certTree = (ResourceCertificateTree) RWT.getApplicationContext().getAttribute(selectedName);
+				browser.getViewerContainer().setViewerInput(certTree);
+				
+				updateTimestamp.setText(certTree.getTimeStamp());
+				layout();
+			}
+		});
+
+		/* See if names are loaded, if so display them */
+		String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
+		if(names != null){
+			updateDropDown(names);
+		}
 	}
-	
-	private void initRepoChooser() {
-		repoChooser = new RepoChooser(toolbar, SWT.NONE, browser);
-	}
-	
-	private void initUpdateTime() {
-		updateTime = new UpdateTimestamp(this, SWT.NONE);
+
+	private void createLayout() {
+		FormLayout layout = new FormLayout();
+		setLayout(layout);
+
 		FormData layoutData = new FormData();
+		layoutData.left = new FormAttachment(0,0);
+		toolbar.setLayoutData(layoutData);
+		
+		layoutData = new FormData();
 		layoutData.right = new FormAttachment(100,0);
 		layoutData.bottom = new FormAttachment(100,0);
-		updateTime.setLayoutData(layoutData);
+		updateTimestamp.setLayoutData(layoutData);
+	}
+
+	/**
+	 * Changes the entries displayed by dropDown to modelNames. Tries to maintain selection
+	 * in case the old selection is contained within modelNames 
+	 * @param modelNames The new items to display
+	 */
+	public void updateDropDown(String[] modelNames){
+		String[] names = modelNames;
+    	if(names.length == 0){
+    		dropDown.setItems(names);
+    		dropDown.notifyListeners(SWT.Selection, new Event());
+    		return;
+    	}
+    	
+    	int selectIndex = dropDown.getSelectionIndex();
+    	String currentSelection = selectIndex != -1 ? dropDown.getItem(selectIndex) : names[0];
+    	
+    	Arrays.sort(names);
+    	dropDown.setItems(names);
+    	
+    	for(int i = 0;i<dropDown.getItemCount();i++){
+    		if(dropDown.getItem(i).equals(currentSelection)){
+    			dropDown.select(i);
+    			break;
+    		}	
+    	}
+    	dropDown.notifyListeners(SWT.Selection, new Event());
 	}
 	
-	public UpdateTimestamp getUpdateTimestamp(){
-		return updateTime;
-	}
-	
-	public RepoChooser getRepoChooser() {
-		return repoChooser;
+
+	@Override
+	public void notifyModelChange() {
+		if(isDisposed()){
+			ModelUpdater.removeObserver(this, ObserverType.MODEL);
+			return;
+		}
+		
+		//We have to run this as an asyncExec, so the SWT UI thread can do the update.
+		//We cannot do the update in this thread, since that breaks the SWT thread model
+		//(only SWT UI thread is allowed to make UI changes)
+		this.getDisplay().asyncExec(new Runnable() {
+		    public void run() {
+		    	String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
+		    	updateDropDown(names);
+		    	layout();
+		    }
+		});
 	}
 }

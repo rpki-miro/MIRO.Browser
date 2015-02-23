@@ -32,9 +32,6 @@ public class DisplayContainer extends TabFolder{
 		certificateDisplay.bindToResourceHolder(selection, dbc);
 		roaDisplay.bindToResourceHolder(selection, dbc);
 	}
-//	public ArrayList<TabItem> getTabs(){
-//		return displayTabs;
-//	}
 
 	public CertificateDisplay getCertificateDisplay() {
 		return certificateDisplay;
@@ -43,9 +40,6 @@ public class DisplayContainer extends TabFolder{
 	public RoaDisplay getRoaDisplay() {
 		return roaDisplay;
 	}
-//	public void addTab(TabItem tab){
-//		displayTabs.add(tab);
-//	}
 
 	public void clearTabs() {
 		for(TabItem tab : getItems()){
