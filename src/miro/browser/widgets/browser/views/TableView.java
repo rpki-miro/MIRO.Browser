@@ -38,8 +38,6 @@ import org.eclipse.swt.widgets.TableItem;
 public class TableView extends Composite implements View{
 	
 	private TableViewer tableViewer;
-	
-	private Table table;
 
 	public TableView(Composite parent, int style) {
 		super(parent, style);
@@ -47,15 +45,10 @@ public class TableView extends Composite implements View{
 		tableViewer = new TableViewer(this,SWT.VIRTUAL);
 		tableViewer.setLabelProvider(new ViewLabelProvider());
 		tableViewer.setContentProvider(new TableViewContentProvider());
-		table = tableViewer.getTable();
 	}
 
 	public TableViewer getTableViewer() {
 		return tableViewer;
-	}
-
-	public Table getTable() {
-		return table;
 	}
 
 	public void setSelection(ResourceHoldingObject obj) {
@@ -66,11 +59,8 @@ public class TableView extends Composite implements View{
 
 	@Override
 	public ResourceHoldingObject getSelection() {
-		if(table.getSelectionCount() > 0) {
-			TableItem item = table.getSelection()[0];
-			return (ResourceHoldingObject) item.getData();
-		}
-		return null;
+		StructuredSelection selection = (StructuredSelection) tableViewer.getSelection();
+		return (ResourceHoldingObject) selection.getFirstElement();
 	}
 
 	@Override

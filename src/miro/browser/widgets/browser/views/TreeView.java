@@ -40,8 +40,6 @@ import org.eclipse.swt.widgets.TreeItem;
 
 
 public class TreeView extends Composite implements View{
-	
-	private Tree tree;
 
 	private TreeViewer treeViewer;
 	
@@ -54,7 +52,7 @@ public class TreeView extends Composite implements View{
 	private void init() {
 		setLayout(new FillLayout());
 
-		tree = new Tree(this, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL |  SWT.BORDER);
+		Tree tree = new Tree(this, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL |  SWT.BORDER);
 		treeViewer = new TreeViewer(tree);	
 		
 		ViewLabelProvider label_provider = new ViewLabelProvider();
@@ -69,11 +67,6 @@ public class TreeView extends Composite implements View{
 	public void setSelection(ResourceHoldingObject obj) {
 		treeViewer.setSelection(new StructuredSelection(obj));
 		treeViewer.reveal(obj);
-		
-	}
-	
-	public Tree getTree(){
-		return tree;
 	}
 	
 	public TreeViewer getTreeViewer(){
@@ -82,11 +75,8 @@ public class TreeView extends Composite implements View{
 
 	@Override
 	public ResourceHoldingObject getSelection() {
-		if(tree.getSelectionCount() > 0){
-			TreeItem item = tree.getSelection()[0];
-			return (ResourceHoldingObject) item.getData();
-		}
-		return null;
+		StructuredSelection selection = (StructuredSelection) treeViewer.getSelection();
+		return (ResourceHoldingObject) selection.getFirstElement();
 	}
 
 	@Override
