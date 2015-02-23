@@ -42,7 +42,6 @@ public class ValidationStatusFilter implements ResourceHoldingObjectFilter{
 		if(filteredStats.contains(status)){
 			selected = true;
 		}
-
 		return selected; 
 	}
 

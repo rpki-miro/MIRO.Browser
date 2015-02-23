@@ -45,7 +45,6 @@ public class ValidationStatusFilterOption extends Composite implements FilterOpt
 	public ValidationStatusFilterOption(Composite parent, int style) {
 		super(parent, style);
 		init();
-		
 		initButtons();
 	}
 

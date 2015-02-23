@@ -47,9 +47,7 @@ public class FileTypeFilterOption extends RadioButtonContainer implements Filter
 	
 	public FileTypeFilterOption(Composite parent, int style) {
 		super(parent, style);
-		
 		init();
-		
 		initButtons();
 	}
 
@@ -79,7 +77,6 @@ public class FileTypeFilterOption extends RadioButtonContainer implements Filter
 		roaButton.setLayoutData(rowData);
 		roaButton.addListener(SWT.Selection, new SelectedButtonListener());
 		roaButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.ROA_FILES);
-		
 	}
 
 	private void init() {

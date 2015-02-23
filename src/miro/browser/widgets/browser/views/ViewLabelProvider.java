@@ -84,20 +84,22 @@ public class ViewLabelProvider extends CellLabelProvider{
 	
 	private void setBackgroundColor(ViewerCell cell, ResourceHoldingObject obj) {
 		if(viewer != null){
-			HashMap<ResourceHoldingObject, Boolean> marked = (HashMap<ResourceHoldingObject, Boolean>) viewer.getData("MARKED");
-			boolean isMarked;
-			
-			if(marked == null){
-				isMarked = false;
-			} else {
-				isMarked = marked.get(obj) == null ? false : marked.get(obj);
-			}
-			
-			Color bg = isMarked ? Colors.DARK_GREY : null;
+			Color bg = isMarked(obj) ? Colors.DARK_GREY : null;
 			if (cell.getViewerRow().getItem() instanceof TreeItem) {
 				TreeItem item = (TreeItem) cell.getViewerRow().getItem();
 				item.setBackground(bg);
 			}
 		}
+	}
+	
+	public boolean isMarked(ResourceHoldingObject obj){
+		HashMap<ResourceHoldingObject, Boolean> marked = (HashMap<ResourceHoldingObject, Boolean>) viewer.getData("MARKED");
+		boolean isMarked;
+		if (marked == null) {
+			isMarked = false;
+		} else {
+			isMarked = marked.get(obj) == null ? false : marked.get(obj);
+		}
+		return isMarked;
 	}
 }

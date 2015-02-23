@@ -28,12 +28,8 @@ import java.util.List;
 import miro.browser.resources.Fonts;
 import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
 import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
-import miro.browser.widgets.browser.views.ViewLabelProvider;
 import miro.browser.widgets.browser.views.ViewManager;
-import miro.browser.widgets.browser.views.View.ViewType;
 
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -47,70 +43,83 @@ import org.eclipse.swt.widgets.Listener;
 
 public class FilterWidget extends Composite{
 
-	private Label header;
-
-	private Label attributeLabel;
 	private AttributeFilterOption attributeOption;
 	
-	private Label filetypeLabel;
 	private FileTypeFilterOption filetypeOption;
 	
-	private Label validationStatusLabel;
 	private ValidationStatusFilterOption validationStatusOption;
-	
-	private Button applyFilterBtn;
 	
 	private ViewManager viewerContainer;
 
 	public FilterWidget(Composite parent, int style, ViewManager treeCont) {
 		super(parent, style);
 		viewerContainer = treeCont;
-		init();
-		initHeader();
-
-		initAttributeLabel();
-		initAttributeOption();
-
-		initFileTypeLabel();
-		initFileTypeOption();
-		
-		initValidationStatusLabel();
-		initValidationStatusOption();
-		
-		initApplyButton();
+		createWidgets();
+		createLayout();
 	}
 	
-	private void initValidationStatusLabel() {
-		validationStatusLabel = new Label(this, SWT.NONE);
-		validationStatusLabel.setText("Select Validation Status:");
-		validationStatusLabel.setFont(Fonts.SMALL_HEADER_FONT);
+	private void createLayout() {
+		FormLayout layout = new FormLayout();
+		layout.marginHeight = 10;
+		layout.marginWidth = 10;
+		setLayout(layout);
 		
+		Label header = new Label(this, SWT.NONE);
+		header.setText("Filter Options");
+		header.setFont(Fonts.MEDIUM_HEADER_FONT);
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(filetypeOption,15);
+		layoutData.top = new FormAttachment(0,0);
 		layoutData.left = new FormAttachment(0,0);
-		validationStatusLabel.setLayoutData(layoutData);
+		header.setLayoutData(layoutData);
 		
-	}
-
-	private void initFileTypeLabel() {
-		filetypeLabel = new Label(this, SWT.NONE);
+		/*Attribute options*/
+		Label attributeLabel = new Label(this, SWT.NONE);
+		attributeLabel.setText("Choose filter attribute:");
+		attributeLabel.setFont(Fonts.SMALL_HEADER_FONT);
+		layoutData = new FormData();
+		layoutData.top = new FormAttachment(header,15);
+		layoutData.left = new FormAttachment(0,0);
+		attributeLabel.setLayoutData(layoutData);
+		
+		layoutData = new FormData();
+		layoutData.top = new FormAttachment(attributeLabel);
+		layoutData.left = new FormAttachment(0,0);
+		attributeOption.setLayoutData(layoutData);
+		
+		/*Filetype Options*/
+		Label filetypeLabel = new Label(this, SWT.NONE);
 		filetypeLabel.setText("Select File Type:");
 		filetypeLabel.setFont(Fonts.SMALL_HEADER_FONT);
-		
-		FormData layoutData = new FormData();
+		layoutData = new FormData();
 		layoutData.top = new FormAttachment(attributeOption,15);
 		layoutData.left = new FormAttachment(0,0);
 		filetypeLabel.setLayoutData(layoutData);
-	}
-
-	private void initApplyButton() {
-		applyFilterBtn = new Button(this, SWT.PUSH);
-		applyFilterBtn.setText("Apply Filter");
 		
-		FormData layoutData = new FormData();
+		layoutData = new FormData();
+		layoutData.top = new FormAttachment(filetypeLabel);
+		layoutData.left = new FormAttachment(0,0);
+		filetypeOption.setLayoutData(layoutData);
+	
+		/*Validation Status Options*/
+		Label validationStatusLabel = new Label(this, SWT.NONE);
+		validationStatusLabel.setText("Select Validation Status:");
+		validationStatusLabel.setFont(Fonts.SMALL_HEADER_FONT);
+		layoutData = new FormData();
+		layoutData.top = new FormAttachment(filetypeOption,15);
+		layoutData.left = new FormAttachment(0,0);
+		validationStatusLabel.setLayoutData(layoutData);
+
+		layoutData = new FormData();
+		layoutData.top = new FormAttachment(validationStatusLabel);
+		layoutData.left = new FormAttachment(0,0); 
+		validationStatusOption.setLayoutData(layoutData);
+		
+		/*Buttons*/
+		Button applyFilterBtn = new Button(this, SWT.PUSH);
+		applyFilterBtn.setText("Apply Filter");
+		layoutData = new FormData();
 		layoutData.bottom = new FormAttachment(100,0);
 		layoutData.right = new FormAttachment(100,0);
-		
 		applyFilterBtn.setLayoutData(layoutData);
 		applyFilterBtn.addListener(SWT.Selection, new Listener() {
 			
@@ -123,11 +132,9 @@ public class FilterWidget extends Composite{
 				
 				ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter(false);
 				treeFilter.addFilters(filters);
-				
 				viewerContainer.setViewerFilters(new ViewerFilter[]{treeFilter});
 			}
 		});
-		
 		
 		Button clearFilter = new Button(this, SWT.PUSH);
 		clearFilter.setText("Clear");
@@ -135,7 +142,6 @@ public class FilterWidget extends Composite{
 		layoutData.right = new FormAttachment(applyFilterBtn, -10);
 		layoutData.bottom = new FormAttachment(100,0);
 		clearFilter.setLayoutData(layoutData);
-		
 		clearFilter.addListener(SWT.Selection, new Listener() {
 			
 			@Override
@@ -145,76 +151,16 @@ public class FilterWidget extends Composite{
 		});
 	}
 
+	private void createWidgets() {
+		filetypeOption = new FileTypeFilterOption(this, SWT.NONE);
+		attributeOption = new AttributeFilterOption(this, SWT.NONE);
+		validationStatusOption = new ValidationStatusFilterOption(this, SWT.NONE);
+	}
+
 	public void clearSelection(){
 		attributeOption.clearSelection();
 		filetypeOption.clearSelection();
 		validationStatusOption.clearSelection();
 		viewerContainer.resetViewerFilters();
 	}
-	
-	private void initHeader() {
-		header = new Label(this, SWT.NONE);
-		header.setText("Filter Options");
-		header.setFont(Fonts.MEDIUM_HEADER_FONT);
-		
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(0,0);
-		layoutData.left = new FormAttachment(0,0);
-		
-		header.setLayoutData(layoutData);
-	}
-
-	private void initAttributeLabel() {
-		attributeLabel = new Label(this, SWT.NONE);
-		attributeLabel.setText("Choose filter attribute:");
-		attributeLabel.setFont(Fonts.SMALL_HEADER_FONT);
-		
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(header,15);
-		layoutData.left = new FormAttachment(0,0);
-		attributeLabel.setLayoutData(layoutData);
-		
-	}
-	
-	private void initAttributeOption() {
-		
-		attributeOption = new AttributeFilterOption(this, SWT.NONE);
-		
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(attributeLabel);
-		layoutData.left = new FormAttachment(0,0);
-		
-		attributeOption.setLayoutData(layoutData);
-		
-	}
-
-	private void initFileTypeOption() {
-		filetypeOption = new FileTypeFilterOption(this, SWT.NONE);
-		
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(filetypeLabel);
-		layoutData.left = new FormAttachment(0,0);
-		
-		filetypeOption.setLayoutData(layoutData);
-	}
-	
-	private void initValidationStatusOption() {
-		validationStatusOption = new ValidationStatusFilterOption(this, SWT.NONE);
-		
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(validationStatusLabel);
-		layoutData.left = new FormAttachment(0,0); 
-		
-		validationStatusOption.setLayoutData(layoutData);
-	}
-	
-	private void init() {
-		FormLayout layout = new FormLayout();
-		layout.marginHeight = 10;
-		layout.marginWidth = 10;
-		setLayout(layout);
-	}
-
-	
-
 }

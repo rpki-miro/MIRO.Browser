@@ -57,7 +57,6 @@ public class FilterSearchField extends Composite {
 		searchFor.setText("Search for:");
 		searchFor.setFont(Fonts.STANDARD_FONT);
 		FormData formData = new FormData();
-//		formData.top = 	new FormAttachment(0,0);
 		formData.bottom = new FormAttachment(100,0);	
 		formData.left = new FormAttachment(0,0);
 		searchFor.setLayoutData(formData);
@@ -81,7 +80,6 @@ public class FilterSearchField extends Composite {
 	public Text getSearchText(){
 		return searchText;
 	}
-	
 	
 	public void clearSelection(){
 		searchText.setText("");

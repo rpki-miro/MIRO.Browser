@@ -67,10 +67,8 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 
 	public boolean getSelectResult(boolean selected, Viewer viewer, ResourceHoldingObject obj) {
 		if (selected) {
-			if(viewer instanceof TreeViewer){
-				HashMap<ResourceHoldingObject, Boolean> marked = (HashMap<ResourceHoldingObject, Boolean>) viewer.getData("MARKED");
-				marked.put(obj, true);
-			}
+			if(viewer instanceof TreeViewer)
+				markObject(obj, viewer);
 			return selected;
 		} else {
 			if(viewer instanceof TableViewer)
@@ -91,4 +89,11 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 		}
 		return false;
 	}
+	
+	private void markObject(ResourceHoldingObject obj,Viewer v){
+		HashMap<ResourceHoldingObject, Boolean> marked = (HashMap<ResourceHoldingObject, Boolean>)v.getData("MARKED");
+		marked.put(obj, true);
+	}
+	
+	
 }

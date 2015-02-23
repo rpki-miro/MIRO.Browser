@@ -136,13 +136,11 @@ public class RPKIBrowser extends Composite{
 		filter = new FilterWidget(filterShell, SWT.NONE, viewerManager);
 		filterShell.layout();
 		filterShell.addListener(SWT.Close, new Listener() {
-			
 			@Override
 			public void handleEvent(Event event) {
 				Shell s = (Shell) event.widget;
 				s.setVisible(false);
 				event.doit = false;
-				
 			}
 		});
 	}

@@ -52,7 +52,6 @@ public class AttributeFilterOption extends RadioButtonContainer implements Filte
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
 		setLayout(layout);
-		
 	}
 	
 	private void initSearchField() {
