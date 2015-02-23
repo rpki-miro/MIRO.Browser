@@ -29,7 +29,6 @@ import miro.browser.widgets.ContentContainer;
 import miro.browser.widgets.browser.RPKIBrowser;
 import miro.browser.widgets.header.HeaderBar;
 import miro.browser.widgets.header.LinkContainer;
-import miro.browser.widgets.query.QueryWidget;
 
 import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.swt.SWT;

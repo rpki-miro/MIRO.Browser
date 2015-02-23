@@ -23,7 +23,6 @@ THE SOFTWARE.
 package miro.browser.widgets;
 
 import miro.browser.widgets.browser.RPKIBrowser;
-import miro.browser.widgets.query.QueryWidget;
 import miro.browser.widgets.stats.StatsView;
 
 import org.eclipse.swt.SWT;
