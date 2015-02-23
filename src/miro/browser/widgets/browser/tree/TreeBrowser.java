@@ -22,12 +22,17 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree;
 
+import java.util.HashMap;
+
 import miro.browser.provider.CertificateTreeContentProvider;
 import miro.browser.provider.CertificateTreeLabelProvider;
+import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -58,6 +63,7 @@ public class TreeBrowser extends Composite implements ViewerContainer{
 		CertificateTreeContentProvider content_provider = new CertificateTreeContentProvider();
 		treeViewer.setContentProvider(content_provider);
 		treeViewer.setLabelProvider(label_provider);
+		label_provider.setViewer(treeViewer);
 		
 		tree.setData(RWT.MARKUP_ENABLED,Boolean.TRUE);
 		
@@ -84,6 +90,44 @@ public class TreeBrowser extends Composite implements ViewerContainer{
 			return (ResourceHoldingObject) item.getData();
 		}
 		return null;
+	}
+
+	@Override
+	public ViewerType getType() {
+		return ViewerType.TREE;
+	}
+
+	@Override
+	public void setInput(ResourceCertificateTree tree) {
+		treeViewer.setInput(tree);
+		treeViewer.refresh();
+	}
+
+	@Override
+	public ViewerFilter[] getFilters() {
+		return treeViewer.getFilters();
+	}
+
+	@Override
+	public void setFilters(ViewerFilter[] filters) {
+		treeViewer.setData("MARKED", new HashMap<ResourceHoldingObject, Boolean>());
+		treeViewer.setFilters(filters);
+	}
+
+	@Override
+	public void resetFilters() {
+		treeViewer.setData("MARKED", new HashMap<ResourceHoldingObject, Boolean>());
+		treeViewer.resetFilters();
+	}
+
+	@Override
+	public StructuredViewer getViewer() {
+		return treeViewer;
+	}
+
+	@Override
+	public ResourceCertificateTree getInput() {
+		return (ResourceCertificateTree) treeViewer.getInput();
 	}
 
 }

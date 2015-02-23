@@ -29,6 +29,8 @@ import java.util.List;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
@@ -36,14 +38,8 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 	
 	private List<ResourceHoldingObjectFilter> filters;
 	
-	private HashMap<String, Boolean> markedObjects;
-	
-	private boolean isTableViewer;
-	
 	public ResourceCertificateTreeFilter(boolean isTableView) {
 		filters = new ArrayList<ResourceHoldingObjectFilter>();
-		markedObjects = new HashMap<String, Boolean>();
-		isTableViewer = isTableView;
 	}
 
 	@Override
@@ -61,13 +57,6 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 		filters.addAll(fs);
 	}
 	
-	public boolean isMarked(ResourceHoldingObject obj) {
-		Boolean result = markedObjects.get(obj.getFilename());
-		result = result == null ? false : result;
-		return result;
-	}
-	
-	
 	public boolean matchesAll(ResourceHoldingObject obj){
 		boolean matches = true;
 		for(ResourceHoldingObjectFilter filter : filters){
@@ -78,10 +67,13 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 
 	public boolean getSelectResult(boolean selected, Viewer viewer, ResourceHoldingObject obj) {
 		if (selected) {
-			markedObjects.put(obj.getFilename(), true);
+			if(viewer instanceof TreeViewer){
+				HashMap<ResourceHoldingObject, Boolean> marked = (HashMap<ResourceHoldingObject, Boolean>) viewer.getData("MARKED");
+				marked.put(obj, true);
+			}
 			return selected;
 		} else {
-			if(isTableViewer)
+			if(viewer instanceof TableViewer)
 				return false;
 			else
 				return selectChildren(viewer, obj);

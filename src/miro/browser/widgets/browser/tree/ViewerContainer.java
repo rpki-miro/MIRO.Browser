@@ -22,6 +22,10 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree;
 
+import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
+
+import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 
 public interface ViewerContainer {
@@ -29,5 +33,23 @@ public interface ViewerContainer {
 	public void setSelection(ResourceHoldingObject obj);
 	
 	public ResourceHoldingObject getSelection();
+	
+	public ViewerType getType();
+
+	public void setInput(ResourceCertificateTree tree);
+
+	public ResourceCertificateTree getInput();
+	
+	public ViewerFilter[] getFilters();
+	
+	public void setFilters(ViewerFilter[] filters);
+
+	public void resetFilters();
+	
+	public StructuredViewer getViewer();
+
+	public enum ViewerType {
+		TREE, TABLE
+	}
 
 }

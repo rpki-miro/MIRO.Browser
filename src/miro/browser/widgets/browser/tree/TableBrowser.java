@@ -24,10 +24,13 @@ package miro.browser.widgets.browser.tree;
 
 import miro.browser.provider.CertificateTableContentProvider;
 import miro.browser.provider.CertificateTreeLabelProvider;
+import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -71,9 +74,40 @@ public class TableBrowser extends Composite implements ViewerContainer{
 		}
 		return null;
 	}
-	
 
-	
-	
+	@Override
+	public ViewerType getType() {
+		return ViewerType.TABLE;
+	}
 
+	@Override
+	public void setInput(ResourceCertificateTree tree) {
+		tableViewer.setInput(tree);
+		tableViewer.refresh();
+	}
+
+	@Override
+	public ViewerFilter[] getFilters() {
+		return tableViewer.getFilters();
+	}
+
+	@Override
+	public void setFilters(ViewerFilter[] filters) {
+		tableViewer.setFilters(filters);
+	}
+
+	@Override
+	public void resetFilters() {
+		tableViewer.resetFilters();
+	}
+
+	@Override
+	public StructuredViewer getViewer() {
+		return tableViewer;
+	}
+
+	@Override
+	public ResourceCertificateTree getInput() {
+		return (ResourceCertificateTree) tableViewer.getInput();
+	}
 }

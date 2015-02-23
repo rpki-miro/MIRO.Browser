@@ -23,6 +23,8 @@ THE SOFTWARE.
 package miro.browser.provider;
 
 
+import java.util.HashMap;
+
 import miro.browser.resources.Colors;
 import miro.browser.resources.Images;
 import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
@@ -31,6 +33,7 @@ import miro.validator.types.ValidationResults;
 import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
@@ -40,10 +43,10 @@ import org.eclipse.swt.widgets.TreeItem;
 
 public class CertificateTreeLabelProvider extends CellLabelProvider{
 
-	private ResourceCertificateTreeFilter filter;
+	private Viewer viewer;
 	
-	public void setFilter(ResourceCertificateTreeFilter f) {
-		filter = f;
+	public void setViewer(Viewer v){
+		viewer = v;
 	}
 	
 	public void update(ViewerCell cell) {
@@ -80,18 +83,21 @@ public class CertificateTreeLabelProvider extends CellLabelProvider{
 	}
 	
 	private void setBackgroundColor(ViewerCell cell, ResourceHoldingObject obj) {
-		Color bg;
-		bg = filter == null ? null : filter.isMarked(obj) ? Colors.DARK_GREY : null;
-		
-		
-		
-		if(cell.getViewerRow().getItem() instanceof TableItem){
-			TableItem item = (TableItem) cell.getViewerRow().getItem();
-			item.setBackground(bg);
-		}
-		if(cell.getViewerRow().getItem() instanceof TreeItem){
-			TreeItem item = (TreeItem) cell.getViewerRow().getItem();
-			item.setBackground(bg);
+		if(viewer != null){
+			HashMap<ResourceHoldingObject, Boolean> marked = (HashMap<ResourceHoldingObject, Boolean>) viewer.getData("MARKED");
+			boolean isMarked;
+			
+			if(marked == null){
+				isMarked = false;
+			} else {
+				isMarked = marked.get(obj) == null ? false : marked.get(obj);
+			}
+			
+			Color bg = isMarked ? Colors.DARK_GREY : null;
+			if (cell.getViewerRow().getItem() instanceof TreeItem) {
+				TreeItem item = (TreeItem) cell.getViewerRow().getItem();
+				item.setBackground(bg);
+			}
 		}
 	}
 }

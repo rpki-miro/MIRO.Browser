@@ -27,11 +27,13 @@ import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.coolbar.BrowserControlBar;
 import miro.browser.widgets.browser.display.DisplayContainer;
 import miro.browser.widgets.browser.filter.FilterWidget;
+import miro.browser.widgets.browser.tree.ViewerContainer.ViewerType;
 import miro.browser.widgets.browser.tree.ViewerManager;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -51,7 +53,7 @@ public class RPKIBrowserView extends Composite{
 	
 	private DisplayContainer displayContainer;
 	
-	private BrowserControlBar coolBar;
+	private BrowserControlBar controlBar;
 	
 	private FilterWidget filter;
 
@@ -63,17 +65,17 @@ public class RPKIBrowserView extends Composite{
 		createWidgets();
 
 		displayContainer.initDisplays(this);
-		viewerManager.getTreeBrowser().getTreeViewer().addSelectionChangedListener(new TabHideListener(displayContainer));
-		viewerManager.getTableBrowser().getTableViewer().addSelectionChangedListener(new TabHideListener(displayContainer));
+
+		viewerManager.getViewer(ViewerType.TREE).getViewer().addSelectionChangedListener(new TabHideListener(displayContainer));
+		viewerManager.getViewer(ViewerType.TABLE).getViewer().addSelectionChangedListener(new TabHideListener(displayContainer));
 		
 		initDatabindings();
 		createLayout();
-		
 	}
 	
 	public void createWidgets(){
-		coolBar = new BrowserControlBar(this, SWT.NONE,this);
 		viewerManager = new ViewerManager(this, SWT.NONE);
+		controlBar = new BrowserControlBar(this, SWT.NONE,this);
 		displayContainer = new DisplayContainer(this, SWT.NONE);
 		initFilter();
 	}
@@ -87,18 +89,18 @@ public class RPKIBrowserView extends Composite{
 		layoutData.top = new FormAttachment(0, 0);
 		layoutData.left = new FormAttachment(0,0);
 		layoutData.right = new FormAttachment(100, 0);
-		coolBar.setLayoutData(layoutData);
+		controlBar.setLayoutData(layoutData);
 		
 		
 		layoutData = new FormData();
-		layoutData.top = new FormAttachment(coolBar);
+		layoutData.top = new FormAttachment(controlBar);
 		layoutData.bottom = new FormAttachment(100,0);
 		layoutData.left = new FormAttachment(0,0);
 		layoutData.width = MagicNumbers.TREE_VIEWER_WIDTH;
 		viewerManager.setLayoutData(layoutData);
 
 		layoutData = new FormData();
-		layoutData.top = new FormAttachment(coolBar);	
+		layoutData.top = new FormAttachment(controlBar);	
 		layoutData.left = new FormAttachment(viewerManager);
 		layoutData.right = new FormAttachment(100,0);
 		layoutData.bottom = new FormAttachment(100,0);
@@ -106,7 +108,7 @@ public class RPKIBrowserView extends Composite{
 		
 		final Sash sash = new Sash(this, SWT.VERTICAL);
 		layoutData = new FormData();
-		layoutData.top = new FormAttachment(coolBar);
+		layoutData.top = new FormAttachment(controlBar);
 		layoutData.left = new FormAttachment(viewerManager,-5);
 		layoutData.width = 5;
 		layoutData.bottom = new FormAttachment(100,0);
@@ -142,17 +144,19 @@ public class RPKIBrowserView extends Composite{
 	}
 
 	private void initDatabindings() {
-		TreeViewer treeViewer = viewerManager.getTreeBrowser().getTreeViewer();
-		IViewerObservableValue selection = ViewersObservables.observeSingleSelection(treeViewer);
+
+		
+		StructuredViewer viewer = viewerManager.getViewer(ViewerType.TREE).getViewer();
+		IViewerObservableValue selection = ViewersObservables.observeSingleSelection(viewer);
 		DataBindingContext dbc = new DataBindingContext();
-		treeViewer.addSelectionChangedListener(new ViewerListener(displayContainer));
+		viewer.addSelectionChangedListener(new ViewerListener(displayContainer));
 		displayContainer.bindDisplays(selection, dbc);
 		
 		
-		TableViewer tableViewer = viewerManager.getTableBrowser().getTableViewer();
-		selection = ViewersObservables.observeSingleSelection(tableViewer);
+		viewer = viewerManager.getViewer(ViewerType.TABLE).getViewer();
+		selection = ViewersObservables.observeSingleSelection(viewer);
 		dbc = new DataBindingContext();
-		tableViewer.addSelectionChangedListener(new ViewerListener(displayContainer));
+		viewer.addSelectionChangedListener(new ViewerListener(displayContainer));
 		displayContainer.bindDisplays(selection, dbc);
 	}
 	
@@ -162,7 +166,7 @@ public class RPKIBrowserView extends Composite{
 	
 	
 	public BrowserControlBar getBrowserControlBar(){
-		return coolBar;
+		return controlBar;
 	}
 	
 	public ViewerManager getViewerContainer(){

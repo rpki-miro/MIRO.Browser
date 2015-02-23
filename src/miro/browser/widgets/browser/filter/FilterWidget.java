@@ -30,6 +30,7 @@ import miro.browser.resources.Fonts;
 import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
 import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
 import miro.browser.widgets.browser.tree.ViewerManager;
+import miro.browser.widgets.browser.tree.ViewerContainer.ViewerType;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -107,7 +108,6 @@ public class FilterWidget extends Composite{
 		applyFilterBtn.setText("Apply Filter");
 		
 		FormData layoutData = new FormData();
-//		layoutData.top = new FormAttachment(validationStatusOption,20);
 		layoutData.bottom = new FormAttachment(100,0);
 		layoutData.right = new FormAttachment(100,0);
 		
@@ -116,27 +116,15 @@ public class FilterWidget extends Composite{
 			
 			@Override
 			public void handleEvent(Event event) {
-				TreeViewer treeViewer = viewerContainer.getTreeBrowser().getTreeViewer();
-				TableViewer tableViewer = viewerContainer.getTableBrowser().getTableViewer();
-				
 				List<ResourceHoldingObjectFilter> filters = new ArrayList<ResourceHoldingObjectFilter>();
 				filters.addAll(attributeOption.getFilters());
 				filters.addAll(filetypeOption.getFilters());
 				filters.addAll(validationStatusOption.getFilters());
 				
-
 				ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter(false);
 				treeFilter.addFilters(filters);
-				CertificateTreeLabelProvider treeLabelProvider = (CertificateTreeLabelProvider) treeViewer.getLabelProvider();
-				treeLabelProvider.setFilter(treeFilter);
-				treeViewer.setFilters(new ViewerFilter[]{treeFilter});
-
 				
-				ResourceCertificateTreeFilter tableFilter = new ResourceCertificateTreeFilter(true);
-//				CertificateTreeLabelProvider tableLabelProvider = (CertificateTreeLabelProvider) tableViewer.getLabelProvider();
-//				tableLabelProvider.setFilter(tableFilter);
-				tableFilter.addFilters(filters);
-				tableViewer.setFilters(new ViewerFilter[]{tableFilter});
+				viewerContainer.setViewerFilters(new ViewerFilter[]{treeFilter});
 			}
 		});
 		
@@ -161,11 +149,7 @@ public class FilterWidget extends Composite{
 		attributeOption.clearSelection();
 		filetypeOption.clearSelection();
 		validationStatusOption.clearSelection();
-		
-		TreeViewer treeViewer = viewerContainer.getTreeBrowser().getTreeViewer();
-		CertificateTreeLabelProvider labelProvider = (CertificateTreeLabelProvider) treeViewer.getLabelProvider();
-		labelProvider.setFilter(null);
-		
+		viewerContainer.resetViewerFilters();
 	}
 	
 	private void initHeader() {

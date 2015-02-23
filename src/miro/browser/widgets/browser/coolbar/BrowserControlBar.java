@@ -29,6 +29,7 @@ import miro.browser.updater.ModelUpdater;
 import miro.browser.updater.ObserverType;
 import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.browser.widgets.browser.tree.ViewerManager;
+import miro.browser.widgets.browser.tree.ViewerContainer.ViewerType;
 import miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.jface.viewers.TreeViewer;
@@ -44,6 +45,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+
+
 
 public class BrowserControlBar extends Composite implements ModelObserver {
 
@@ -104,7 +107,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 			
 			@Override
 			public void handleEvent(Event event) {
-				TreeViewer treeViewer = browser.getViewerContainer().getTreeBrowser().getTreeViewer();
+				TreeViewer treeViewer = (TreeViewer) browser.getViewerContainer().getViewer(ViewerType.TREE).getViewer();
 				ToolItem item = (ToolItem) event.widget;
 				if(item.getSelection()){
 					treeViewer.expandAll();
@@ -122,10 +125,10 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 			public void handleEvent(Event event) {
 				ToolItem item = (ToolItem) event.widget;
 				if(item.getSelection()){
-					browser.getViewerContainer().showTableBrowser();
+					browser.getViewerContainer().showViewer(ViewerType.TABLE);
 					expandTreeItem.setEnabled(false);
 				} else {
-					browser.getViewerContainer().showTreeBrowser();
+					browser.getViewerContainer().showViewer(ViewerType.TREE);
 					expandTreeItem.setEnabled(true);
 				}
 				

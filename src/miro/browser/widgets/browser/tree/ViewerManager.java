@@ -23,6 +23,9 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.tree;
 
 
+import java.util.HashMap;
+
+import miro.browser.widgets.browser.tree.ViewerContainer.ViewerType;
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 
@@ -32,6 +35,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
@@ -39,13 +43,11 @@ import org.eclipse.swt.widgets.TreeItem;
 
 public class ViewerManager extends Composite {
 	
-	TreeBrowser treeBrowser;
+	private HashMap<ViewerType, ViewerContainer> viewerMap;
 	
-	TableBrowser tableBrowser;
+	private StackLayout layout;
 	
-	StackLayout layout;
-	
-	ViewerContainer selectedBrowser;
+	private ViewerContainer selectedViewer;
 
 	public ViewerManager(Composite parent, int style) {
 		super(parent, style);
@@ -57,78 +59,61 @@ public class ViewerManager extends Composite {
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		this.setLayout(layout);
-		initTreeBrowser();
-		showTreeBrowser();
 		
+		viewerMap = new HashMap<ViewerContainer.ViewerType, ViewerContainer>();
+		initViewers();
+		showViewer(ViewerType.TREE);
 	}
 
 	public void setViewerInput(ResourceCertificateTree tree){
-		TreeViewer treeViewer = treeBrowser.getTreeViewer();
-		treeViewer.setInput(tree);
-		treeViewer.refresh();
+		selectedViewer.setInput(tree);
+	}
+	
+	private void initViewers() {
+		ViewerContainer viewer = new TreeBrowser(this, SWT.NONE);
+		viewerMap.put(viewer.getType(), viewer);
 
-		TableViewer tableViewer = tableBrowser.getTableViewer();
-		tableViewer.setInput(tree);
-		tableViewer.refresh();
+		viewer = new TableBrowser(this, SWT.NONE);
+		viewerMap.put(viewer.getType(), viewer);
 	}
 	
-	private void initTreeBrowser() {
-		treeBrowser = new TreeBrowser(this, SWT.NONE);
-		tableBrowser = new TableBrowser(this, SWT.NONE);
-	}
-	
-	public void showTreeBrowser(){
-		if(layout.topControl == tableBrowser){
-			Table table = tableBrowser.getTable();
-			if(table.getSelectionCount() > 0) {
-				TableItem item = table.getSelection()[0];
-				ResourceHoldingObject obj = (ResourceHoldingObject) item.getData();
-				treeBrowser.setSelection(obj);
+	public void showViewer(ViewerContainer.ViewerType type){
+		ViewerContainer viewer = viewerMap.get(type);
+		if(selectedViewer != null){
+			
+			viewer.setInput(selectedViewer.getInput());
+			
+
+			if(selectedViewer.getSelection() != null){
+				viewer.setSelection(selectedViewer.getSelection());
 			}
+			
+			
+			viewer.setFilters(selectedViewer.getFilters());
 		}
-		selectedBrowser = treeBrowser;
-		layout.topControl = treeBrowser;
+		layout.topControl = (Control) viewer;
+		selectedViewer = viewer;
 		layout();
 	}
 	
-	public TreeBrowser getTreeBrowser(){
-		return treeBrowser;
+	public ViewerContainer getViewer(ViewerType type){
+		return viewerMap.get(type);
 	}
 	
-	public void showTableBrowser() {
-		if(layout.topControl == treeBrowser){
-			Tree tree = treeBrowser.getTree();
-			if(tree.getSelectionCount() > 0) {
-				TreeItem item = tree.getSelection()[0];
-				ResourceHoldingObject obj = (ResourceHoldingObject) item.getData();
-				tableBrowser.setSelection(obj);
-			}
-		}
-		layout.topControl = tableBrowser;
-		selectedBrowser = tableBrowser;
-		layout();
-	}
-	
-	public TableBrowser getTableBrowser() {
-		return tableBrowser;
-	}
-
 	public void setViewerFilters(ViewerFilter[] viewerFilters) {
-		treeBrowser.getTreeViewer().setFilters(viewerFilters);
-		tableBrowser.getTableViewer().setFilters(viewerFilters);
+		selectedViewer.setFilters(viewerFilters);
 	}
 
 	public void resetViewerFilters() {
-		treeBrowser.getTreeViewer().resetFilters();
-		tableBrowser.getTableViewer().resetFilters();
+		selectedViewer.resetFilters();
 	}
 
 	public ResourceHoldingObject getSelectedObject() {
-		return selectedBrowser.getSelection();
+		return selectedViewer.getSelection();
 	}
 
 	public void setSelection(ResourceHoldingObject issuer) {
-		selectedBrowser.setSelection(issuer);
+		selectedViewer.setSelection(issuer);
 	}
 
 
