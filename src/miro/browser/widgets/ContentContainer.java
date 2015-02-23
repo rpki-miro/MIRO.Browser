@@ -32,22 +32,16 @@ import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 
-public class MainWidgetContainer extends Composite {
+public class ContentContainer extends Composite {
 
-	private RPKIBrowserView browser;
-	
-	private QueryWidget queryPage;
+	private Composite browser;
 	
 	private Composite statsContainer;
 	
 	private StackLayout layout;
 	
-	public MainWidgetContainer(Composite parent, int style) {
+	public ContentContainer(Composite parent, int style) {
 		super(parent, style);
-		setMainLayout();
-	}
-	
-	public void setMainLayout() {
 		layout = new StackLayout();
 		this.setLayout(layout);
 		layout.marginHeight = 0;
@@ -58,17 +52,8 @@ public class MainWidgetContainer extends Composite {
 		browser = b;
 	}
 	
-	public void setQuery(QueryWidget q){
-		queryPage = q;
-	}
-	
 	public void setStatsContainer(Composite s){
 		statsContainer = s;
-	}
-	
-	public void showQuery(){
-		layout.topControl = queryPage;
-		this.layout();
 	}
 	
 	public void showBrowser(){
@@ -88,25 +73,10 @@ public class MainWidgetContainer extends Composite {
 		ScrolledComposite scroller = new ScrolledComposite(this, SWT.V_SCROLL | SWT.H_SCROLL);
 		scroller.setExpandHorizontal(true);
 		scroller.setExpandVertical(true);
+
 		StatsView statsContainer = new StatsView(scroller, SWT.BORDER);
 		setStatsContainer(scroller);
 		scroller.setContent(statsContainer);
-		Point size = statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		scroller.setMinSize(statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
-
-	public boolean browserShowing(){
-		return layout.topControl.equals(browser);
-	}
-	
-	public boolean queryShowing(){
-		return layout.topControl.equals(queryPage);
-	}
-
-	public RPKIBrowserView getBrowser() {
-		return browser;
-	}
-	
-	
-
 }

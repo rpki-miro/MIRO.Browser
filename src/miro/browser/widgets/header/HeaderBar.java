@@ -20,29 +20,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.displaywidgets;
+package miro.browser.widgets.header;
 
-import miro.browser.widgets.browser.tree.ViewerManager;
-import miro.validator.types.ResourceHoldingObject;
+import org.eclipse.rap.rwt.RWT;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-
-public class IssuerLinkListener implements Listener {
-
-	private ViewerManager viewerContainer;
+public class HeaderBar extends Composite {
 	
-	public IssuerLinkListener(ViewerManager c) {
-		viewerContainer = c;
+	public HeaderBar(Composite parent, int style) {
+		super(parent, style);
+		setData(RWT.CUSTOM_VARIANT, "header");
+		initLayout();
+		initHeading();
 	}
-
-	@Override
-	public void handleEvent(Event event) {
-		ResourceHoldingObject selectedObj = viewerContainer.getSelectedObject();
-		ResourceHoldingObject issuer = selectedObj.getParent();
-		if(issuer != null){
-			viewerContainer.setSelection(issuer);
-		}
+	
+	private void initHeading(){
+		Label heading = new Label(this, SWT.NONE);
+		heading.setText("RPKI Repository Browser");
+		heading.setData(RWT.CUSTOM_VARIANT, "heading");
+		RowData layoutData = new RowData();
+		heading.setLayoutData(layoutData);
+	}
+	
+	private void initLayout(){
+		RowLayout layout = new RowLayout();
+		layout.fill = true;
+		setLayout(layout);
 	}
 
 }

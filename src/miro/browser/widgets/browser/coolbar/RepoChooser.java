@@ -42,7 +42,6 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 
 public class RepoChooser extends Composite implements ModelObserver{
@@ -152,7 +151,8 @@ public class RepoChooser extends Composite implements ModelObserver{
 	@Override
 	public void notifyModelChange() {
 		
-		if(isDisposed()){
+		
+		if(getDisplay().isDisposed()){
 			log.log(Level.FINE,"Widget is disposed");
 			ModelUpdater.removeObserver(this, ObserverType.MODEL);
 			return;

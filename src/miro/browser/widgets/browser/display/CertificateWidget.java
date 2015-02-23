@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.displaywidgets;
+package miro.browser.widgets.browser.display;
 
 import java.math.BigInteger;
 import java.net.URI;
@@ -37,7 +37,6 @@ import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.converters.ValidityPeriodConverter;
 import miro.browser.converters.X500PrincipalConverter;
 import miro.browser.converters.X500PrincipalLinkConverter;
-import miro.browser.resources.Fonts;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.validator.types.CertificateObject;
@@ -49,18 +48,12 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 @SuppressWarnings("serial")
 public class CertificateWidget extends DisplayWidget implements ResourceHolderObservableBinder {
-	
-	private RPKIBrowserView browser;
 	
 	private ResourceSetViewer resourceSetViewer;
 	

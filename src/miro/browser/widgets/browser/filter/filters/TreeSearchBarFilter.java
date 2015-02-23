@@ -22,7 +22,6 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.filter.filters;
 
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
 public abstract class TreeSearchBarFilter extends ViewerFilter {

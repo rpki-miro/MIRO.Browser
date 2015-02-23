@@ -25,17 +25,14 @@ import miro.browser.resources.Colors;
 import miro.browser.resources.Fonts;
 import miro.browser.resources.Images;
 import miro.browser.resources.MagicNumbers;
-import miro.browser.widgets.MainWidgetContainer;
+import miro.browser.widgets.ContentContainer;
 import miro.browser.widgets.browser.RPKIBrowserView;
-import miro.browser.widgets.navigation.HeaderBar;
-import miro.browser.widgets.navigation.LinkContainer;
+import miro.browser.widgets.header.HeaderBar;
+import miro.browser.widgets.header.LinkContainer;
 import miro.browser.widgets.query.QueryWidget;
-import miro.browser.widgets.stats.StatsView;
 
 import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -60,64 +57,37 @@ public class SessionRealm implements Runnable {
 		Fonts.init(parent.getDisplay());
 		Images.init(parent.getDisplay());
 		
-		initParent(parent);
-		
-		//header init
-		Composite header = new HeaderBar(parent, SWT.NONE);
-		initHeader(header);
-		
-		//main init
-		MainWidgetContainer mainWidget = new MainWidgetContainer(parent, SWT.NONE);
-		initMain(mainWidget,header);
-
-		//init browser
-		RPKIBrowserView browser = new RPKIBrowserView(mainWidget,SWT.BORDER);
-		mainWidget.setBrowser(browser);
-		
-		
-		//Query
-		QueryWidget queryPage = new QueryWidget(mainWidget, SWT.NONE);
-		mainWidget.setQuery(queryPage);
-
-		//Show browser default
-		mainWidget.showBrowser();
-		
-		LinkContainer linkContainer = new LinkContainer(header, SWT.BORDER, mainWidget);
-		initLinkContainer(linkContainer);
-		
-		parent.layout();
-	}
-	
-	
-	
-	private void initLinkContainer(Composite linkContainer) {
-		RowData rowData = new RowData();
-		linkContainer.setLayoutData(rowData);
-		
-	}
-
-	private void initParent(Composite parent){
 		FormLayout layout = new FormLayout();
 		parent.setLayout(layout);
-		parent.setBackground(Colors.SHELL_BACKGROUND);
-	}
-	
-	private void initHeader(Composite header){
+		
+		HeaderBar header = new HeaderBar(parent, SWT.NONE);
 		FormData layoutData = new FormData();
 		layoutData.left = new FormAttachment(0, MagicNumbers.SHELL_OUTER_GAPS);
 		layoutData.right = new FormAttachment(100, - MagicNumbers.SHELL_OUTER_GAPS);
 		layoutData.top = new FormAttachment(0,  MagicNumbers.SHELL_OUTER_GAPS);
 		header.setLayoutData(layoutData);
-	}
-	
-	private void initMain(Composite mainWidget, Composite header){
-		FormData layoutData = new FormData();
+		
+		LinkContainer linkContainer = new LinkContainer(header, SWT.BORDER);
+		
+		
+		ContentContainer content = new ContentContainer(parent, SWT.NONE);
+		layoutData = new FormData();
 		layoutData.top = new FormAttachment(header,0);
 		layoutData.left = new FormAttachment(0, MagicNumbers.SHELL_OUTER_GAPS);
 		layoutData.bottom = new FormAttachment(100, -MagicNumbers.SHELL_OUTER_GAPS);
 		layoutData.right = new FormAttachment(100,-MagicNumbers.SHELL_OUTER_GAPS);
-		mainWidget.setLayoutData(layoutData);
+		content.setLayoutData(layoutData);
+
+		//init browser
+		RPKIBrowserView browser = new RPKIBrowserView(content,SWT.BORDER);
+		content.setBrowser(browser);
+		
+		
+		//Show browser default
+		content.showBrowser();
+		
+		linkContainer.setContentContainer(content);
+		
+		parent.layout();
 	}
-
-
 }

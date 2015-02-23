@@ -27,7 +27,6 @@ import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
 
-import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 

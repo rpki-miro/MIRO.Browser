@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.displaywidgets;
+package miro.browser.widgets.browser.display;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -43,11 +43,11 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.TabFolder;
 
 public class ManifestFilesViewer extends Composite {
 	
@@ -100,7 +100,7 @@ public class ManifestFilesViewer extends Composite {
 				FileHashPair pair = (FileHashPair) ((TableItem)event.item).getData();
 				
 				if(pair.filename.endsWith(".crl")){
-					for(TabItem tab : browser.getTabs()) {
+					for(TabItem tab : browser.getDisplayContainer().getItems()) {
 						if(tab.getText().equals("CRL")){
 							TabFolder folder = (TabFolder) browser.getDisplayContainer();
 							folder.setSelection(tab);

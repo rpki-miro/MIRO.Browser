@@ -20,48 +20,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.filter.filters;
+package miro.browser.widgets.browser.display;
 
-import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
-import miro.validator.types.CertificateObject;
-import miro.validator.types.ResourceHoldingObject;
-import miro.validator.types.RoaObject;
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 
-public class FileTypeFilter implements ResourceHoldingObjectFilter{
+public interface ResourceHolderObservableBinder {
 	
-	private FilterKey filterAttribute;
-	
-	public FileTypeFilter(FilterKey attr) {
-		filterAttribute = attr;
-	}
-
-	private boolean isRoaFile(ResourceHoldingObject obj) {
-		return obj instanceof RoaObject;
-	}
-
-	private boolean isCerFile(ResourceHoldingObject obj) {
-		return obj instanceof CertificateObject;
-	}
-
-	@Override
-	public boolean isMatch(ResourceHoldingObject obj) {
-		boolean selected = false;
-		switch (filterAttribute) {
-		
-		case ALL_FILES:
-			selected = true;
-			break;
-		
-		case CER_FILES:
-			selected = isCerFile(obj);
-			break;
-		case ROA_FILES:
-			selected = isRoaFile(obj);
-			break;
-		default:
-			break;
-		}
-		return selected;
-	}
+	public void bindToResourceHolder(IObservableValue resourceHolderObservable, DataBindingContext dbc);
 
 }

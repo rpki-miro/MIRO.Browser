@@ -20,13 +20,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.displaywidgets;
+package miro.browser.widgets.browser.display;
 
 import miro.browser.resources.Colors;
 import miro.browser.widgets.browser.RPKIBrowserView;
-import miro.validator.types.CRLObject;
 import miro.validator.types.CertificateObject;
-import miro.validator.types.ManifestObject;
+import miro.validator.types.RoaObject;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
@@ -35,26 +34,30 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
 
-public class CertificateDisplay implements ResourceHolderObservableBinder{
+public class RoaDisplay implements ResourceHolderObservableBinder{
 	
-	private CertificateWidget certWidget;
+	private RoaWidget roaWidget;
 	
-	private ManifestWidget manifestWidget;
+	private CertificateWidget certificateWidget;
 	
-	private CrlWidget crlWidget;
-	
-	public CertificateDisplay(Composite parent, RPKIBrowserView b) {
+	public RoaDisplay(Composite parent, RPKIBrowserView b) {
 		ScrolledComposite scroller = createScrollingContainer(parent);
-		certWidget = new CertificateWidget(scroller, SWT.NONE,b);
-		scroller.setContent(certWidget);
+		roaWidget = new RoaWidget(scroller, SWT.NONE,b);
+		scroller.setContent(roaWidget);
 		
 		scroller = createScrollingContainer(parent);
-		manifestWidget = new ManifestWidget(scroller, SWT.NONE,b);
-		scroller.setContent(manifestWidget);
+		certificateWidget = new CertificateWidget(scroller, SWT.NONE, b);
+		scroller.setContent(certificateWidget);
+	}
+
+	@Override
+	public void bindToResourceHolder(IObservableValue selection,
+			DataBindingContext dbc) {
 		
-		scroller = createScrollingContainer(parent);
-		crlWidget = new CrlWidget(scroller, SWT.NONE,b);
-		scroller.setContent(crlWidget);
+		roaWidget.bindToResourceHolder(selection, dbc);
+		
+		IObservableValue eeCertObsValue = PojoProperties.value((Class) selection.getValueType(), "eeCert", CertificateObject.class).observeDetail(selection);
+		certificateWidget.bindToResourceHolder(eeCertObsValue, dbc);
 	}
 	
 	private ScrolledComposite createScrollingContainer(Composite parent){
@@ -63,40 +66,20 @@ public class CertificateDisplay implements ResourceHolderObservableBinder{
 		scrollingContainer.setExpandVertical(true);
 		scrollingContainer.setBackground(Colors.BROWSER_DISPLAY_WIDGETS_BACKGROUND);
 		return scrollingContainer;
+	
 	}
 
-	@Override
-	public void bindToResourceHolder(IObservableValue selection,
-			DataBindingContext dbc) {
-		certWidget.bindToResourceHolder(selection, dbc);
-		
-		IObservableValue mftObservable = PojoProperties.value((Class) selection.getValueType(), "manifest", ManifestObject.class).observeDetail(selection);
-		manifestWidget.bindToResourceHolder(mftObservable, dbc);
-		
-		IObservableValue crlObservable = PojoProperties.value((Class) selection.getValueType(), "crl", CRLObject.class).observeDetail(selection);
-		crlWidget.bindToResourceHolder(crlObservable, dbc);
-		
-	}
-	
-	public void showResources(CertificateObject obj) {
-		certWidget.getResourceSetViewer().setInput(obj.getResources());
-		manifestWidget.getManifestFilesViewer().setInput(obj.getManifest());
-		crlWidget.getRevokedCertificateViewer().setInput(obj.getCrl());
+	public RoaWidget getRoaWidget() {
+		return roaWidget;
 	}
 
 	public CertificateWidget getCertificateWidget() {
-		return certWidget;
+		return certificateWidget;
 	}
 
-	public CertificateWidget getCertWidget() {
-		return certWidget;
+	public void showResources(RoaObject obj) {
+		roaWidget.getRoaPrefixViewer().setInput(obj);
+		certificateWidget.getResourceSetViewer().setInput(obj.getEeCert().getResources());
 	}
-
-	public ManifestWidget getManifestWidget() {
-		return manifestWidget;
-	}
-
-	public CrlWidget getCrlWidget() {
-		return crlWidget;
-	}
+	
 }

@@ -24,78 +24,61 @@ package miro.browser.widgets.browser;
 
 import java.util.ArrayList;
 
-import miro.browser.widgets.browser.displaywidgets.CertificateDisplay;
+import miro.browser.widgets.browser.display.CertificateDisplay;
+import miro.browser.widgets.browser.display.DisplayContainer;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
 
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
 public class TabHideListener implements ISelectionChangedListener{
 
-	private RPKIBrowserView browser;
+	private DisplayContainer display;
 	
-	public TabHideListener(RPKIBrowserView b) {
-		browser = b;
+	public TabHideListener(DisplayContainer b) {
+		display = b;
 	}
 
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
-		
 		IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-		
-		
 		ResourceHoldingObject obj = (ResourceHoldingObject) selection.getFirstElement();
-		browser.clearTabs();
-		ArrayList<TabItem> tabs = browser.getTabs();
-		for(TabItem tab : tabs){
-			tab.dispose();
-			tabs.remove(tab);
-		}
-		
+
+		display.clearTabs();
+
 		TabItem tab;
-		
 		if(obj instanceof CertificateObject){
-			CertificateDisplay certificateDisplay = browser.getCertificateDisplay();
+			CertificateDisplay certificateDisplay = display.getCertificateDisplay();
 			
-			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
-			browser.addTab(tab);
+			tab = new TabItem(display, SWT.NONE);
 			tab.setText("Certificate");
 			tab.setControl(certificateDisplay.getCertificateWidget().getParent());
 
-			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
-			browser.addTab(tab);
+			tab = new TabItem(display, SWT.NONE);
 			tab.setText("Manifest");
-			tab.setControl(browser.getCertificateDisplay().getManifestWidget().getParent());
+			tab.setControl(display.getCertificateDisplay().getManifestWidget().getParent());
 			
-			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
-			browser.addTab(tab);
+			tab = new TabItem(display, SWT.NONE);
 			tab.setText("CRL");
-			tab.setControl(browser.getCertificateDisplay().getCrlWidget().getParent());
-			
-			
+			tab.setControl(display.getCertificateDisplay().getCrlWidget().getParent());
 		}
 		
 		if(obj instanceof RoaObject){
-			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
-			browser.addTab(tab);
+			tab = new TabItem(display, SWT.NONE);
 			tab.setText("ROA");
-			tab.setControl(browser.getRoaDisplay().getRoaWidget().getParent());
+			tab.setControl(display.getRoaDisplay().getRoaWidget().getParent());
 			
-			tab = new TabItem((TabFolder) browser.getDisplayContainer(), SWT.NONE);
-			browser.addTab(tab);
+			tab = new TabItem(display, SWT.NONE);
 			tab.setText("EE Certificate");
-			tab.setControl(browser.getRoaDisplay().getCertificateWidget().getParent());
+			tab.setControl(display.getRoaDisplay().getCertificateWidget().getParent());
 		}
 		
-		browser.layout();
+		display.layout();
 	}
 }

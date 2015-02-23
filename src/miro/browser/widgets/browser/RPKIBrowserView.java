@@ -28,21 +28,15 @@ import java.util.ArrayList;
 import miro.browser.resources.Colors;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.coolbar.BrowserCoolbar;
-import miro.browser.widgets.browser.displaywidgets.CertificateDisplay;
-import miro.browser.widgets.browser.displaywidgets.CertificateWidget;
-import miro.browser.widgets.browser.displaywidgets.CrlWidget;
-import miro.browser.widgets.browser.displaywidgets.ManifestWidget;
-import miro.browser.widgets.browser.displaywidgets.RoaDisplay;
-import miro.browser.widgets.browser.displaywidgets.RoaWidget;
+import miro.browser.widgets.browser.display.CertificateDisplay;
+import miro.browser.widgets.browser.display.DisplayContainer;
+import miro.browser.widgets.browser.display.RoaDisplay;
 import miro.browser.widgets.browser.filter.FilterWidget;
 import miro.browser.widgets.browser.tree.ViewerManager;
-import miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -53,31 +47,21 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import types.Certificate;
-import types.RepositoryTree;
-import types.ResourceHolder;
-
 public class RPKIBrowserView extends Composite{
 	
 	private ViewerManager viewerManager;
 	
+	private DisplayContainer displayContainer;
+	
+//	private ArrayList<TabItem> displayTabs;
+	
 	private BrowserCoolbar coolBar;
-	
-	private CertificateDisplay certificateDisplay;
-	
-	private RoaDisplay roaDisplay;
-	
-	private Composite displayContainer;
-	
-	private ArrayList<TabItem> displayTabs;
-	
 	private FilterWidget filter;
 
 	private Shell filterShell;
@@ -100,6 +84,8 @@ public class RPKIBrowserView extends Composite{
 		initFilter();
 		
 		coolBar.init();
+		viewerManager.getTreeBrowser().getTreeViewer().addSelectionChangedListener(new TabHideListener(displayContainer));
+		viewerManager.getTableBrowser().getTableViewer().addSelectionChangedListener(new TabHideListener(displayContainer));
 	}
 	
 	private void initFilter() {
@@ -121,11 +107,10 @@ public class RPKIBrowserView extends Composite{
 	}
 
 	private void init() {
-		displayTabs = new ArrayList<TabItem>();
+//		displayTabs = new ArrayList<TabItem>();
 		FormLayout layout = new FormLayout();
  		layout.spacing = MagicNumbers.BROWSER_SPACING;
 		setLayout(layout);
-		setBackground(Colors.BROWSER_BACKGROUND);
 	}
 
 	private void createSash() {
@@ -166,54 +151,39 @@ public class RPKIBrowserView extends Composite{
 		layoutData.left = new FormAttachment(0,0);
 		layoutData.width = MagicNumbers.TREE_VIEWER_WIDTH;
 		viewerManager.setLayoutData(layoutData);
-		viewerManager.setBackground(Colors.BROWSER_TREE_BACKGROUND);
-		viewerManager.setBackgroundMode(SWT.INHERIT_FORCE);
 		
-		viewerManager.init();
-		viewerManager.getTreeBrowser().getTreeViewer().addSelectionChangedListener(new TabHideListener(this));
-		viewerManager.getTableBrowser().getTableViewer().addSelectionChangedListener(new TabHideListener(this));
 	}
 
 	private void createDisplayContainer() {
-		displayContainer = new TabFolder(this, SWT.NONE);
+		displayContainer = new DisplayContainer(this, SWT.NONE);
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(coolBar);	
 		layoutData.left = new FormAttachment(viewerManager);
 		layoutData.right = new FormAttachment(100,0);
 		layoutData.bottom = new FormAttachment(100,0);
 		displayContainer.setLayoutData(layoutData);
-		
-		displayContainer.setBackground(Colors.BROWSER_DISPLAY_CONTAINER_BACKGROUND);
-		displayContainer.setLayout(new RowLayout());
-		
-		certificateDisplay = new CertificateDisplay(displayContainer,this);
-		roaDisplay = new RoaDisplay(displayContainer, this);
-		
+		displayContainer.initDisplays(this);
 	}
 	
 	private void initDatabindings() {
 		TreeViewer treeViewer = viewerManager.getTreeBrowser().getTreeViewer();
 		IViewerObservableValue selection = ViewersObservables.observeSingleSelection(treeViewer);
 		DataBindingContext dbc = new DataBindingContext();
-		certificateDisplay.bindToResourceHolder(selection, dbc);
-		roaDisplay.bindToResourceHolder(selection, dbc);
-		treeViewer.addSelectionChangedListener(new ViewerListener(this));
+		treeViewer.addSelectionChangedListener(new ViewerListener(displayContainer));
+		displayContainer.bindDisplays(selection, dbc);
+		
 		
 		TableViewer tableViewer = viewerManager.getTableBrowser().getTableViewer();
 		selection = ViewersObservables.observeSingleSelection(tableViewer);
 		dbc = new DataBindingContext();
-		certificateDisplay.bindToResourceHolder(selection, dbc);
-		roaDisplay.bindToResourceHolder(selection, dbc);
-		tableViewer.addSelectionChangedListener(new ViewerListener(this));
+		tableViewer.addSelectionChangedListener(new ViewerListener(displayContainer));
+		displayContainer.bindDisplays(selection, dbc);
 	}
 	
-	public Composite getDisplayContainer() {
+	public DisplayContainer getDisplayContainer() {
 		return displayContainer;
 	}
 	
-	public void addTab(TabItem tab){
-		displayTabs.add(tab);
-	}
 	
 	public BrowserCoolbar getBrowserCoolbar(){
 		return coolBar;
@@ -223,17 +193,6 @@ public class RPKIBrowserView extends Composite{
 		return viewerManager;
 	}
 	
-	public ArrayList<TabItem> getTabs(){
-		return displayTabs;
-	}
-
-	public CertificateDisplay getCertificateDisplay() {
-		return certificateDisplay;
-	}
-	
-	public RoaDisplay getRoaDisplay() {
-		return roaDisplay;
-	}
 
 	public FilterWidget getFilterWidget() {
 		return filter;
@@ -243,10 +202,4 @@ public class RPKIBrowserView extends Composite{
 		filterShell.open();
 	}
 
-	public void clearTabs() {
-		for(TabItem tab : displayTabs){
-			tab.dispose();
-		}
-		displayTabs.clear();
-	}
 }

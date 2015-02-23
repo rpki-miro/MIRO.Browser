@@ -22,6 +22,7 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser;
 
+import miro.browser.widgets.browser.display.DisplayContainer;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
@@ -33,23 +34,22 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 @SuppressWarnings("serial")
 public class ViewerListener implements ISelectionChangedListener {
 
-	private RPKIBrowserView browser;
+	private DisplayContainer display;
 	
-	public ViewerListener(RPKIBrowserView b) {
-		browser = b;
+	public ViewerListener(DisplayContainer b) {
+		display = b;
 	}
 	
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
-		
 		IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 		ResourceHoldingObject obj  = (ResourceHoldingObject) selection.getFirstElement();
 		if(obj instanceof CertificateObject){
-			browser.getCertificateDisplay().showResources((CertificateObject)obj);
+			display.getCertificateDisplay().showResources((CertificateObject)obj);
 		}
 		
 		if(obj instanceof RoaObject){
-			browser.getRoaDisplay().showResources((RoaObject)obj);
+			display.getRoaDisplay().showResources((RoaObject)obj);
 		}
 		
 	}

@@ -23,8 +23,6 @@ THE SOFTWARE.
 package miro.browser.provider;
 
 
-import java.util.HashMap;
-
 import miro.browser.resources.Colors;
 import miro.browser.resources.Images;
 import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
@@ -36,7 +34,6 @@ import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 

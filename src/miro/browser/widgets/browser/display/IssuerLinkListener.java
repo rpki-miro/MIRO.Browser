@@ -20,13 +20,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.displaywidgets;
+package miro.browser.widgets.browser.display;
 
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
+import miro.browser.widgets.browser.tree.ViewerManager;
+import miro.validator.types.ResourceHoldingObject;
 
-public interface ResourceHolderObservableBinder {
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+
+public class IssuerLinkListener implements Listener {
+
+	private ViewerManager viewerContainer;
 	
-	public void bindToResourceHolder(IObservableValue resourceHolderObservable, DataBindingContext dbc);
+	public IssuerLinkListener(ViewerManager c) {
+		viewerContainer = c;
+	}
+
+	@Override
+	public void handleEvent(Event event) {
+		ResourceHoldingObject selectedObj = viewerContainer.getSelectedObject();
+		ResourceHoldingObject issuer = selectedObj.getParent();
+		if(issuer != null){
+			viewerContainer.setSelection(issuer);
+		}
+	}
 
 }

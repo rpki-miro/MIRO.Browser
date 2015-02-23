@@ -24,13 +24,8 @@ package miro.browser.widgets.browser.filter.filters;
 
 import java.util.List;
 
-import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
-import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import net.ripe.rpki.commons.validation.ValidationStatus;
-
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
 
 public class ValidationStatusFilter implements ResourceHoldingObjectFilter{
 	

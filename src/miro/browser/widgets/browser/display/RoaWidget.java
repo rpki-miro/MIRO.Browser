@@ -20,21 +20,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.displaywidgets;
+package miro.browser.widgets.browser.display;
 
 import java.net.URI;
 import java.util.ArrayList;
 
 import json.deserializers.ValidationStatus;
-import miro.browser.converters.StringListToStringConverter;
+import miro.browser.converters.DateTimeConverter;
 import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
-import miro.browser.resources.Colors;
-import miro.browser.resources.Fonts;
+import miro.browser.converters.ValidityPeriodConverter;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.validator.types.RepositoryObject;
+import miro.validator.types.ResourceHoldingObject;
+import miro.validator.types.RoaObject;
 import miro.validator.types.ValidationResults;
+import net.ripe.rpki.commons.crypto.ValidityPeriod;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
@@ -43,20 +45,20 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
+import org.joda.time.DateTime;
 
 
-public class ManifestWidget extends DisplayWidget implements ResourceHolderObservableBinder {
-
-	private ManifestFilesViewer filesViewer;
+public class RoaWidget extends DisplayWidget implements ResourceHolderObservableBinder {
 	
-	public ManifestWidget(Composite parent, int style, RPKIBrowserView b) {
+	private RoaPrefixViewer prefixViewer;
+	
+	public RoaWidget(Composite parent, int style,RPKIBrowserView b) {
 		super(parent, style,b);
 		style = SWT.NONE;
 		setDisplayLayout();
-		initTitleBar("Manifest");
-		createInformationContainer(this,style);
-		createFilesViewer(this,style,b);
+		initTitleBar("Route Authorization Object");
+		createInformationContainer(this, style);
+		createRoaPrefixViewer(style);
 		this.layout();
 	}
 	
@@ -74,71 +76,75 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		layout.spacing = 0;
 		setLayout(layout);
 	}
-	
+
 	public void initTitleBar(String heading) {
 		super.initTitleBar(heading);
 		RowData layoutData = new RowData();
 		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
 		titleBar.setLayoutData(layoutData);
 	}
-	public void initFields(Composite parent,int style){
-		ValidationCheckConverter checkToStringconv = new ValidationCheckConverter();
-		
-		InformationField filenameField = new TextField(parent, style, String.class,RepositoryObject.class,"Filename: ", MagicNumbers.LINE_HEIGHT, "filename",null);
-		fields.add(filenameField);
-		
-		InformationField locationField = new TextField(parent, style, URI.class, RepositoryObject.class,"Location: ", MagicNumbers.LINE_HEIGHT, "remoteLocation",new URIConverter());
-		fields.add(locationField);
-		
-		InformationField validationStatusField = new TextField(parent, style, ValidationStatus.class,ValidationResults.class,"Validation Status: ", MagicNumbers.LINE_HEIGHT*2, "validationStatus",null);
-		fields.add(validationStatusField);
 
-		InformationField invalidReasonsField = new TextField(parent, style, ArrayList.class,ValidationResults.class,"Errors: ", MagicNumbers.LINE_HEIGHT*2, "errors", checkToStringconv);
-		fields.add(invalidReasonsField);
+	public void createRoaPrefixViewer( int style) {
+		prefixViewer = new RoaPrefixViewer(this, style);
 		
-		InformationField warningsField = new TextField(parent,style,ArrayList.class, ValidationResults.class, "Warnings: ", MagicNumbers.LINE_HEIGHT*2,"warnings",checkToStringconv);
-		fields.add(warningsField);
-		
-		layoutFields(MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH);
-		parent.layout();
+		RowData rowData = new RowData();
+		rowData.height =  MagicNumbers.RDW_PREFIX_LIST_HEIGHT;
+		rowData.width = MagicNumbers.RDW_PREFIX_LIST_WIDTH;
+		prefixViewer.setLayoutData(rowData);
 	}
-	
+
+
 	public void createInformationContainer(Composite parent, int style) {
 		super.createInformationContainer(this, style);
 		RowData rowData = new RowData();
 		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
 		informationContainer.setLayoutData(rowData);
 	}
-	public void createFilesViewer(Composite parent, int style, RPKIBrowserView b) {
-		filesViewer = new ManifestFilesViewer(this, style,b);
-		RowData rowData = new RowData();
-		rowData.height =  MagicNumbers.MFT_HASH_LIST_HEIGHT;
-		filesViewer.setLayoutData(rowData);	
-	}
-
 
 	@Override
-	public void bindToResourceHolder(IObservableValue manifestObservable,
+	public void initFields(Composite parent, int style) {
+		ValidationCheckConverter checkToStringconv = new ValidationCheckConverter();
+		ValidityPeriodConverter validityPeriodConv = new ValidityPeriodConverter();
+		
+		InformationField filenameField = new TextField(parent, style, String.class,RepositoryObject.class,"Filename: ", MagicNumbers.LINE_HEIGHT, "filename",null);
+		fields.add(filenameField);
+		
+		InformationField locationField = new TextField(parent, style, URI.class, RepositoryObject.class,"Location: ", MagicNumbers.LINE_HEIGHT, "remoteLocation",new URIConverter());
+		fields.add(locationField);
+
+		fields.add(new TextField(parent, style, ValidationStatus.class, ValidationResults.class,"Validation Status: ", MagicNumbers.LINE_HEIGHT*2, "validationStatus",null));
+
+		fields.add(new TextField(parent, style, ArrayList.class, ValidationResults.class,"Errors: ", MagicNumbers.LINE_HEIGHT*2, "errors", checkToStringconv));
+		
+		fields.add(new TextField(parent,style,ArrayList.class, ValidationResults.class, "Warnings: ", MagicNumbers.LINE_HEIGHT*2,"warnings",checkToStringconv));
+		
+		fields.add(new TextField(parent, style, ValidityPeriod.class, RoaObject.class ,"Validity Period: ", MagicNumbers.LINE_HEIGHT*2, "validityPeriod",validityPeriodConv));
+		
+		fields.add(new TextField(parent, style, DateTime.class, ResourceHoldingObject.class,"Signing Time: ", MagicNumbers.LINE_HEIGHT*2, "signingTime", new DateTimeConverter()));
+		
+		layoutFields(MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH);
+		parent.layout();
+	}
+
+	public RoaPrefixViewer getRoaPrefixViewer() {
+		return prefixViewer;
+	}
+
+	@Override
+	public void bindToResourceHolder(IObservableValue resourceHolderObservable,
 			DataBindingContext dbc) {
 		
-		IObservableValue validationResultObservable = PojoProperties.value(
-				(Class) manifestObservable.getValueType(), "validationResults",
-				ValidationResults.class).observeDetail(manifestObservable);
-
-		for (InformationField field : fields) {
-			if (field.containerType.equals(ValidationResults.class)) {
-				field.bindField(validationResultObservable, dbc);
+		IObservableValue validationResultObservable = PojoProperties.value((Class) resourceHolderObservable.getValueType(), "validationResults", ValidationResults.class).observeDetail(resourceHolderObservable);
+		for(InformationField field : fields){
+			if(field.containerType.equals(ResourceHoldingObject.class) | field.containerType.equals(RoaObject.class) | field.containerType.equals(RepositoryObject.class)){
+				field.bindField(resourceHolderObservable, dbc);
 			}
 			
-			if(field.containerType.equals(RepositoryObject.class)){
-				field.bindField(manifestObservable, dbc);
+			if(field.containerType.equals(ValidationResults.class)){
+				field.bindField(validationResultObservable, dbc);
 			}
 		}
 	}
-
-
-	public ManifestFilesViewer getManifestFilesViewer() {
-		return filesViewer;
-	}
-
+	
+	
 }

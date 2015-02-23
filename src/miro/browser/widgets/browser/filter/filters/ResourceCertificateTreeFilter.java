@@ -26,11 +26,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import miro.browser.provider.CertificateTreeLabelProvider;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 
-import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 

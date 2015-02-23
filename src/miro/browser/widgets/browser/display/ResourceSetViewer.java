@@ -20,12 +20,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.displaywidgets;
+package miro.browser.widgets.browser.display;
+
+import java.util.Iterator;
 
 import miro.browser.resources.MagicNumbers;
-import miro.validator.types.CRLObject;
-import net.ripe.rpki.commons.crypto.crl.X509Crl;
-import net.ripe.rpki.commons.crypto.crl.X509Crl.Entry;
+import net.ripe.ipresource.IpResource;
+import net.ripe.ipresource.IpResourceSet;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -39,76 +40,73 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-public class RevokedCertificateViewer extends Composite {
+import com.google.common.collect.Iterables;
+
+public class ResourceSetViewer extends Composite{
+	
 	private TableViewer tableViewer;
 
-	public RevokedCertificateViewer(Composite parent, int style) {
+	public ResourceSetViewer(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new FillLayout());
+		
 		tableViewer = new TableViewer(this, SWT.V_SCROLL);
-		tableViewer.setContentProvider(new CRLEntryContentProvider());
+		tableViewer.setContentProvider(new ResourceContentProvider());
 		createColumns(tableViewer.getTable());
 	}
-
+	
 	private void createColumns(Table table) {
-		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
-		
 		TableViewerColumn newCol;
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table,SWT.NONE));
-		newCol.getColumn().setWidth(MagicNumbers.CRL_REVOKED_LIST_SERIAL_COLUMN_WIDTH);
-		newCol.getColumn().setText("Serial Nr.");
+		newCol.getColumn().setWidth(MagicNumbers.CDW_RESOURCE_LIST_COLUMN_WIDTH);
+		newCol.getColumn().setText("Resources");
 		newCol.setLabelProvider(new CellLabelProvider() {
+			
 			@Override
 			public void update(ViewerCell cell) {
-				Entry entry = (Entry)cell.getElement();
-				cell.setText(entry.getSerialNumber().toString());
-			}
-		});
-		
-		
-		newCol = new TableViewerColumn(tableViewer, new TableColumn(table, SWT.NONE));
-		newCol.getColumn().setWidth(MagicNumbers.CRL_REVOKED_LIST_TIME_COLUMN_WIDTH);
-		newCol.getColumn().setText("Revocation time");
-		newCol.setLabelProvider(new CellLabelProvider() {
-			@Override
-			public void update(ViewerCell cell) {
-				Entry entry = (Entry)cell.getElement();
-				cell.setText(entry.getRevocationDateTime().toString());
+				IpResource res = ( IpResource )cell.getElement();
+				cell.setText(res.toString());
 			}
 		});
 	}
 	
-	public void setInput(CRLObject obj) {
-		tableViewer.setInput(obj);
+	public void setInput(IpResourceSet res) {
+		tableViewer.setInput(res);
 	}
 	
 	
-	private class CRLEntryContentProvider implements IStructuredContentProvider {
+private class ResourceContentProvider implements IStructuredContentProvider {
 
-		@Override
-		public void dispose() {
-			// TODO Auto-generated method stub
-			
-		}
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
 
-		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			// TODO Auto-generated method stub
-			
-		}
+	}
 
-		@Override
-		public Object[] getElements(Object inputElement) {
-			if(inputElement == null){
-				return null;
-			}
-			X509Crl crl = ((CRLObject)inputElement).getCrl();
-			return crl.getRevokedCertificates().toArray();
-		}
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Object[] getElements(Object inputElement) {
+		IpResourceSet resources = (IpResourceSet) inputElement;
 		
+		int size = Iterables.size(resources);
+		Iterator<IpResource> iter = resources.iterator();
+		IpResource[] result = new IpResource[size];
+		IpResource buf;
+		int i = 0;
+		while(iter.hasNext()){
+			buf = (IpResource) iter.next();
+			result[i] = buf;
+			i++;
+		}
+		return result;
 	}
-	
-	
+
+}
 
 }

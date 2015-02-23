@@ -32,8 +32,6 @@ import miro.validator.types.RoaObject;
 import net.ripe.ipresource.IpResource;
 import net.ripe.rpki.commons.crypto.cms.roa.RoaPrefix;
 
-import org.eclipse.jface.viewers.Viewer;
-
 public class AttributeFilter implements ResourceHoldingObjectFilter {
 
 	private FilterKey filterAttribute;

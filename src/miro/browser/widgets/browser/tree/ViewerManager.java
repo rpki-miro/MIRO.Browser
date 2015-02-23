@@ -49,6 +49,7 @@ public class ViewerManager extends Composite {
 
 	public ViewerManager(Composite parent, int style) {
 		super(parent, style);
+		init();
 	}
 
 	public void init() {

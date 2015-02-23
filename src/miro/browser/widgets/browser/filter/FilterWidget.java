@@ -25,7 +25,6 @@ package miro.browser.widgets.browser.filter;
 import java.util.ArrayList;
 import java.util.List;
 
-import miro.browser.provider.CertificateTableLabelProvider;
 import miro.browser.provider.CertificateTreeLabelProvider;
 import miro.browser.resources.Fonts;
 import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
@@ -44,7 +43,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 
 public class FilterWidget extends Composite{
 

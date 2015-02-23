@@ -25,13 +25,11 @@ package miro.browser.widgets.browser.coolbar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import miro.browser.resources.Fonts;
 import miro.logging.LoggerFactory;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 public class UpdateTimestamp extends Composite{

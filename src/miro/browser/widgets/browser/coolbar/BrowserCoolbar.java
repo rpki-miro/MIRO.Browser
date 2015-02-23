@@ -22,15 +22,9 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.coolbar;
 
-import java.io.OutputStreamWriter;
-
-import miro.browser.download.DownloadHandler;
 import miro.browser.updater.ModelUpdater;
 import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.browser.widgets.browser.tree.ViewerManager;
-import miro.validator.export.json.ManifestSerializer;
-import miro.validator.types.ManifestObject;
-import miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.rap.rwt.RWT;
@@ -43,10 +37,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.thoughtworks.xstream.io.json.JsonWriter;
 
 public class BrowserCoolbar extends Composite {
 

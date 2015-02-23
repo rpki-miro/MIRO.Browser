@@ -20,23 +20,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.displaywidgets;
+package miro.browser.widgets.browser.display;
 
 import java.net.URI;
 import java.util.ArrayList;
 
 import json.deserializers.ValidationStatus;
-import miro.browser.converters.DateTimeConverter;
 import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
-import miro.browser.converters.ValidityPeriodConverter;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.RPKIBrowserView;
 import miro.validator.types.RepositoryObject;
-import miro.validator.types.ResourceHoldingObject;
-import miro.validator.types.RoaObject;
 import miro.validator.types.ValidationResults;
-import net.ripe.rpki.commons.crypto.ValidityPeriod;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
@@ -45,20 +40,20 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.joda.time.DateTime;
 
 
-public class RoaWidget extends DisplayWidget implements ResourceHolderObservableBinder {
+
+public class CrlWidget extends DisplayWidget implements ResourceHolderObservableBinder{
 	
-	private RoaPrefixViewer prefixViewer;
+	private RevokedCertificateViewer revokedCertViewer;
 	
-	public RoaWidget(Composite parent, int style,RPKIBrowserView b) {
-		super(parent, style,b);
+	public CrlWidget(Composite parent, int style, RPKIBrowserView b ) {
+		super(parent, style, b);
 		style = SWT.NONE;
 		setDisplayLayout();
-		initTitleBar("Route Authorization Object");
+		initTitleBar("Certificate Revokation List");
 		createInformationContainer(this, style);
-		createRoaPrefixViewer(style);
+		createRevokedCertificateViewer(this, style);
 		this.layout();
 	}
 	
@@ -76,7 +71,7 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 		layout.spacing = 0;
 		setLayout(layout);
 	}
-
+	
 	public void initTitleBar(String heading) {
 		super.initTitleBar(heading);
 		RowData layoutData = new RowData();
@@ -84,67 +79,70 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 		titleBar.setLayoutData(layoutData);
 	}
 
-	public void createRoaPrefixViewer( int style) {
-		prefixViewer = new RoaPrefixViewer(this, style);
-		
-		RowData rowData = new RowData();
-		rowData.height =  MagicNumbers.RDW_PREFIX_LIST_HEIGHT;
-		rowData.width = MagicNumbers.RDW_PREFIX_LIST_WIDTH;
-		prefixViewer.setLayoutData(rowData);
-	}
-
-
 	public void createInformationContainer(Composite parent, int style) {
 		super.createInformationContainer(this, style);
 		RowData rowData = new RowData();
 		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
 		informationContainer.setLayoutData(rowData);
 	}
+	
+	public void createRevokedCertificateViewer(Composite parent, int style) {
+		revokedCertViewer = new RevokedCertificateViewer(parent, style);
+		
+		RowData rowData = new RowData();
+		rowData.height =  MagicNumbers.CRL_REVOKED_LIST_HEIGHT;
+		rowData.width = MagicNumbers.CRL_REVOKED_LIST_WIDTH;
+		revokedCertViewer.setLayoutData(rowData);	
+	}
+	
+	
+	public RevokedCertificateViewer getRevokedCertificateViewer(){
+		return revokedCertViewer;
+	}
+
 
 	@Override
 	public void initFields(Composite parent, int style) {
 		ValidationCheckConverter checkToStringconv = new ValidationCheckConverter();
-		ValidityPeriodConverter validityPeriodConv = new ValidityPeriodConverter();
 		
 		InformationField filenameField = new TextField(parent, style, String.class,RepositoryObject.class,"Filename: ", MagicNumbers.LINE_HEIGHT, "filename",null);
 		fields.add(filenameField);
 		
 		InformationField locationField = new TextField(parent, style, URI.class, RepositoryObject.class,"Location: ", MagicNumbers.LINE_HEIGHT, "remoteLocation",new URIConverter());
 		fields.add(locationField);
-
-		fields.add(new TextField(parent, style, ValidationStatus.class, ValidationResults.class,"Validation Status: ", MagicNumbers.LINE_HEIGHT*2, "validationStatus",null));
-
-		fields.add(new TextField(parent, style, ArrayList.class, ValidationResults.class,"Errors: ", MagicNumbers.LINE_HEIGHT*2, "errors", checkToStringconv));
 		
-		fields.add(new TextField(parent,style,ArrayList.class, ValidationResults.class, "Warnings: ", MagicNumbers.LINE_HEIGHT*2,"warnings",checkToStringconv));
+		InformationField validationStatusField = new TextField(parent, style, ValidationStatus.class,ValidationResults.class,"Validation Status: ", MagicNumbers.LINE_HEIGHT*2, "validationStatus",null);
+		fields.add(validationStatusField);
 		
-		fields.add(new TextField(parent, style, ValidityPeriod.class, RoaObject.class ,"Validity Period: ", MagicNumbers.LINE_HEIGHT*2, "validityPeriod",validityPeriodConv));
+		InformationField invalidReasonsField = new TextField(parent, style, ArrayList.class,ValidationResults.class,"Errors: ", MagicNumbers.LINE_HEIGHT*2, "errors",checkToStringconv);
+		fields.add(invalidReasonsField);
 		
-		fields.add(new TextField(parent, style, DateTime.class, ResourceHoldingObject.class,"Signing Time: ", MagicNumbers.LINE_HEIGHT*2, "signingTime", new DateTimeConverter()));
+		InformationField warningsField = new TextField(parent,style,ArrayList.class, ValidationResults.class, "Warnings: ", MagicNumbers.LINE_HEIGHT*2,"warnings",checkToStringconv);
+		fields.add(warningsField);
 		
 		layoutFields(MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH);
 		parent.layout();
 	}
-
-	public RoaPrefixViewer getRoaPrefixViewer() {
-		return prefixViewer;
-	}
-
+	
 	@Override
-	public void bindToResourceHolder(IObservableValue resourceHolderObservable,
+	public void bindToResourceHolder(IObservableValue crlObservable,
 			DataBindingContext dbc) {
 		
-		IObservableValue validationResultObservable = PojoProperties.value((Class) resourceHolderObservable.getValueType(), "validationResults", ValidationResults.class).observeDetail(resourceHolderObservable);
+		//Bind viewer
+		IObservableValue validationResultObservable = PojoProperties.value((Class) crlObservable.getValueType(), "validationResults", ValidationResults.class).observeDetail(crlObservable);
 		for(InformationField field : fields){
-			if(field.containerType.equals(ResourceHoldingObject.class) | field.containerType.equals(RoaObject.class) | field.containerType.equals(RepositoryObject.class)){
-				field.bindField(resourceHolderObservable, dbc);
-			}
-			
 			if(field.containerType.equals(ValidationResults.class)){
 				field.bindField(validationResultObservable, dbc);
 			}
+			
+			if(field.containerType.equals(RepositoryObject.class)){
+				field.bindField(crlObservable, dbc);
+			}
+
 		}
+		
+		
 	}
-	
-	
+
+
 }

@@ -22,21 +22,16 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.tree;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
-
 import miro.browser.provider.CertificateTreeContentProvider;
 import miro.browser.provider.CertificateTreeLabelProvider;
 import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
