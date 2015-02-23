@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.tree;
+package miro.browser.widgets.browser.views;
 
 import miro.browser.provider.CertificateTableContentProvider;
 import miro.browser.provider.CertificateTreeLabelProvider;
@@ -37,13 +37,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-public class TableBrowser extends Composite implements ViewerContainer{
+public class TableView extends Composite implements View{
 	
 	private TableViewer tableViewer;
 	
 	private Table table;
 
-	public TableBrowser(Composite parent, int style) {
+	public TableView(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new FillLayout());
 		tableViewer = new TableViewer(this,SWT.VIRTUAL);
@@ -76,8 +76,8 @@ public class TableBrowser extends Composite implements ViewerContainer{
 	}
 
 	@Override
-	public ViewerType getType() {
-		return ViewerType.TABLE;
+	public ViewType getType() {
+		return ViewType.TABLE;
 	}
 
 	@Override

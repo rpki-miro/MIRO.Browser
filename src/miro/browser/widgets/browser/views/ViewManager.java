@@ -20,101 +20,95 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.tree;
+package miro.browser.widgets.browser.views;
 
 
 import java.util.HashMap;
 
-import miro.browser.widgets.browser.tree.ViewerContainer.ViewerType;
+import miro.browser.widgets.browser.views.View.ViewType;
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
 
-public class ViewerManager extends Composite {
+/**
+ * Widget container for the different views available. Manages input, selection, filters of View Objects and shows the current View.
+ * @author ponken
+ *
+ */
+public class ViewManager extends Composite {
 	
-	private HashMap<ViewerType, ViewerContainer> viewerMap;
+	private HashMap<ViewType, View> viewMap;
 	
 	private StackLayout layout;
 	
-	private ViewerContainer selectedViewer;
+	private View currentView;
 
-	public ViewerManager(Composite parent, int style) {
+	public ViewManager(Composite parent, int style) {
 		super(parent, style);
-		init();
-	}
+		viewMap = new HashMap<View.ViewType, View>();
 
-	public void init() {
 		layout = new StackLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		this.setLayout(layout);
-		
-		viewerMap = new HashMap<ViewerContainer.ViewerType, ViewerContainer>();
+
 		initViewers();
-		showViewer(ViewerType.TREE);
-	}
-
-	public void setViewerInput(ResourceCertificateTree tree){
-		selectedViewer.setInput(tree);
+		showView(ViewType.TREE);
 	}
 	
-	private void initViewers() {
-		ViewerContainer viewer = new TreeBrowser(this, SWT.NONE);
-		viewerMap.put(viewer.getType(), viewer);
-
-		viewer = new TableBrowser(this, SWT.NONE);
-		viewerMap.put(viewer.getType(), viewer);
-	}
-	
-	public void showViewer(ViewerContainer.ViewerType type){
-		ViewerContainer viewer = viewerMap.get(type);
-		if(selectedViewer != null){
-			
-			viewer.setInput(selectedViewer.getInput());
-			
-
-			if(selectedViewer.getSelection() != null){
-				viewer.setSelection(selectedViewer.getSelection());
+	/**
+	 * Shows the View with the corresponding ViewType. 
+	 * Tries to preserve selection, input and filters from the old View.
+	 * @param type Type of the View to display
+	 */
+	public void showView(ViewType type){
+		View viewer = viewMap.get(type);
+		if(currentView != null){
+			viewer.setInput(currentView.getInput());
+			if(currentView.getSelection() != null){
+				viewer.setSelection(currentView.getSelection());
 			}
-			
-			
-			viewer.setFilters(selectedViewer.getFilters());
+			viewer.setFilters(currentView.getFilters());
 		}
 		layout.topControl = (Control) viewer;
-		selectedViewer = viewer;
+		currentView = viewer;
 		layout();
 	}
+
+	private void initViewers() {
+		View viewer = new TreeView(this, SWT.NONE);
+		viewMap.put(viewer.getType(), viewer);
+
+		viewer = new TableView(this, SWT.NONE);
+		viewMap.put(viewer.getType(), viewer);
+	}
 	
-	public ViewerContainer getViewer(ViewerType type){
-		return viewerMap.get(type);
+	public View getView(ViewType type){
+		return viewMap.get(type);
 	}
 	
 	public void setViewerFilters(ViewerFilter[] viewerFilters) {
-		selectedViewer.setFilters(viewerFilters);
+		currentView.setFilters(viewerFilters);
 	}
 
 	public void resetViewerFilters() {
-		selectedViewer.resetFilters();
+		currentView.resetFilters();
 	}
 
 	public ResourceHoldingObject getSelectedObject() {
-		return selectedViewer.getSelection();
+		return currentView.getSelection();
 	}
 
 	public void setSelection(ResourceHoldingObject issuer) {
-		selectedViewer.setSelection(issuer);
+		currentView.setSelection(issuer);
 	}
 
-
+	public void setViewerInput(ResourceCertificateTree tree){
+		currentView.setInput(tree);
+	}
 }

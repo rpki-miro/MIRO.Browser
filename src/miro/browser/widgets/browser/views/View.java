@@ -20,10 +20,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.tree;
+package miro.browser.widgets.browser.views;
 
-public interface TreeToggleObserver {
+import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
+
+import miro.validator.types.ResourceCertificateTree;
+import miro.validator.types.ResourceHoldingObject;
+
+public interface View {
 	
-	public void notifyTreeToggle(boolean toggle);
+	public void setSelection(ResourceHoldingObject obj);
+	
+	public ResourceHoldingObject getSelection();
+	
+	public ViewType getType();
+
+	public void setInput(ResourceCertificateTree tree);
+
+	public ResourceCertificateTree getInput();
+	
+	public ViewerFilter[] getFilters();
+	
+	public void setFilters(ViewerFilter[] filters);
+
+	public void resetFilters();
+	
+	public StructuredViewer getViewer();
+
+	public enum ViewType {
+		TREE, TABLE
+	}
 
 }

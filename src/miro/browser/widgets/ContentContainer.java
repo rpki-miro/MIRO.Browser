@@ -22,7 +22,7 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets;
 
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 import miro.browser.widgets.query.QueryWidget;
 import miro.browser.widgets.stats.StatsView;
 
@@ -48,7 +48,7 @@ public class ContentContainer extends Composite {
 		layout.marginWidth = 0;
 	}
 	
-	public void setBrowser(RPKIBrowserView b) {
+	public void setBrowser(RPKIBrowser b) {
 		browser = b;
 	}
 	

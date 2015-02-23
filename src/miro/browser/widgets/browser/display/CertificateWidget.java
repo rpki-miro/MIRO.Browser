@@ -38,7 +38,7 @@ import miro.browser.converters.ValidityPeriodConverter;
 import miro.browser.converters.X500PrincipalConverter;
 import miro.browser.converters.X500PrincipalLinkConverter;
 import miro.browser.resources.MagicNumbers;
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.ValidationResults;
@@ -52,20 +52,22 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+/**
+ * Widget that shows information about a CertificateObject
+ * @author ponken
+ *
+ */
 @SuppressWarnings("serial")
 public class CertificateWidget extends DisplayWidget implements ResourceHolderObservableBinder {
 	
-	private ResourceSetViewer resourceSetViewer;
+	private ResourceSetTable resourceSetTable;
 	
-	public CertificateWidget(Composite parent, int style, RPKIBrowserView b) {
+	public CertificateWidget(Composite parent, int style, RPKIBrowser b) {
 		super(parent, style, b);
-		browser = b;
-		style = SWT.NONE;
-		setDisplayLayout();
 		initTitleBar("Resource Certificate");
-		createResourceSetViewer(this, style);
-		createInformationContainer(this,style);
-		this.layout();
+		resourceSetTable = new ResourceSetTable(this, style);
+		setDisplayLayout();
+		layout();
 	}
 	
 	public void setDisplayLayout(){
@@ -77,33 +79,21 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
 		
 		setLayout(layout);
-	}
-	
-	public void initTitleBar(String heading) {
-		super.initTitleBar(heading);
-		GridData gridData = new GridData();
-		gridData.horizontalSpan = 2;
-		titleBar.setLayoutData(gridData);
-	}
-	
-	public void createResourceSetViewer(Composite parent, int style){
-		resourceSetViewer = new ResourceSetViewer(parent, style);
 
-		GridData gridData = new GridData();
-		gridData.heightHint = MagicNumbers.CDW_RESOURCE_LIST_HEIGHT;
-		gridData.widthHint = MagicNumbers.CDW_RESOURCE_LIST_WIDTH;
-		gridData.verticalAlignment = SWT.FILL;
-		resourceSetViewer.setLayoutData(gridData);
-	}
-	
-	public void createInformationContainer(Composite parent, int style) {
-		super.createInformationContainer(this, style);
 		GridData gridData = new GridData();
 		gridData.widthHint = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
 		informationContainer.setLayoutData(gridData);
+		gridData = new GridData();
+		gridData.horizontalSpan = 2;
+		titleBar.setLayoutData(gridData);
+
+		gridData = new GridData();
+		gridData.heightHint = MagicNumbers.CDW_RESOURCE_LIST_HEIGHT;
+		gridData.widthHint = MagicNumbers.CDW_RESOURCE_LIST_WIDTH;
+		gridData.verticalAlignment = SWT.FILL;
+		resourceSetTable.setLayoutData(gridData);
 	}
 	
-
 	public void initFields(Composite parent, int style) {
 		style = SWT.NONE;
 		
@@ -179,7 +169,7 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		}
 	}
 
-	public ResourceSetViewer getResourceSetViewer() {
-		return resourceSetViewer;
+	public ResourceSetTable getResourceSetTable() {
+		return resourceSetTable;
 	}
 }

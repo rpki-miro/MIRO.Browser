@@ -25,11 +25,11 @@ package miro.browser.widgets.browser.display;
 import java.util.ArrayList;
 
 import miro.browser.download.DownloadHandler;
-import miro.browser.resources.Colors;
 import miro.browser.resources.Fonts;
 import miro.browser.resources.MagicNumbers;
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 import miro.validator.types.CertificateObject;
+import miro.validator.types.RepositoryObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
 
@@ -42,10 +42,11 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TabItem;
 
 public abstract class DisplayWidget extends Composite {
 	
-	protected RPKIBrowserView browser; 
+	protected RPKIBrowser browser; 
 	
 	protected Composite titleBar;
 	
@@ -55,15 +56,13 @@ public abstract class DisplayWidget extends Composite {
 
 	public abstract void initFields(Composite parent, int style);
 	
-	public abstract void setDisplayLayout();
-
-	public DisplayWidget(Composite parent, int style, RPKIBrowserView b ) {
+	public DisplayWidget(Composite parent, int style, RPKIBrowser b ) {
 		super(parent, style);
 		browser = b;
-		setDisplayLayout();
-		setBackground(Colors.BROWSER_DISPLAY_WIDGETS_BACKGROUND);
-		setBackgroundMode(SWT.INHERIT_DEFAULT);
 		fields = new ArrayList<InformationField>();
+		createInformationContainer(this, style);
+//		setBackground(Colors.BROWSER_DISPLAY_WIDGETS_BACKGROUND);
+//		setBackgroundMode(SWT.INHERIT_DEFAULT);
 	}
 	
 	public void initTitleBar(String heading) {
@@ -74,8 +73,6 @@ public abstract class DisplayWidget extends Composite {
 		
 		Label title = new Label(titleBar, SWT.NONE);
 		title.setText(heading);
-		RowData layoutData = new RowData();
-		title.setLayoutData(layoutData);
 		title.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
 		
 		Link download = new Link(titleBar, SWT.NONE);
@@ -85,34 +82,10 @@ public abstract class DisplayWidget extends Composite {
 			
 			@Override
 			public void handleEvent(Event event) {
-				ResourceHoldingObject obj = browser.getViewerContainer().getSelectedObject();
-				
 				DownloadHandler dlhand  = new DownloadHandler();
-				if(DisplayWidget.this instanceof RoaWidget){
-					dlhand.sendDownload(obj);
-				}
-				
-				if(DisplayWidget.this instanceof ManifestWidget) {
-					if(obj instanceof CertificateObject){
-						dlhand.sendDownload(((CertificateObject)obj).getManifest());
-					}
-				}
-
-				if(DisplayWidget.this instanceof CrlWidget) {
-					if(obj instanceof CertificateObject)
-						dlhand.sendDownload(((CertificateObject)obj).getCrl());
-				}
-				
-				if(DisplayWidget.this instanceof CertificateWidget){
-					
-					if(obj instanceof RoaObject){
-						dlhand.sendDownload(((RoaObject)obj).getEeCert());
-					} else {
-						dlhand.sendDownload(obj);
-					}
-				}
-				
-				
+				TabItem selectedTab = browser.getDisplayContainer().getSelection()[0];
+				RepositoryObject r = (RepositoryObject) selectedTab.getData();
+				dlhand.sendDownload(r);
 			}
 		});
 	}
@@ -140,7 +113,6 @@ public abstract class DisplayWidget extends Composite {
 		Object buf;
 		for(InformationField f : fields){
 			buf = f.getLayoutData();
-			
 			if(buf == null){
 				rowData = new RowData();
 			} else {

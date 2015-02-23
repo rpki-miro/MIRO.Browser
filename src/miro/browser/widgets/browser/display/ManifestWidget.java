@@ -29,7 +29,7 @@ import json.deserializers.ValidationStatus;
 import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.resources.MagicNumbers;
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 import miro.validator.types.RepositoryObject;
 import miro.validator.types.ValidationResults;
 
@@ -41,19 +41,21 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 
-
+/**
+ * Widget that shows information about a ManifestObject
+ * @author ponken
+ *
+ */
 public class ManifestWidget extends DisplayWidget implements ResourceHolderObservableBinder {
 
-	private ManifestFilesViewer filesViewer;
+	private ManifestFilesTable filesTable;
 	
-	public ManifestWidget(Composite parent, int style, RPKIBrowserView b) {
+	public ManifestWidget(Composite parent, int style, RPKIBrowser b) {
 		super(parent, style,b);
-		style = SWT.NONE;
-		setDisplayLayout();
 		initTitleBar("Manifest");
-		createInformationContainer(this,style);
-		createFilesViewer(this,style,b);
-		this.layout();
+		filesTable = new ManifestFilesTable(this, style,b);
+		setDisplayLayout();
+		layout();
 	}
 	
 	public void setDisplayLayout(){
@@ -69,14 +71,17 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
 		layout.spacing = 0;
 		setLayout(layout);
-	}
-	
-	public void initTitleBar(String heading) {
-		super.initTitleBar(heading);
+		RowData rowData = new RowData();
+		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
+		informationContainer.setLayoutData(rowData);
 		RowData layoutData = new RowData();
 		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
 		titleBar.setLayoutData(layoutData);
+		rowData = new RowData();
+		rowData.height =  MagicNumbers.MFT_HASH_LIST_HEIGHT;
+		filesTable.setLayoutData(rowData);	
 	}
+	
 	public void initFields(Composite parent,int style){
 		ValidationCheckConverter checkToStringconv = new ValidationCheckConverter();
 		
@@ -99,20 +104,6 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		parent.layout();
 	}
 	
-	public void createInformationContainer(Composite parent, int style) {
-		super.createInformationContainer(this, style);
-		RowData rowData = new RowData();
-		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
-		informationContainer.setLayoutData(rowData);
-	}
-	public void createFilesViewer(Composite parent, int style, RPKIBrowserView b) {
-		filesViewer = new ManifestFilesViewer(this, style,b);
-		RowData rowData = new RowData();
-		rowData.height =  MagicNumbers.MFT_HASH_LIST_HEIGHT;
-		filesViewer.setLayoutData(rowData);	
-	}
-
-
 	@Override
 	public void bindToResourceHolder(IObservableValue manifestObservable,
 			DataBindingContext dbc) {
@@ -132,9 +123,8 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		}
 	}
 
-
-	public ManifestFilesViewer getManifestFilesViewer() {
-		return filesViewer;
+	public ManifestFilesTable getManifestFilesTable() {
+		return filesTable;
 	}
 
 }

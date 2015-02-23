@@ -23,7 +23,7 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.display;
 
 import miro.browser.resources.Colors;
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 import miro.validator.types.CRLObject;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ManifestObject;
@@ -43,7 +43,7 @@ public class CertificateDisplay implements ResourceHolderObservableBinder{
 	
 	private CrlWidget crlWidget;
 	
-	public CertificateDisplay(Composite parent, RPKIBrowserView b) {
+	public CertificateDisplay(Composite parent, RPKIBrowser b) {
 		ScrolledComposite scroller = createScrollingContainer(parent);
 		certWidget = new CertificateWidget(scroller, SWT.NONE,b);
 		scroller.setContent(certWidget);
@@ -78,10 +78,10 @@ public class CertificateDisplay implements ResourceHolderObservableBinder{
 		
 	}
 	
-	public void showResources(CertificateObject obj) {
-		certWidget.getResourceSetViewer().setInput(obj.getResources());
-		manifestWidget.getManifestFilesViewer().setInput(obj.getManifest());
-		crlWidget.getRevokedCertificateViewer().setInput(obj.getCrl());
+	public void populateTables(CertificateObject obj) {
+		certWidget.getResourceSetTable().setInput(obj.getResources());
+		manifestWidget.getManifestFilesTable().setInput(obj.getManifest());
+		crlWidget.getRevokedCertificateTable().setInput(obj.getCrl());
 	}
 
 	public CertificateWidget getCertificateWidget() {

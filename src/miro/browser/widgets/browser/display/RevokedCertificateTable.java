@@ -39,10 +39,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-public class RevokedCertificateViewer extends Composite {
+public class RevokedCertificateTable extends Composite {
 	private TableViewer tableViewer;
 
-	public RevokedCertificateViewer(Composite parent, int style) {
+	public RevokedCertificateTable(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new FillLayout());
 		tableViewer = new TableViewer(this, SWT.V_SCROLL);

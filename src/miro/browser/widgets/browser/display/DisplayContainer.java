@@ -22,7 +22,7 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -32,6 +32,13 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+/**
+ * Widget container for the different Object Displays, in this case RoaDisplay and CertificateDisplay.
+ * Shows Displays in Tabs, see Tab
+ * 
+ * @author ponken
+ *
+ */
 public class DisplayContainer extends TabFolder{
 
 	private CertificateDisplay certificateDisplay;
@@ -44,7 +51,7 @@ public class DisplayContainer extends TabFolder{
 	}
 	
 	
-	public void initDisplays(RPKIBrowserView b){
+	public void initDisplays(RPKIBrowser b){
 		certificateDisplay = new CertificateDisplay(this,b);
 		roaDisplay = new RoaDisplay(this, b);
 	}

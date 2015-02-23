@@ -41,12 +41,16 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 import com.google.common.collect.Iterables;
-
-public class ResourceSetViewer extends Composite{
+/**
+ * Wrapper class for a TableViewer that shows a IpResourceSet
+ * @author ponken
+ *
+ */
+public class ResourceSetTable extends Composite{
 	
 	private TableViewer tableViewer;
 
-	public ResourceSetViewer(Composite parent, int style) {
+	public ResourceSetTable(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new FillLayout());
 		
@@ -80,14 +84,10 @@ private class ResourceContentProvider implements IStructuredContentProvider {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

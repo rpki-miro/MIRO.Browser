@@ -29,7 +29,7 @@ import json.deserializers.ValidationStatus;
 import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.resources.MagicNumbers;
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 import miro.validator.types.RepositoryObject;
 import miro.validator.types.ValidationResults;
 
@@ -42,19 +42,21 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 
 
-
+/**
+ * Widget that shows information about a CRLObject
+ * @author ponken
+ *
+ */
 public class CrlWidget extends DisplayWidget implements ResourceHolderObservableBinder{
 	
-	private RevokedCertificateViewer revokedCertViewer;
+	private RevokedCertificateTable revokedCertTable;
 	
-	public CrlWidget(Composite parent, int style, RPKIBrowserView b ) {
+	public CrlWidget(Composite parent, int style, RPKIBrowser b ) {
 		super(parent, style, b);
-		style = SWT.NONE;
-		setDisplayLayout();
 		initTitleBar("Certificate Revokation List");
-		createInformationContainer(this, style);
-		createRevokedCertificateViewer(this, style);
-		this.layout();
+		revokedCertTable = new RevokedCertificateTable(this, style);
+		setDisplayLayout();
+		layout();
 	}
 	
 	public void setDisplayLayout(){
@@ -70,36 +72,21 @@ public class CrlWidget extends DisplayWidget implements ResourceHolderObservable
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
 		layout.spacing = 0;
 		setLayout(layout);
-	}
-	
-	public void initTitleBar(String heading) {
-		super.initTitleBar(heading);
-		RowData layoutData = new RowData();
-		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
-		titleBar.setLayoutData(layoutData);
-	}
-
-	public void createInformationContainer(Composite parent, int style) {
-		super.createInformationContainer(this, style);
 		RowData rowData = new RowData();
 		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
 		informationContainer.setLayoutData(rowData);
-	}
-	
-	public void createRevokedCertificateViewer(Composite parent, int style) {
-		revokedCertViewer = new RevokedCertificateViewer(parent, style);
-		
-		RowData rowData = new RowData();
+		RowData layoutData = new RowData();
+		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
+		titleBar.setLayoutData(layoutData);
+		rowData = new RowData();
 		rowData.height =  MagicNumbers.CRL_REVOKED_LIST_HEIGHT;
 		rowData.width = MagicNumbers.CRL_REVOKED_LIST_WIDTH;
-		revokedCertViewer.setLayoutData(rowData);	
+		revokedCertTable.setLayoutData(rowData);	
 	}
 	
-	
-	public RevokedCertificateViewer getRevokedCertificateViewer(){
-		return revokedCertViewer;
+	public RevokedCertificateTable getRevokedCertificateTable(){
+		return revokedCertTable;
 	}
-
 
 	@Override
 	public void initFields(Composite parent, int style) {
@@ -138,11 +125,6 @@ public class CrlWidget extends DisplayWidget implements ResourceHolderObservable
 			if(field.containerType.equals(RepositoryObject.class)){
 				field.bindField(crlObservable, dbc);
 			}
-
 		}
-		
-		
 	}
-
-
 }

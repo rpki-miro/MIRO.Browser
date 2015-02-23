@@ -26,7 +26,7 @@ import miro.browser.resources.Fonts;
 import miro.browser.resources.Images;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.ContentContainer;
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 import miro.browser.widgets.header.HeaderBar;
 import miro.browser.widgets.header.LinkContainer;
 import miro.browser.widgets.query.QueryWidget;
@@ -79,7 +79,7 @@ public class SessionRealm implements Runnable {
 		content.setLayoutData(layoutData);
 
 		//init browser
-		RPKIBrowserView browser = new RPKIBrowserView(content,SWT.BORDER);
+		RPKIBrowser browser = new RPKIBrowser(content,SWT.BORDER);
 		content.setBrowser(browser);
 		
 		

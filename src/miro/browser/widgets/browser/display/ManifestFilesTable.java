@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import miro.browser.resources.MagicNumbers;
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 import miro.util.ByteArrayPrinter;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ManifestObject;
@@ -49,25 +49,30 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-public class ManifestFilesViewer extends Composite {
+
+/**
+ * Wrapper class for a TableViewer that displays the filename:hash entries in a .mft file in a table.
+ * @author ponken
+ *
+ */
+public class ManifestFilesTable extends Composite {
 	
 	private TableViewer tableViewer;
 	
-	private RPKIBrowserView browser;
+	private RPKIBrowser browser;
 	
-	public ManifestFilesViewer(Composite parent, int style, RPKIBrowserView b) {
+	public ManifestFilesTable(Composite parent, int style, RPKIBrowser b) {
 		super(parent, style);
+		browser = b;
 		setLayout(new FillLayout());	
+
 		tableViewer = new TableViewer(this, SWT.V_SCROLL | SWT.H_SCROLL );
 		tableViewer.setContentProvider(new ManifestFilesContentProvider());
 		createColumns(tableViewer.getTable());
-		browser = b;
 	}
 	
 	public void createColumns(Table table) {
-		
 		table.setHeaderVisible(true);
-
 		TableViewerColumn newCol;
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table,SWT.NONE));
 		newCol.getColumn().setWidth(MagicNumbers.MFT_HASH_LIST_FILENAME_COLUMN_WIDTH);
@@ -94,11 +99,9 @@ public class ManifestFilesViewer extends Composite {
 		});
 		
 		table.addListener(SWT.DefaultSelection, new Listener() {
-			
 			@Override
 			public void handleEvent(Event event) {
 				FileHashPair pair = (FileHashPair) ((TableItem)event.item).getData();
-				
 				if(pair.filename.endsWith(".crl")){
 					for(TabItem tab : browser.getDisplayContainer().getItems()) {
 						if(tab.getText().equals("CRL")){
@@ -121,7 +124,6 @@ public class ManifestFilesViewer extends Composite {
 		
 	}
 
-
 	public void setInput(ManifestObject manifest) {
 		tableViewer.setInput(manifest);
 	}
@@ -135,7 +137,6 @@ public class ManifestFilesViewer extends Composite {
 	}
 	
 	private class ManifestFilesContentProvider implements IStructuredContentProvider {
-
 		@Override
 		public void dispose() {
 		}
@@ -153,9 +154,7 @@ public class ManifestFilesViewer extends Composite {
 			ManifestObject mft = (ManifestObject)inputElement;
 			return createPairList(mft.getFiles()).toArray();
 		}
-		
 	}
-	
 	
 	private class FileHashPair {
 		

@@ -42,13 +42,13 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
-public class RoaPrefixViewer extends Composite {
+public class RoaPrefixTable extends Composite {
 	
 	
 	private TableViewer tableViewer;
 	private Text asText;
 
-	public RoaPrefixViewer(Composite parent, int style) {
+	public RoaPrefixTable(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new FormLayout());
 		createAsText();

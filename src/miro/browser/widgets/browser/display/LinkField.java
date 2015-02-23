@@ -22,7 +22,7 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -39,12 +39,12 @@ import org.eclipse.swt.widgets.Link;
 
 public class LinkField extends InformationField {
 	
-	private RPKIBrowserView browser;
+	private RPKIBrowser browser;
 	
 	private Link link;
 
 	public LinkField(Composite parent, int style, Class t, Class cont,
-			String labelText, int mH, String name, IConverter conv, RPKIBrowserView b) {
+			String labelText, int mH, String name, IConverter conv, RPKIBrowser b) {
 		super(parent, style, t, cont, labelText, mH, name, conv);
 		link = new Link(this, style );
 		browser = b;

@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.tree;
+package miro.browser.widgets.browser.views;
 
 import java.util.HashMap;
 
@@ -41,13 +41,13 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 
-public class TreeBrowser extends Composite implements ViewerContainer{
+public class TreeView extends Composite implements View{
 	
 	private Tree tree;
 
 	private TreeViewer treeViewer;
 	
-	public TreeBrowser(Composite parent, int style) {
+	public TreeView(Composite parent, int style) {
 		super(parent, style);
 		init();
 		
@@ -93,8 +93,8 @@ public class TreeBrowser extends Composite implements ViewerContainer{
 	}
 
 	@Override
-	public ViewerType getType() {
-		return ViewerType.TREE;
+	public ViewType getType() {
+		return ViewType.TREE;
 	}
 
 	@Override

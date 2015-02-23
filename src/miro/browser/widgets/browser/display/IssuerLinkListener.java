@@ -22,7 +22,7 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
-import miro.browser.widgets.browser.tree.ViewerManager;
+import miro.browser.widgets.browser.views.ViewManager;
 import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.swt.widgets.Event;
@@ -30,9 +30,9 @@ import org.eclipse.swt.widgets.Listener;
 
 public class IssuerLinkListener implements Listener {
 
-	private ViewerManager viewerContainer;
+	private ViewManager viewerContainer;
 	
-	public IssuerLinkListener(ViewerManager c) {
+	public IssuerLinkListener(ViewManager c) {
 		viewerContainer = c;
 	}
 

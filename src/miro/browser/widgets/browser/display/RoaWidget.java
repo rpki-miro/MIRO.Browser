@@ -31,7 +31,7 @@ import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.converters.ValidityPeriodConverter;
 import miro.browser.resources.MagicNumbers;
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 import miro.validator.types.RepositoryObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
@@ -47,19 +47,21 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.joda.time.DateTime;
 
-
+/**
+ * Widget that shows information about a RoaObject
+ * @author ponken
+ *
+ */
 public class RoaWidget extends DisplayWidget implements ResourceHolderObservableBinder {
 	
-	private RoaPrefixViewer prefixViewer;
+	private RoaPrefixTable prefixTable;
 	
-	public RoaWidget(Composite parent, int style,RPKIBrowserView b) {
+	public RoaWidget(Composite parent, int style,RPKIBrowser b) {
 		super(parent, style,b);
-		style = SWT.NONE;
-		setDisplayLayout();
 		initTitleBar("Route Authorization Object");
-		createInformationContainer(this, style);
-		createRoaPrefixViewer(style);
-		this.layout();
+		prefixTable = new RoaPrefixTable(this, style);
+		setDisplayLayout();
+		layout();
 	}
 	
 	public void setDisplayLayout(){
@@ -75,30 +77,18 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
 		layout.spacing = 0;
 		setLayout(layout);
-	}
 
-	public void initTitleBar(String heading) {
-		super.initTitleBar(heading);
-		RowData layoutData = new RowData();
-		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
-		titleBar.setLayoutData(layoutData);
-	}
-
-	public void createRoaPrefixViewer( int style) {
-		prefixViewer = new RoaPrefixViewer(this, style);
-		
-		RowData rowData = new RowData();
-		rowData.height =  MagicNumbers.RDW_PREFIX_LIST_HEIGHT;
-		rowData.width = MagicNumbers.RDW_PREFIX_LIST_WIDTH;
-		prefixViewer.setLayoutData(rowData);
-	}
-
-
-	public void createInformationContainer(Composite parent, int style) {
-		super.createInformationContainer(this, style);
 		RowData rowData = new RowData();
 		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
 		informationContainer.setLayoutData(rowData);
+
+		RowData layoutData = new RowData();
+		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
+		titleBar.setLayoutData(layoutData);
+		rowData = new RowData();
+		rowData.height =  MagicNumbers.RDW_PREFIX_LIST_HEIGHT;
+		rowData.width = MagicNumbers.RDW_PREFIX_LIST_WIDTH;
+		prefixTable.setLayoutData(rowData);
 	}
 
 	@Override
@@ -126,8 +116,8 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 		parent.layout();
 	}
 
-	public RoaPrefixViewer getRoaPrefixViewer() {
-		return prefixViewer;
+	public RoaPrefixTable getRoaPrefixTable() {
+		return prefixTable;
 	}
 
 	@Override

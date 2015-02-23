@@ -22,9 +22,6 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser;
 
-import java.util.ArrayList;
-
-import miro.browser.widgets.browser.display.CertificateDisplay;
 import miro.browser.widgets.browser.display.DisplayContainer;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
@@ -33,52 +30,37 @@ import miro.validator.types.RoaObject;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 
-public class TabHideListener implements ISelectionChangedListener{
+
+/**
+ * Listens for selection changes in a View and populates the tables in CertificateDisplay
+ * or RoaDisplay
+ * @author ponken
+ *
+ */
+@SuppressWarnings("serial")
+public class TableListener implements ISelectionChangedListener {
 
 	private DisplayContainer display;
 	
-	public TabHideListener(DisplayContainer b) {
+	public TableListener(DisplayContainer b) {
 		display = b;
 	}
-
+	
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
+		
+		/*Get selected object*/
 		IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-		ResourceHoldingObject obj = (ResourceHoldingObject) selection.getFirstElement();
-
-		display.clearTabs();
-
-		TabItem tab;
+		ResourceHoldingObject obj  = (ResourceHoldingObject) selection.getFirstElement();
+		
+		/*Populate tables in appropriate Display*/
 		if(obj instanceof CertificateObject){
-			CertificateDisplay certificateDisplay = display.getCertificateDisplay();
-			
-			tab = new TabItem(display, SWT.NONE);
-			tab.setText("Certificate");
-			tab.setControl(certificateDisplay.getCertificateWidget().getParent());
-
-			tab = new TabItem(display, SWT.NONE);
-			tab.setText("Manifest");
-			tab.setControl(display.getCertificateDisplay().getManifestWidget().getParent());
-			
-			tab = new TabItem(display, SWT.NONE);
-			tab.setText("CRL");
-			tab.setControl(display.getCertificateDisplay().getCrlWidget().getParent());
+			display.getCertificateDisplay().populateTables((CertificateObject)obj);
 		}
-		
 		if(obj instanceof RoaObject){
-			tab = new TabItem(display, SWT.NONE);
-			tab.setText("ROA");
-			tab.setControl(display.getRoaDisplay().getRoaWidget().getParent());
-			
-			tab = new TabItem(display, SWT.NONE);
-			tab.setText("EE Certificate");
-			tab.setControl(display.getRoaDisplay().getCertificateWidget().getParent());
+			display.getRoaDisplay().populateTables((RoaObject)obj);
 		}
-		
-		display.layout();
 	}
+
 }

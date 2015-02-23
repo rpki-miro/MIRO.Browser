@@ -23,7 +23,7 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.display;
 
 import miro.browser.resources.Colors;
-import miro.browser.widgets.browser.RPKIBrowserView;
+import miro.browser.widgets.browser.RPKIBrowser;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.RoaObject;
 
@@ -40,7 +40,7 @@ public class RoaDisplay implements ResourceHolderObservableBinder{
 	
 	private CertificateWidget certificateWidget;
 	
-	public RoaDisplay(Composite parent, RPKIBrowserView b) {
+	public RoaDisplay(Composite parent, RPKIBrowser b) {
 		ScrolledComposite scroller = createScrollingContainer(parent);
 		roaWidget = new RoaWidget(scroller, SWT.NONE,b);
 		scroller.setContent(roaWidget);
@@ -77,9 +77,9 @@ public class RoaDisplay implements ResourceHolderObservableBinder{
 		return certificateWidget;
 	}
 
-	public void showResources(RoaObject obj) {
-		roaWidget.getRoaPrefixViewer().setInput(obj);
-		certificateWidget.getResourceSetViewer().setInput(obj.getEeCert().getResources());
+	public void populateTables(RoaObject obj) {
+		roaWidget.getRoaPrefixTable().setInput(obj);
+		certificateWidget.getResourceSetTable().setInput(obj.getEeCert().getResources());
 	}
 	
 }

@@ -27,9 +27,9 @@ import java.util.Arrays;
 import miro.browser.updater.ModelObserver;
 import miro.browser.updater.ModelUpdater;
 import miro.browser.updater.ObserverType;
-import miro.browser.widgets.browser.RPKIBrowserView;
-import miro.browser.widgets.browser.tree.ViewerManager;
-import miro.browser.widgets.browser.tree.ViewerContainer.ViewerType;
+import miro.browser.widgets.browser.RPKIBrowser;
+import miro.browser.widgets.browser.views.ViewManager;
+import miro.browser.widgets.browser.views.View.ViewType;
 import miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.jface.viewers.TreeViewer;
@@ -50,7 +50,7 @@ import org.eclipse.swt.widgets.ToolItem;
 
 public class BrowserControlBar extends Composite implements ModelObserver {
 
-	private RPKIBrowserView browser;
+	private RPKIBrowser browser;
 	
 	private ToolBar toolbar;
 	
@@ -58,7 +58,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 	
 	private Label updateTimestamp;
 	
-	public BrowserControlBar(Composite parent, int style, RPKIBrowserView b) {
+	public BrowserControlBar(Composite parent, int style, RPKIBrowser b) {
 		super(parent, style);
 		setData(RWT.CUSTOM_VARIANT, "browserCoolbar");
 		ModelUpdater.addObserver(this, ObserverType.MODEL);
@@ -96,7 +96,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 			@Override
 			public void handleEvent(Event event) {
 				browser.getFilterWidget().clearSelection();
-				ViewerManager viewerContainer = browser.getViewerContainer();
+				ViewManager viewerContainer = browser.getViewerContainer();
 				viewerContainer.resetViewerFilters();
 			}
 		});
@@ -107,7 +107,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 			
 			@Override
 			public void handleEvent(Event event) {
-				TreeViewer treeViewer = (TreeViewer) browser.getViewerContainer().getViewer(ViewerType.TREE).getViewer();
+				TreeViewer treeViewer = (TreeViewer) browser.getViewerContainer().getView(ViewType.TREE).getViewer();
 				ToolItem item = (ToolItem) event.widget;
 				if(item.getSelection()){
 					treeViewer.expandAll();
@@ -125,10 +125,10 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 			public void handleEvent(Event event) {
 				ToolItem item = (ToolItem) event.widget;
 				if(item.getSelection()){
-					browser.getViewerContainer().showViewer(ViewerType.TABLE);
+					browser.getViewerContainer().showView(ViewType.TABLE);
 					expandTreeItem.setEnabled(false);
 				} else {
-					browser.getViewerContainer().showViewer(ViewerType.TREE);
+					browser.getViewerContainer().showView(ViewType.TREE);
 					expandTreeItem.setEnabled(true);
 				}
 				
