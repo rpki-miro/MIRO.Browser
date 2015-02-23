@@ -51,6 +51,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 /**
  * Widget that shows information about a CertificateObject
@@ -119,8 +121,17 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		InformationField skiField = new TextField(parent, style, byte[].class, CertificateObject.class,"SKI: ", MagicNumbers.LINE_HEIGHT, "subjectKeyIdentifier",new ByteArrayConverter());
 		fields.add(skiField);
 
-		LinkField issuerField = new LinkField(parent, style, X500Principal.class, CertificateObject.class,"Issuer: ", MagicNumbers.LINE_HEIGHT*2,"issuer", new X500PrincipalLinkConverter(), browser);
-		issuerField.getLink().addListener(SWT.Selection, new IssuerLinkListener(browser.getViewerContainer()));
+		LinkField issuerField = new LinkField(parent, style, X500Principal.class, CertificateObject.class,"Issuer: ", MagicNumbers.LINE_HEIGHT*2,"issuer", new X500PrincipalLinkConverter());
+		issuerField.getLink().addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				ResourceHoldingObject selectedObj = browser.getViewerContainer().getSelectedObject();
+				ResourceHoldingObject issuer = selectedObj.getParent();
+				if (issuer != null) {
+					browser.getViewerContainer().setSelection(issuer);
+				}
+			}
+		});
 		fields.add(issuerField);
 
 		InformationField akiField = new TextField(parent, style, byte[].class, CertificateObject.class,"AKI: ", MagicNumbers.LINE_HEIGHT, "aki", new ByteArrayConverter());

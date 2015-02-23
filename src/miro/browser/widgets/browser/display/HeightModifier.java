@@ -36,7 +36,13 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-
+/**
+ * This listener modifies the height of DisplayWidgets and their containing InformationFields.
+ * This is necessary because the DisplayWidgets have dynamic String inputs, which can vary in length.
+ * A longer String requires a taller Widget to display it.
+ * @author ponken
+ *
+ */
 public class HeightModifier implements Listener{
 	
 	private InformationField field;
@@ -111,8 +117,6 @@ public class HeightModifier implements Listener{
 		ScrolledComposite scroller = (ScrolledComposite) dw.getParent();
 		scroller.setMinHeight(size.y);
 		dw.layout(true);
-
-		
 	}
 
 }

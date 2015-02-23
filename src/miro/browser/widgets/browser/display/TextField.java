@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class TextField extends InformationField {
 
-	Text text;
+	private Text text;
 	
 	public TextField(Composite parent, int style, Class type, Class cont, String labelText, int mH, String name, IConverter conv) {
 		super(parent, style, type,cont, labelText, mH, name, conv);
@@ -49,7 +49,7 @@ public class TextField extends InformationField {
 		layoutData.left = new FormAttachment(label);
 		layoutData.right = new FormAttachment(100,0);
 		text.setLayoutData(layoutData);
-	
+
 		text.addListener(SWT.Modify, new HeightModifier(this));
 	}
 	

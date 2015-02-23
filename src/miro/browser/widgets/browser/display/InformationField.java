@@ -36,46 +36,40 @@ import org.eclipse.swt.widgets.Label;
 
 public abstract class InformationField extends Composite {
 
-	Label label;
-	int minHeight;
+	protected Label label;
+
+	protected int minHeight;
 	
-	Class type;
-	Class containerType;
+	protected Class<?> type;
 	
-	String propertyName;
+	protected Class<?> containerType;
+	
+	protected String propertyName;
 	
 	IConverter converter;
-
-	
-	public InformationField(Composite parent, int style, Class t, Class cont, String labelText, int mH, String name, IConverter conv) {
+	public InformationField(Composite parent, int style, Class<?> t, Class<?> cont, String labelText, int mH, String name, IConverter conv) {
 		super(parent, style);
+		label = new Label(this, style | SWT.WRAP );
+
 		minHeight = mH;
 		type = t;
 		containerType = cont;
 		propertyName = name;
 		converter = conv;
+		label.setText(labelText);
 
-		
 		FormLayout layout = new FormLayout();
 		layout.marginHeight = MagicNumbers.INF_FIELD_MARGIN_HEIGHT;
 		layout.marginWidth = MagicNumbers.INF_FIELD_MARGIN_WIDTH;
 		layout.marginTop = 0;
 		setLayout(layout);
-		
-		
-		
-		label = new Label(this, style | SWT.WRAP );
-		label.setText(labelText);
-		
+
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(0,0);
 		layoutData.bottom = new FormAttachment(100,0);
 		layoutData.left = new FormAttachment(0,0);
 		layoutData.width = MagicNumbers.INF_FIELD_LABEL_WIDTH;
 		label.setLayoutData(layoutData);
-
-		
-
 	}
 	
 	public int getMinHeight(){

@@ -146,7 +146,6 @@ public class RPKIBrowser extends Composite{
 			}
 		});
 	}
-
 	
 	/**
 	 * Binds the selection of viewers held by viewerManager to the displays held by displayContainer

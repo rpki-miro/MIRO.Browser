@@ -47,7 +47,6 @@ public class DisplayContainer extends TabFolder{
 
 	public DisplayContainer(Composite parent, int style) {
 		super(parent, style);
-		setLayout(new RowLayout());
 	}
 	
 	

@@ -22,8 +22,6 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
-import miro.browser.widgets.browser.RPKIBrowser;
-
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.PojoProperties;
@@ -39,15 +37,12 @@ import org.eclipse.swt.widgets.Link;
 
 public class LinkField extends InformationField {
 	
-	private RPKIBrowser browser;
-	
 	private Link link;
 
-	public LinkField(Composite parent, int style, Class t, Class cont,
-			String labelText, int mH, String name, IConverter conv, RPKIBrowser b) {
+	public LinkField(Composite parent, int style, Class<?> t, Class<?> cont,
+			String labelText, int mH, String name, IConverter conv) {
 		super(parent, style, t, cont, labelText, mH, name, conv);
 		link = new Link(this, style );
-		browser = b;
 		
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(0,0);
@@ -55,6 +50,7 @@ public class LinkField extends InformationField {
 		layoutData.left = new FormAttachment(label);
 		layoutData.right = new FormAttachment(100,0);
 		link.setLayoutData(layoutData);
+
 		link.addListener(SWT.CHANGED, new HeightModifier(this));
 		link.setData(RWT.CUSTOM_VARIANT, "browserLink");
 	}
