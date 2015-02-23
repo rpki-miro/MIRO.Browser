@@ -31,8 +31,6 @@ import java.util.logging.SimpleFormatter;
 
 
 public class LoggerFactory {
-
-	
 	private static String logDir = "/var/data/MIRO/MIRO.Browser/logs/miro.log";
 	private static FileHandler filehandler;
 	

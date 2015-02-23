@@ -39,36 +39,21 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-public class StatsView extends Composite implements StatsObserver{
+public class RPKIStats extends Composite implements StatsObserver{
 	
-	private static final Logger log = LoggerFactory.getLogger(StatsView.class, Level.FINEST);
+	private static final Logger log = LoggerFactory.getLogger(RPKIStats.class, Level.FINEST);
 	
 	private TabFolder statsTabFolder;
 	
-	public StatsView(Composite parent, int style) {
+	public RPKIStats(Composite parent, int style) {
 		super(parent, style);
-		
 		ModelUpdater.addObserver(this, ObserverType.STATS);
-		
-		init();
-		
-		initTabFolder();
-		
-		showNewestStats();
-		
-	}
-
-	private void initTabFolder() {
-		statsTabFolder = new TabFolder(this, SWT.NONE);
-		
-	}
-
-	private void init() {
 		setBackground(Colors.BROWSER_BACKGROUND);
 		setLayout(new GridLayout());
-		
+		statsTabFolder = new TabFolder(this, SWT.NONE);
+		showNewestStats();
 	}
-	
+
 	private void showRPKIRepositoryStats(String[] statsNames) {
 		for(TabItem tab : statsTabFolder.getItems()) {
 			tab.dispose();

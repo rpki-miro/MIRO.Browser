@@ -23,7 +23,7 @@ THE SOFTWARE.
 package miro.browser.widgets;
 
 import miro.browser.widgets.browser.RPKIBrowser;
-import miro.browser.widgets.stats.StatsView;
+import miro.browser.widgets.stats.RPKIStats;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -73,7 +73,7 @@ public class ContentContainer extends Composite {
 		scroller.setExpandHorizontal(true);
 		scroller.setExpandVertical(true);
 
-		StatsView statsContainer = new StatsView(scroller, SWT.BORDER);
+		RPKIStats statsContainer = new RPKIStats(scroller, SWT.BORDER);
 		setStatsContainer(scroller);
 		scroller.setContent(statsContainer);
 		scroller.setMinSize(statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
