@@ -38,8 +38,6 @@ public class StatsWidget extends Composite {
 	
 	private StatsWidgetHeader header;
 	
-	private List<ResultWidget> resultWidgets;
-	
 	private HostnameHeader hostnameHeader;	
 	
 	public StatsWidget(Composite parent, int style) {
@@ -68,10 +66,7 @@ public class StatsWidget extends Composite {
 	
 
 	public void showRPKIRepositoryStats(RPKIRepositoryStats stats) {
-
 		header.showRPKIRepositoryStats(stats);
-		resultWidgets = new ArrayList<ResultWidget>();
-
 		
 		Result result = stats.getResult();
 		ResultWidget resultWidget = new ResultWidget(this, SWT.BORDER);
