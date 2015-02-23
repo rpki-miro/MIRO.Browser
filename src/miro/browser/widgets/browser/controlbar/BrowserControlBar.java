@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.widgets.browser.coolbar;
+package miro.browser.widgets.browser.controlbar;
 
 import java.util.Arrays;
 

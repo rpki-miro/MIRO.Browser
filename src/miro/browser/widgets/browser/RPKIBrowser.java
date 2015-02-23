@@ -24,7 +24,7 @@ package miro.browser.widgets.browser;
 
 
 import miro.browser.resources.MagicNumbers;
-import miro.browser.widgets.browser.coolbar.BrowserControlBar;
+import miro.browser.widgets.browser.controlbar.BrowserControlBar;
 import miro.browser.widgets.browser.display.DisplayContainer;
 import miro.browser.widgets.browser.display.TabListener;
 import miro.browser.widgets.browser.display.TableListener;
