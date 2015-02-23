@@ -22,8 +22,6 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.views;
 
-import miro.browser.provider.CertificateTableContentProvider;
-import miro.browser.provider.CertificateTreeLabelProvider;
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 
@@ -47,8 +45,8 @@ public class TableView extends Composite implements View{
 		super(parent, style);
 		setLayout(new FillLayout());
 		tableViewer = new TableViewer(this,SWT.VIRTUAL);
-		tableViewer.setLabelProvider(new CertificateTreeLabelProvider());
-		tableViewer.setContentProvider(new CertificateTableContentProvider());
+		tableViewer.setLabelProvider(new ViewLabelProvider());
+		tableViewer.setContentProvider(new TableViewContentProvider());
 		table = tableViewer.getTable();
 	}
 

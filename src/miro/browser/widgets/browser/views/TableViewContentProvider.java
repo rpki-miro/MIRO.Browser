@@ -1,4 +1,4 @@
-package miro.browser.provider;
+package miro.browser.widgets.browser.views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,19 +10,15 @@ import miro.validator.types.ResourceHoldingObject;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-public class CertificateTableContentProvider implements
+public class TableViewContentProvider implements
 		IStructuredContentProvider {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

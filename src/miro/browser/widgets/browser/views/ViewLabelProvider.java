@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.provider;
+package miro.browser.widgets.browser.views;
 
 
 import java.util.HashMap;
@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 
-public class CertificateTreeLabelProvider extends CellLabelProvider{
+public class ViewLabelProvider extends CellLabelProvider{
 
 	private Viewer viewer;
 	

@@ -24,8 +24,6 @@ package miro.browser.widgets.browser.views;
 
 import java.util.HashMap;
 
-import miro.browser.provider.CertificateTreeContentProvider;
-import miro.browser.provider.CertificateTreeLabelProvider;
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 
@@ -59,14 +57,13 @@ public class TreeView extends Composite implements View{
 		tree = new Tree(this, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL |  SWT.BORDER);
 		treeViewer = new TreeViewer(tree);	
 		
-		CertificateTreeLabelProvider label_provider = new CertificateTreeLabelProvider();
-		CertificateTreeContentProvider content_provider = new CertificateTreeContentProvider();
+		ViewLabelProvider label_provider = new ViewLabelProvider();
+		TreeViewContentProvider content_provider = new TreeViewContentProvider();
 		treeViewer.setContentProvider(content_provider);
 		treeViewer.setLabelProvider(label_provider);
 		label_provider.setViewer(treeViewer);
 		
 		tree.setData(RWT.MARKUP_ENABLED,Boolean.TRUE);
-		
 	}
 	
 	public void setSelection(ResourceHoldingObject obj) {

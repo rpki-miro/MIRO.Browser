@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package miro.browser.provider;
+package miro.browser.widgets.browser.views;
 
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceCertificateTree;
@@ -34,7 +34,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 
 @SuppressWarnings("serial")
-public class CertificateTreeContentProvider implements ITreeContentProvider {
+public class TreeViewContentProvider implements ITreeContentProvider {
 	
 
 	public void dispose() {

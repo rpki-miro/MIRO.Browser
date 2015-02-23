@@ -25,10 +25,10 @@ package miro.browser.widgets.browser.filter;
 import java.util.ArrayList;
 import java.util.List;
 
-import miro.browser.provider.CertificateTreeLabelProvider;
 import miro.browser.resources.Fonts;
 import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
 import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
+import miro.browser.widgets.browser.views.ViewLabelProvider;
 import miro.browser.widgets.browser.views.ViewManager;
 import miro.browser.widgets.browser.views.View.ViewType;
 
