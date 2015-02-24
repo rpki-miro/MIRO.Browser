@@ -22,14 +22,15 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.views;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.jface.viewers.ILazyTreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -44,7 +45,7 @@ public class LazyTreeViewContentProvider implements ILazyTreeContentProvider {
 	
 	private TreeViewer viewer;
 	
-	private HashMap<ResourceHoldingObject, LinkedList<Integer>> indexMap;
+	private HashMap<ResourceHoldingObject, int[]> indexMap;
 
 	@Override
 	public void dispose() {
@@ -66,7 +67,7 @@ public class LazyTreeViewContentProvider implements ILazyTreeContentProvider {
 		}
 		
 		if( parent instanceof CertificateObject){
-			ResourceHoldingObject child = ((CertificateObject) parent).getChildren().get(indexMap.get(parent).removeFirst());
+			ResourceHoldingObject child = ((CertificateObject) parent).getChildren().get(indexMap.get(parent)[index]);
 			viewer.replace(parent, index,child); 
 			viewer.setChildCount(child, getChildCount(child, fs));
 		}
@@ -82,7 +83,7 @@ public class LazyTreeViewContentProvider implements ILazyTreeContentProvider {
 	}
 	
 	public void resetIndexMap(){
-		indexMap = new HashMap<ResourceHoldingObject, LinkedList<Integer>>();
+		indexMap = new HashMap<ResourceHoldingObject, int[]>();
 	}
 	
 	public int getChildCount(ResourceHoldingObject parent, ViewerFilter[] filters){
@@ -92,7 +93,8 @@ public class LazyTreeViewContentProvider implements ILazyTreeContentProvider {
 		int childCount = 0;
 		CertificateObject ca = (CertificateObject) parent;
 		ResourceHoldingObject obj;
-		LinkedList<Integer> list = new LinkedList<Integer>();
+		
+		ArrayList<Integer> list = new ArrayList<Integer>();
 		for(int i = 0; i<ca.getChildren().size();i++){
 			obj = ca.getChildren().get(i);
 			if (matchesFilters(ca, obj, filters)) {
@@ -100,7 +102,8 @@ public class LazyTreeViewContentProvider implements ILazyTreeContentProvider {
 				list.add(i);
 			}
 		}
-		indexMap.put(ca,list);
+		int[] ar = ArrayUtils.toPrimitive(list.toArray(new Integer[list.size()]));
+		indexMap.put(ca,ar);
 		return childCount;
 	}
 
