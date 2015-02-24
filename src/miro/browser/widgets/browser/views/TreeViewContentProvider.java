@@ -25,7 +25,6 @@ package miro.browser.widgets.browser.views;
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
-import miro.validator.types.RoaObject;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -50,35 +49,20 @@ public class TreeViewContentProvider implements ITreeContentProvider {
 	}
 
 	public Object[] getChildren(Object parentElement) {
-		Object[] result = new Object[0];
 		if (parentElement instanceof CertificateObject) {
 			return ((CertificateObject) parentElement).getChildren().toArray();
 		}
-		return result;
+		return new Object[0];
 	}
 
 	public Object getParent(Object element) {
-
-		if (element instanceof ResourceHoldingObject) {
-			return ((ResourceHoldingObject) element).getParent();
-		}
-		return null;
-		
+		return ((ResourceHoldingObject) element).getParent();
 	}
 
 	public boolean hasChildren(Object element) {
 
-		if (element instanceof RoaObject) {
-			return false;
-		}
-
 		if (element instanceof CertificateObject) {
-			boolean result = false;
-			if (element instanceof CertificateObject) {
-				result = ((CertificateObject) element).getChildren().isEmpty();
-			}
-			return !result;
-
+			return !((CertificateObject)element).getChildren().isEmpty();
 		}
 		return false;
 	}

@@ -52,16 +52,15 @@ public class TreeView extends Composite implements View{
 	private void init() {
 		setLayout(new FillLayout());
 
-		Tree tree = new Tree(this, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL |  SWT.BORDER);
-		treeViewer = new TreeViewer(tree);	
-		
+		treeViewer = new TreeViewer(this, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL |  SWT.BORDER | SWT.VIRTUAL);	
+		treeViewer.setUseHashlookup(true);
+		treeViewer.setAutoExpandLevel(2);
 		ViewLabelProvider label_provider = new ViewLabelProvider();
-		TreeViewContentProvider content_provider = new TreeViewContentProvider();
+		LazyTreeViewContentProvider content_provider = new LazyTreeViewContentProvider();
 		treeViewer.setContentProvider(content_provider);
 		treeViewer.setLabelProvider(label_provider);
 		label_provider.setViewer(treeViewer);
 		
-		tree.setData(RWT.MARKUP_ENABLED,Boolean.TRUE);
 	}
 	
 	public void setSelection(ResourceHoldingObject obj) {
@@ -86,6 +85,8 @@ public class TreeView extends Composite implements View{
 
 	@Override
 	public void setInput(ResourceCertificateTree tree) {
+		LazyTreeViewContentProvider cp = (LazyTreeViewContentProvider) treeViewer.getContentProvider();
+		cp.resetIndexMap();
 		treeViewer.setInput(tree);
 		treeViewer.refresh();
 	}

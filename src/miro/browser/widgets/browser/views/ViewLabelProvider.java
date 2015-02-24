@@ -84,7 +84,7 @@ public class ViewLabelProvider extends CellLabelProvider{
 	
 	private void setBackgroundColor(ViewerCell cell, ResourceHoldingObject obj) {
 		if(viewer != null){
-			Color bg = isMarked(obj) ? Colors.DARK_GREY : null;
+			Color bg = isMarked(obj) ? Colors.DARK_GREY : Colors.WHITE;
 			if (cell.getViewerRow().getItem() instanceof TreeItem) {
 				TreeItem item = (TreeItem) cell.getViewerRow().getItem();
 				item.setBackground(bg);
