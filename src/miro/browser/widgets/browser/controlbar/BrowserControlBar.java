@@ -101,22 +101,6 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 			}
 		});
 		
-		final ToolItem expandTreeItem = new ToolItem(toolbar, SWT.CHECK);
-		expandTreeItem.setText("Expand Tree");
-		expandTreeItem.addListener(SWT.Selection, new Listener() {
-			
-			@Override
-			public void handleEvent(Event event) {
-				TreeViewer treeViewer = (TreeViewer) browser.getViewerContainer().getView(ViewType.TREE).getViewer();
-				ToolItem item = (ToolItem) event.widget;
-				if(item.getSelection()){
-					treeViewer.expandAll();
-				} else {
-					treeViewer.collapseAll();
-				}
-			}
-		});
-		
 		ToolItem toggleViewerItem = new ToolItem(toolbar, SWT.CHECK);
 		toggleViewerItem.setText("Show List View");
 		toggleViewerItem.addListener(SWT.Selection, new Listener() {
@@ -126,15 +110,12 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 				ToolItem item = (ToolItem) event.widget;
 				if(item.getSelection()){
 					browser.getViewerContainer().showView(ViewType.TABLE);
-					expandTreeItem.setEnabled(false);
 				} else {
 					browser.getViewerContainer().showView(ViewType.TREE);
-					expandTreeItem.setEnabled(true);
 				}
 				
 			}
 		});
-		
 		
 		/* A separator item can hold a CCombo */
 		ToolItem sep = new ToolItem(toolbar, SWT.SEPARATOR);
