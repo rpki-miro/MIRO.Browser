@@ -115,31 +115,40 @@ public class FilterWidget extends Composite{
 		validationStatusOption.setLayoutData(layoutData);
 		
 		/*Buttons*/
+		Button okButton = new Button(this,SWT.PUSH);
+		okButton.setText("OK");
+		layoutData = new FormData();
+		layoutData.bottom = new FormAttachment(100,0);
+		layoutData.right = new FormAttachment(100,0);
+		okButton.setLayoutData(layoutData);
+		okButton.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				applyFilter();
+				getShell().setVisible(false);
+				
+			}
+		});
+		
 		Button applyFilterBtn = new Button(this, SWT.PUSH);
 		applyFilterBtn.setText("Apply Filter");
 		layoutData = new FormData();
 		layoutData.bottom = new FormAttachment(100,0);
-		layoutData.right = new FormAttachment(100,0);
+		layoutData.right = new FormAttachment(okButton,-10);
 		applyFilterBtn.setLayoutData(layoutData);
 		applyFilterBtn.addListener(SWT.Selection, new Listener() {
 			
 			@Override
 			public void handleEvent(Event event) {
-				List<ResourceHoldingObjectFilter> filters = new ArrayList<ResourceHoldingObjectFilter>();
-				filters.addAll(attributeOption.getFilters());
-				filters.addAll(filetypeOption.getFilters());
-				filters.addAll(validationStatusOption.getFilters());
-				
-				ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter(false);
-				treeFilter.addFilters(filters);
-				viewerContainer.setViewerFilters(new ViewerFilter[]{treeFilter});
+				applyFilter();
 			}
 		});
 		
 		Button clearFilter = new Button(this, SWT.PUSH);
 		clearFilter.setText("Clear");
 		layoutData = new FormData();
-		layoutData.right = new FormAttachment(applyFilterBtn, -10);
+		layoutData.left = new FormAttachment(0,0);
 		layoutData.bottom = new FormAttachment(100,0);
 		clearFilter.setLayoutData(layoutData);
 		clearFilter.addListener(SWT.Selection, new Listener() {
@@ -149,6 +158,18 @@ public class FilterWidget extends Composite{
 				clearSelection();
 			}
 		});
+	}
+	
+	private void applyFilter(){
+		List<ResourceHoldingObjectFilter> filters = new ArrayList<ResourceHoldingObjectFilter>();
+		filters.addAll(attributeOption.getFilters());
+		filters.addAll(filetypeOption.getFilters());
+		filters.addAll(validationStatusOption.getFilters());
+
+		ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter(
+				false);
+		treeFilter.addFilters(filters);
+		viewerContainer.setViewerFilters(new ViewerFilter[] { treeFilter });
 	}
 
 	private void createWidgets() {
