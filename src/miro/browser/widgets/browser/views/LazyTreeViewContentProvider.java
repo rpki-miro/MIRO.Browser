@@ -64,8 +64,9 @@ public class LazyTreeViewContentProvider implements ILazyTreeContentProvider {
 		
 		if( parent instanceof ResourceCertificateTree){
 			CertificateObject ta = ((ResourceCertificateTree) parent).getTrustAnchor();
+			int childCount = matchesFilters(null, ta, fs) ? getChildCount(ta,fs) : 0;
 			viewer.replace(parent, index, ta);
-			viewer.setChildCount(ta, getChildCount(ta, fs));
+			viewer.setChildCount(ta, childCount);
 		}
 		
 		if( parent instanceof CertificateObject){

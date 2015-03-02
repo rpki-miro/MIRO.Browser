@@ -100,6 +100,7 @@ public class TreeView extends Composite implements View{
 	public void setFilters(ViewerFilter[] filters) {
 		treeViewer.setData("MARKED", new HashMap<ResourceHoldingObject, Boolean>());
 		treeViewer.setFilters(filters);
+		treeViewer.expandToLevel(3);
 	}
 
 	@Override
