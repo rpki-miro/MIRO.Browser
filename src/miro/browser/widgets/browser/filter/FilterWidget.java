@@ -31,7 +31,10 @@ import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
 import miro.browser.widgets.browser.views.ViewManager;
 
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -125,9 +128,7 @@ public class FilterWidget extends Composite{
 			
 			@Override
 			public void handleEvent(Event event) {
-				applyFilter();
-				getShell().setVisible(false);
-				
+				applyAndClose();
 			}
 		});
 		
@@ -158,6 +159,22 @@ public class FilterWidget extends Composite{
 				clearSelection();
 			}
 		});
+
+		
+		/*Key listener for convenience*/
+		getShell().getDisplay().setData(RWT.ACTIVE_KEYS, new String[]{"ENTER"});
+		getShell().getDisplay().addFilter(SWT.KeyDown, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				applyAndClose();
+			}
+		});
+	}
+	
+	private void applyAndClose(){
+		applyFilter();
+		getShell().setVisible(false);
 	}
 	
 	private void applyFilter(){
