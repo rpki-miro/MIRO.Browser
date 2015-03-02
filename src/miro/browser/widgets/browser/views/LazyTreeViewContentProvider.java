@@ -24,6 +24,7 @@ package miro.browser.widgets.browser.views;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceCertificateTree;
@@ -35,6 +36,7 @@ import org.eclipse.jface.viewers.ILazyTreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.swt.widgets.TreeItem;
 /**
  * Provides objects for our TreeView in a lazy way. This means only objects currently on the screen
  * will be actually loaded, everything else will be loaded dynamically when needed.
@@ -110,10 +112,10 @@ public class LazyTreeViewContentProvider implements ILazyTreeContentProvider {
 	@Override
 	public void updateChildCount(Object element, int currentChildCount) {
 		
+		ViewerFilter[] filters = viewer.getFilters();
 		if(element instanceof CertificateObject){
 			CertificateObject ca = (CertificateObject) element;
 			if(ca.getIsRoot()){
-				ViewerFilter[] filters = viewer.getFilters();
 				viewer.setChildCount(ca, getChildCount(ca, filters));
 			}
 			return;
@@ -122,7 +124,8 @@ public class LazyTreeViewContentProvider implements ILazyTreeContentProvider {
 		if(element instanceof ResourceCertificateTree){
 			ResourceCertificateTree tree = (ResourceCertificateTree) element;
 			CertificateObject ta = tree.getTrustAnchor();
-			viewer.setChildCount(element, 1);
+			int childCount = matchesFilters(null,ta,filters) ? 1 : 0;
+			viewer.setChildCount(element, childCount);
 			return;
 		}
 	}
@@ -131,5 +134,64 @@ public class LazyTreeViewContentProvider implements ILazyTreeContentProvider {
 	public Object getParent(Object element) {
 		return ((ResourceHoldingObject)element).getParent();
 	}
-
+	
+	
+//	public int getFlatIndex( ResourceHoldingObject element)
+//	{
+//		Stack<ResourceHoldingObject> parentHierarchy = new Stack<ResourceHoldingObject>();
+//		ResourceHoldingObject parent = element;
+//		while(parent != null)
+//		{
+//			parentHierarchy.push(parent);
+//			parent = parent.getParent();
+//		}
+//		return getFlatIndex( null, parentHierarchy, 0);
+//	}
+//	
+//	public int getFlatIndex(TreeItem element, Stack<ResourceHoldingObject> modelObjects, int previousCount)
+//	{
+//		TreeItem[] childTreeItems = null;
+//		int currentCount = previousCount;
+//		if( element == null )
+//		{
+//			//			an der wurzel angekommen
+//			childTreeItems = viewer.getTree().getItems();
+//		} else 
+//		{
+//			childTreeItems = element.getItems(); 
+//		}
+//		ResourceHoldingObject modelElement = modelObjects.pop();
+//		
+//		for( TreeItem item : childTreeItems)
+//		{
+//			if( item.getData() != modelElement)
+//			{
+//				currentCount += getRecursiveItemCount(item);
+//			} else {
+//				if( !item.getExpanded())
+//				{
+//					item.setExpanded(true);
+//					if( element != null)
+//					{
+//						element.checkData(item,)
+//					}
+//				}
+//				return getFlatIndex( item, modelObjects, currentCount);
+//			}
+//		}
+//		return 0;
+//	}
+//
+//	private int getRecursiveItemCount(TreeItem item) {
+//		if( item.getExpanded())
+//		{
+//			int count = 1;
+//			for( TreeItem child: item.getItems())
+//				count+= getRecursiveItemCount(child);
+//			return count;
+//		} else {
+//			return 1;
+//		}
+//	}
+	
 }
