@@ -39,8 +39,6 @@ public class DownloadHandler {
 
         DownloadService service = new DownloadService(obj);
         service.register();
-
-        UrlLauncher launcher = RWT.getClient().getService(UrlLauncher.class);
         RWT.getClient().getService(JavaScriptExecutor.class).execute("window.location=\"" + service.getURL() +  "\";" );
         return true;
     }

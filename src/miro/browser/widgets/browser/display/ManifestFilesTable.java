@@ -39,6 +39,8 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -103,9 +105,9 @@ public class ManifestFilesTable extends Composite {
 			public void handleEvent(Event event) {
 				FileHashPair pair = (FileHashPair) ((TableItem)event.item).getData();
 				if(pair.filename.endsWith(".crl")){
-					for(TabItem tab : browser.getDisplayContainer().getItems()) {
+					for(CTabItem tab : browser.getDisplayContainer().getItems()) {
 						if(tab.getText().equals("CRL")){
-							TabFolder folder = (TabFolder) browser.getDisplayContainer();
+							CTabFolder folder = (CTabFolder) browser.getDisplayContainer();
 							folder.setSelection(tab);
 							return;
 						}

@@ -1,26 +1,180 @@
-Link-Hyperlink {
-	color: #FFFFFF;
+/* For all widgets */
+* {
+
+	font: 14px "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+Button {
+	cursor: pointer;
+}
+
+Composite.contentContainer {
+	animation:fadeIn 1000ms linear;
+}
+/* Start HeaderBar */
+Composite.header {
+	background-color:#008CBA;
+}
+
+
+/* Start Heading */
+Composite.heading_wrap {
+	background-color:inherit;
+}
 
 Label.heading {
-	color: #FFFFFF;
-	font: 24px Verdana;
+	background-color:#008CBA;
+	color:#FFFFFF;
+	font: 24px "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+/* End Heading */
+
+
+/* Start Link Container */
+Composite.linkContainer {
+	background-color:inherit;
+}
+
+Button.navButton {
+	background-color:inherit;
+	color:#FFFFFF;
+	font: 16px "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+	border:none;
+}
+
+Button.navButton:hover {
+	background-color:#006687;
+}
+/* End Link Container */
+
+/* Start RPKIBrowserView */
+
+/* Start Controlbar */
+Composite.browserControlbar {
+	background-color:#333333;
+	padding:0px 0px;
+}
+
+ToolBar {
+	background-color:inherit;
+	border-radius:0px 3px 3px 0px;
+}
+ToolItem.controlbarItem {
+	cursor:pointer;
+	background-color:#333333;
+	color:#FFFFFF;
+	animation: hoverIn 300ms ease-in-out
+}
+
+ToolItem.controlbarItem:hover {
+	background-color:#272727;
+}
+
+CCombo.controlbarDropdown {
+	background-color:#333333;
+	color:#FFFFFF;
+}
+CCombo-Button.controlbarDropdown {
+	background-color:#333333;
+	border-left:none;
+}
+CCombo-List-Item {
+	color:inherit;
+}
+
+Label.updateTimestamp {
+	color:#FFFFFF;
+	background-color:inherit;
+}
+
+/* End Controlbar */
+
+/* Start Views */
+TreeItem:even {
+	background-color:#C4E3F3;
+}
+TreeItem {
+	background-color:#FFFFFF;
+}
+
+TreeItem.filterMatch {
+	background-color:#D0E9C6;
+}
+
+TreeItem:selected {
+	background-color:#008CBA;
+}
+
+TableItem:even {
+	background-color:#C4E3F3;
+}
+
+TableItem {
+	background-color:#FFFFFF;
+}
+
+TableItem.filterMatch {
+	background-color:#D0E9C6;
+}
+
+TableItem:selected {
+	background-color:#008CBA;
+}
+
+/* Display area */
+
+
+CTabFolder {
+	border-color:#FFFFFF;
+}
+CTabItem {
+	background-color:#EEEEEE;
+	color:#000000;
+}
+
+CTabItem:selected {
+	background-color:#FFFFFF;
+	color:#000000;
 }
 
 
-Composite.browserCoolbar {
-	background-color: #E6E6E6;
+Composite.displayWidget {
+	background-color:#FFFFFF;
 }
 
-Composite.header {
-	background-color: #31619C;
+Composite.informationContainer {
+	background-color:#EEEEEE;
+	border-radius:5px;
 }
 
-Composite.statsWidget {
-	background-color:#E6E6E6;
+Composite.informationField {
+	background-color:inherit;
 }
 
-Link-Hyperlink.browserLink {
-	color: #31619C;
+Label.informationLabel {
+	background-color:inherit;
 }
+
+Text.informationText {
+	background-color:inherit;
+}
+
+Link.informationLink {
+	background-color:inherit;
+}
+
+Link.downloadLink {
+	background-color:inherit;
+}
+
+TableColumn {
+	background-color:#333333;
+	color:white;
+}
+
+/*
+*/
+
+
+

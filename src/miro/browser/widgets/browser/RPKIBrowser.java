@@ -23,6 +23,7 @@ THE SOFTWARE.
 package miro.browser.widgets.browser;
 
 
+import miro.browser.resources.Colors;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.controlbar.BrowserControlBar;
 import miro.browser.widgets.browser.display.DisplayContainer;
@@ -63,9 +64,7 @@ public class RPKIBrowser extends Composite{
 	
 	public RPKIBrowser(Composite parent, int style) {
 		super(parent, style);
-
 		createWidgets();
-
 		displayContainer.initDisplays(this);
 
 		viewerManager.getView(ViewType.TREE).getViewer().addSelectionChangedListener(new TabListener(displayContainer));

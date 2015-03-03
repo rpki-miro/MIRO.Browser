@@ -30,6 +30,7 @@ import miro.browser.widgets.browser.RPKIBrowser;
 import miro.browser.widgets.header.HeaderBar;
 import miro.browser.widgets.header.LinkContainer;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -53,11 +54,12 @@ public class SessionRealm implements Runnable {
 		
 		//Init resources
 		Colors.init(parent.getDisplay());
-		Fonts.init(parent.getDisplay());
+//		Fonts.init(parent.getDisplay());
 		Images.init(parent.getDisplay());
-		
+
 		FormLayout layout = new FormLayout();
 		parent.setLayout(layout);
+		parent.setData(RWT.CUSTOM_VARIANT, "mainShell");
 		
 		HeaderBar header = new HeaderBar(parent, SWT.NONE);
 		FormData layoutData = new FormData();
@@ -66,7 +68,7 @@ public class SessionRealm implements Runnable {
 		layoutData.top = new FormAttachment(0,  MagicNumbers.SHELL_OUTER_GAPS);
 		header.setLayoutData(layoutData);
 		
-		LinkContainer linkContainer = new LinkContainer(header, SWT.BORDER);
+		LinkContainer linkContainer = new LinkContainer(header, SWT.NONE);
 		
 		
 		ContentContainer content = new ContentContainer(parent, SWT.NONE);
@@ -78,7 +80,7 @@ public class SessionRealm implements Runnable {
 		content.setLayoutData(layoutData);
 
 		//init browser
-		RPKIBrowser browser = new RPKIBrowser(content,SWT.BORDER);
+		RPKIBrowser browser = new RPKIBrowser(content,SWT.NONE);
 		content.setBrowser(browser);
 		
 		

@@ -63,7 +63,9 @@ public class ResourceSetTable extends Composite{
 		table.setHeaderVisible(true);
 		TableViewerColumn newCol;
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table,SWT.NONE));
-		newCol.getColumn().setWidth(MagicNumbers.CDW_RESOURCE_LIST_COLUMN_WIDTH);
+		newCol.getColumn().setWidth(MagicNumbers.CDW_RESOURCE_LIST_COLUMN_WIDTH-10);
+		newCol.getColumn().setMoveable(false);
+		newCol.getColumn().setResizable(false);
 		newCol.getColumn().setText("Resources");
 		newCol.setLabelProvider(new CellLabelProvider() {
 			

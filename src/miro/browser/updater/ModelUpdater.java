@@ -47,6 +47,7 @@ import miro.validator.stats.types.RPKIRepositoryStats;
 import miro.validator.stats.types.Result;
 import miro.validator.types.ResourceCertificateTree;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.rap.rwt.service.ApplicationContext;
 
 import types.RepositoryTree;
@@ -244,11 +245,8 @@ public class ModelUpdater implements Runnable {
 			name = getRepositoryName(talFile.getName());
 			certTree = treeValidator.getModelByTAL(talFile.toString(), name);
 			
-			/* Until browser has been refactored to use the validator data model, we need to export to json and import right after..sadly*/
-			//treeValidator.exportResourceCertificateTree(ExportType.JSON, exportPath + "/" + name + ".json");
 			context.setAttribute(certTree.getName(), certTree);
 			modelKeys[index] = certTree.getName();
-			
 		
 			/* Gather stats, then save them in our application context */
 			extractor = new ResultExtractor(certTree);

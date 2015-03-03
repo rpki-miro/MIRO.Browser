@@ -25,7 +25,7 @@ package miro.browser.resources;
 public class MagicNumbers {
 	
 	//RealmRunner
-	public static final int SHELL_OUTER_GAPS = 5;
+	public static final int SHELL_OUTER_GAPS = 0;
 	
 	
 	//Header
@@ -69,7 +69,7 @@ public class MagicNumbers {
 	
 	//DisplayWidgets
 	public static final int DISPLAYWIDGET_MARGIN_HEIGHT = 10;
-	public static final int DISPLAYWIDGET_MARGIN_WIDTH = 10;
+	public static final int DISPLAYWIDGET_MARGIN_WIDTH = 0;
 	
 	//Certificate Display, title bar
 	public static final int CDW_TITLE_BAR_HEIGHT = 35;
@@ -81,13 +81,13 @@ public class MagicNumbers {
 	//CertificateDisplay, InformationContainer
 	public static final int CDW_INFORMATION_CONTAINER_WIDTH = 650;
 	public static final int CDW_INFORMATION_CONTAINER_MARGIN_HEIGHT = 0	;
-	public static final int CDW_INFORMATION_CONTAINER_MARGIN_WIDTH = 5;
+	public static final int CDW_INFORMATION_CONTAINER_MARGIN_WIDTH = 10;
 	public static final int CDW_INFORMATION_CONTAINER_SPACING = 5;
 
 	//CertificateDisplay, ResourceList
 	public static final int CDW_RESOURCE_LIST_WIDTH = 200;
 	public static final int CDW_RESOURCE_LIST_HEIGHT = 400;
-	public static final int CDW_RESOURCE_LIST_COLUMN_WIDTH = 175;
+	public static final int CDW_RESOURCE_LIST_COLUMN_WIDTH = 200;
 	
 	//ManifestDIsplay, InformationContainer
 	public static final int MDW_INFORMATION_CONTAINER_WIDTH = 650;

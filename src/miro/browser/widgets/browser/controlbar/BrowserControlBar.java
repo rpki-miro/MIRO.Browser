@@ -60,7 +60,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 	
 	public BrowserControlBar(Composite parent, int style, RPKIBrowser b) {
 		super(parent, style);
-		setData(RWT.CUSTOM_VARIANT, "browserCoolbar");
+		setData(RWT.CUSTOM_VARIANT, "browserControlbar");
 		ModelUpdater.addObserver(this, ObserverType.MODEL);
 		browser = b; 
 		
@@ -73,6 +73,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 		toolbar = new ToolBar(this, SWT.NONE);
 		dropDown = new CCombo(toolbar, SWT.READ_ONLY | SWT.FLAT);
 		updateTimestamp = new Label(this, SWT.NONE);
+		updateTimestamp.setData(RWT.CUSTOM_VARIANT, "updateTimestamp");
 	}
 	
 	
@@ -82,6 +83,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 	private void initToolbar(){
 		ToolItem filterItem = new ToolItem(toolbar, SWT.PUSH);
 		filterItem.setText("Show Filter");
+		filterItem.setData(RWT.CUSTOM_VARIANT, "controlbarItem");
 		filterItem.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -91,6 +93,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 		
 		ToolItem clearFilterItem = new ToolItem(toolbar, SWT.PUSH);
 		clearFilterItem.setText("Clear Filter");
+		clearFilterItem.setData(RWT.CUSTOM_VARIANT, "controlbarItem");
 		clearFilterItem.addListener(SWT.Selection, new Listener() {
 			
 			@Override
@@ -103,6 +106,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 		
 		ToolItem toggleViewerItem = new ToolItem(toolbar, SWT.CHECK);
 		toggleViewerItem.setText("Show List View");
+		toggleViewerItem.setData(RWT.CUSTOM_VARIANT, "controlbarItem");
 		toggleViewerItem.addListener(SWT.Selection, new Listener() {
 			
 			@Override
@@ -121,6 +125,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 		ToolItem sep = new ToolItem(toolbar, SWT.SEPARATOR);
 		sep.setControl(dropDown);
 		sep.setWidth(200);
+		dropDown.setData(RWT.CUSTOM_VARIANT, "controlbarDropdown");
 		dropDown.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event e) {

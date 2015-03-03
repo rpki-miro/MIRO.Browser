@@ -31,28 +31,28 @@ public class Fonts {
 
 	public static Display DISPLAY;
 	
-	public static Font DISPLAY_WIDGET_TITLEBAR_FONT;
-	
-	public static Font TIMESTAMP_FONT;
-	
-	public static Font MEDIUM_HEADER_FONT;
-	
-	public static Font SMALL_HEADER_FONT;
-	
-	public static Font STANDARD_FONT;
-
-	public static Font MEDIUM_HEADER_FONT_BOLD;
-	
-	public static void init(Display d){
-		DISPLAY = d;
-		initFonts();
-	}
-	
-	private static void initFonts(){
-		DISPLAY_WIDGET_TITLEBAR_FONT = new Font(DISPLAY, new FontData("Arial", 25, SWT.NONE));
-		MEDIUM_HEADER_FONT = new Font(DISPLAY, new FontData("Arial", 20, SWT.NONE));
-		MEDIUM_HEADER_FONT_BOLD = new Font(DISPLAY, new FontData("Arial", 20, SWT.BOLD));
-		SMALL_HEADER_FONT = new Font(DISPLAY, new FontData("Arial", 15, SWT.BOLD));
-		STANDARD_FONT = new Font(DISPLAY, new FontData("Arial", 15, SWT.NONE));
-	}
+//	public static Font DISPLAY_WIDGET_TITLEBAR_FONT;
+//	
+//	public static Font TIMESTAMP_FONT;
+//	
+//	public static Font MEDIUM_HEADER_FONT;
+//	
+//	public static Font SMALL_HEADER_FONT;
+//	
+//	public static Font STANDARD_FONT;
+//
+//	public static Font MEDIUM_HEADER_FONT_BOLD;
+//	
+//	public static void init(Display d){
+//		DISPLAY = d;
+//		initFonts();
+//	}
+//	
+//	private static void initFonts(){
+//		DISPLAY_WIDGET_TITLEBAR_FONT = new Font(DISPLAY, new FontData("Arial", 25, SWT.NONE));
+//		MEDIUM_HEADER_FONT = new Font(DISPLAY, new FontData("Arial", 20, SWT.NONE));
+//		MEDIUM_HEADER_FONT_BOLD = new Font(DISPLAY, new FontData("Arial", 20, SWT.BOLD));
+//		SMALL_HEADER_FONT = new Font(DISPLAY, new FontData("Arial", 15, SWT.BOLD));
+//		STANDARD_FONT = new Font(DISPLAY, new FontData("Arial", 15, SWT.NONE));
+//	}
 }

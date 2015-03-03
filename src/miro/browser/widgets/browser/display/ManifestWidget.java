@@ -52,10 +52,13 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 	
 	public ManifestWidget(Composite parent, int style, RPKIBrowser b) {
 		super(parent, style,b);
-		initTitleBar("Manifest");
 		filesTable = new ManifestFilesTable(this, style,b);
 		setDisplayLayout();
 		layout();
+		
+		informationContainer.moveAbove(null);
+		filesTable.moveBelow(informationContainer);
+		
 	}
 	
 	public void setDisplayLayout(){
@@ -71,12 +74,11 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
 		layout.spacing = 0;
 		setLayout(layout);
+
 		RowData rowData = new RowData();
 		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
 		informationContainer.setLayoutData(rowData);
-		RowData layoutData = new RowData();
-		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
-		titleBar.setLayoutData(layoutData);
+
 		rowData = new RowData();
 		rowData.height =  MagicNumbers.MFT_HASH_LIST_HEIGHT;
 		filesTable.setLayoutData(rowData);	

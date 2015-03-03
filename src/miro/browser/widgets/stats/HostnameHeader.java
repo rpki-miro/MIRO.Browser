@@ -37,7 +37,7 @@ public class HostnameHeader extends Composite {
 		super(parent, style);
 		
 		header = new Label(this, SWT.NONE);
-		header.setFont(Fonts.MEDIUM_HEADER_FONT_BOLD);
+//		header.setFont(Fonts.MEDIUM_HEADER_FONT_BOLD);
 		RowLayout layout = new RowLayout();
 		layout.marginHeight = 5;
 		layout.marginWidth = 5;

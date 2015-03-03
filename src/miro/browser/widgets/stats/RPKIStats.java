@@ -58,7 +58,7 @@ public class RPKIStats extends Composite implements StatsObserver{
 		for(TabItem tab : statsTabFolder.getItems()) {
 			tab.dispose();
 		}
-		
+
 		TabItem newTab;
 		StatsWidget statsWidget;
 		RPKIRepositoryStats stats;
@@ -70,6 +70,7 @@ public class RPKIStats extends Composite implements StatsObserver{
 			statsWidget = new StatsWidget(statsTabFolder, SWT.NONE);
 			statsWidget.showRPKIRepositoryStats(stats);
 			newTab.setControl(statsWidget);
+			
 		}
 		layout();
 	}

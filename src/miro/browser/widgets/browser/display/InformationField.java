@@ -27,6 +27,7 @@ import miro.browser.resources.MagicNumbers;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -49,9 +50,11 @@ public abstract class InformationField extends Composite {
 	IConverter converter;
 	public InformationField(Composite parent, int style, Class<?> t, Class<?> cont, String labelText, int mH, String name, IConverter conv) {
 		super(parent, style);
+		setData(RWT.CUSTOM_VARIANT, "informationField");
 		label = new Label(this, style | SWT.WRAP );
+		label.setData(RWT.CUSTOM_VARIANT, "informationLabel");
 
-		minHeight = mH;
+		minHeight = mH + 10;
 		type = t;
 		containerType = cont;
 		propertyName = name;
@@ -65,9 +68,9 @@ public abstract class InformationField extends Composite {
 		setLayout(layout);
 
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(0,0);
-		layoutData.bottom = new FormAttachment(100,0);
-		layoutData.left = new FormAttachment(0,0);
+		layoutData.top = new FormAttachment(0,5);
+		layoutData.bottom = new FormAttachment(100,-5);
+		layoutData.left = new FormAttachment(0,5);
 		layoutData.width = MagicNumbers.INF_FIELD_LABEL_WIDTH;
 		label.setLayoutData(layoutData);
 	}

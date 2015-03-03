@@ -61,7 +61,6 @@ public class CertificateDisplay implements ResourceHolderObservableBinder{
 		ScrolledComposite scrollingContainer = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrollingContainer.setExpandHorizontal(true);
 		scrollingContainer.setExpandVertical(true);
-		scrollingContainer.setBackground(Colors.BROWSER_DISPLAY_WIDGETS_BACKGROUND);
 		return scrollingContainer;
 	}
 

@@ -67,7 +67,7 @@ public class AttributeFilterOption extends RadioButtonContainer implements Filte
 		
 		Button filenameButton = new Button(this, SWT.RADIO);
 		filenameButton.setText("Filename");
-		filenameButton.setFont(Fonts.STANDARD_FONT);
+//		filenameButton.setFont(Fonts.STANDARD_FONT);
 		filenameButton.addListener(SWT.Selection,new SelectedButtonListener());
 		filenameButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.FILENAME);
 		GridData gridData = new GridData();
@@ -75,7 +75,7 @@ public class AttributeFilterOption extends RadioButtonContainer implements Filte
 		
 		Button locationButton = new Button(this, SWT.RADIO);
 		locationButton.setText("Location");
-		locationButton.setFont(Fonts.STANDARD_FONT);
+//		locationButton.setFont(Fonts.STANDARD_FONT);
 		locationButton.addListener(SWT.Selection,new SelectedButtonListener());
 		locationButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.REMOTE_LOCATION);
 		gridData = new GridData();
@@ -83,7 +83,7 @@ public class AttributeFilterOption extends RadioButtonContainer implements Filte
 		
 		Button subjectButton = new Button(this, SWT.RADIO);
 		subjectButton.setText("Subject");
-		subjectButton.setFont(Fonts.STANDARD_FONT);
+//		subjectButton.setFont(Fonts.STANDARD_FONT);
 		subjectButton.addListener(SWT.Selection,new SelectedButtonListener());
 		subjectButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.SUBJECT);
 		gridData = new GridData();
@@ -92,7 +92,7 @@ public class AttributeFilterOption extends RadioButtonContainer implements Filte
 		
 		Button issuerButton = new Button(this, SWT.RADIO);
 		issuerButton.setText("Issuer");
-		issuerButton.setFont(Fonts.STANDARD_FONT);
+//		issuerButton.setFont(Fonts.STANDARD_FONT);
 		issuerButton.addListener(SWT.Selection,new SelectedButtonListener());
 		issuerButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.ISSUER);
 		gridData = new GridData();
@@ -100,7 +100,7 @@ public class AttributeFilterOption extends RadioButtonContainer implements Filte
 
 		Button serialnrButton = new Button(this, SWT.RADIO);
 		serialnrButton.setText("Serial Nr.");
-		serialnrButton.setFont(Fonts.STANDARD_FONT);
+//		serialnrButton.setFont(Fonts.STANDARD_FONT);
 		serialnrButton.addListener(SWT.Selection,new SelectedButtonListener());
 		serialnrButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.SERIAL_NUMBER);
 		gridData = new GridData();
@@ -108,7 +108,7 @@ public class AttributeFilterOption extends RadioButtonContainer implements Filte
 		
 		Button resourceButton = new Button(this, SWT.RADIO);
 		resourceButton.setText("Resource");
-		resourceButton.setFont(Fonts.STANDARD_FONT);
+//		resourceButton.setFont(Fonts.STANDARD_FONT);
 		resourceButton.addListener(SWT.Selection,new SelectedButtonListener());
 		resourceButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.RESOURCE);
 		gridData = new GridData();

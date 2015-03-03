@@ -69,7 +69,7 @@ public class FilterWidget extends Composite{
 		
 		Label header = new Label(this, SWT.NONE);
 		header.setText("Filter Options");
-		header.setFont(Fonts.MEDIUM_HEADER_FONT);
+//		header.setFont(Fonts.MEDIUM_HEADER_FONT);
 		FormData layoutData = new FormData();
 		layoutData.top = new FormAttachment(0,0);
 		layoutData.left = new FormAttachment(0,0);
@@ -78,7 +78,7 @@ public class FilterWidget extends Composite{
 		/*Attribute options*/
 		Label attributeLabel = new Label(this, SWT.NONE);
 		attributeLabel.setText("Choose filter attribute:");
-		attributeLabel.setFont(Fonts.SMALL_HEADER_FONT);
+//		attributeLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		layoutData = new FormData();
 		layoutData.top = new FormAttachment(header,15);
 		layoutData.left = new FormAttachment(0,0);
@@ -92,7 +92,7 @@ public class FilterWidget extends Composite{
 		/*Filetype Options*/
 		Label filetypeLabel = new Label(this, SWT.NONE);
 		filetypeLabel.setText("Select File Type:");
-		filetypeLabel.setFont(Fonts.SMALL_HEADER_FONT);
+//		filetypeLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		layoutData = new FormData();
 		layoutData.top = new FormAttachment(attributeOption,15);
 		layoutData.left = new FormAttachment(0,0);
@@ -106,7 +106,7 @@ public class FilterWidget extends Composite{
 		/*Validation Status Options*/
 		Label validationStatusLabel = new Label(this, SWT.NONE);
 		validationStatusLabel.setText("Select Validation Status:");
-		validationStatusLabel.setFont(Fonts.SMALL_HEADER_FONT);
+//		validationStatusLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		layoutData = new FormData();
 		layoutData.top = new FormAttachment(filetypeOption,15);
 		layoutData.left = new FormAttachment(0,0);

@@ -25,24 +25,22 @@ package miro.browser.widgets.browser.display;
 import java.util.ArrayList;
 
 import miro.browser.download.DownloadHandler;
-import miro.browser.resources.Fonts;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.RPKIBrowser;
-import miro.validator.types.CertificateObject;
 import miro.validator.types.RepositoryObject;
-import miro.validator.types.ResourceHoldingObject;
-import miro.validator.types.RoaObject;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.TabItem;
 
 public abstract class DisplayWidget extends Composite {
 	
@@ -58,40 +56,15 @@ public abstract class DisplayWidget extends Composite {
 	
 	public DisplayWidget(Composite parent, int style, RPKIBrowser b ) {
 		super(parent, style);
+		setData(RWT.CUSTOM_VARIANT, "displayWidget");
 		browser = b;
 		fields = new ArrayList<InformationField>();
 		createInformationContainer(this, style);
-//		setBackground(Colors.BROWSER_DISPLAY_WIDGETS_BACKGROUND);
-//		setBackgroundMode(SWT.INHERIT_DEFAULT);
-	}
-	
-	public void initTitleBar(String heading) {
-		titleBar = new Composite(this,SWT.NONE);
-		
-		RowLayout layout = new RowLayout();
-		titleBar.setLayout(layout);
-		
-		Label title = new Label(titleBar, SWT.NONE);
-		title.setText(heading);
-		title.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
-		
-		Link download = new Link(titleBar, SWT.NONE);
-		download.setData(RWT.CUSTOM_VARIANT,"browserLink");
-		download.setText("<a>ASCII download</a>");
-		download.addListener(SWT.Selection, new Listener() {
-			
-			@Override
-			public void handleEvent(Event event) {
-				DownloadHandler dlhand  = new DownloadHandler();
-				TabItem selectedTab = browser.getDisplayContainer().getSelection()[0];
-				RepositoryObject r = (RepositoryObject) selectedTab.getData();
-				dlhand.sendDownload(r);
-			}
-		});
 	}
 	
 	public void createInformationContainer(Composite parent, int style){
 		informationContainer = new Composite(parent,style);
+		informationContainer.setData(RWT.CUSTOM_VARIANT, "informationContainer");
 		
 		RowLayout layout = new RowLayout();
 		layout.type = SWT.VERTICAL;
@@ -106,6 +79,19 @@ public abstract class DisplayWidget extends Composite {
 		informationContainer.setLayout(layout);
 		
 		initFields(informationContainer,style);
+		Link download = new Link(informationContainer, SWT.NONE);
+		download.setData(RWT.CUSTOM_VARIANT,"downloadLink");
+		download.setText("<a>ASCII download</a>");
+		download.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				DownloadHandler dlhand  = new DownloadHandler();
+				CTabItem selectedTab = browser.getDisplayContainer().getSelection();
+				RepositoryObject r = (RepositoryObject) selectedTab.getData();
+				dlhand.sendDownload(r);
+			}
+		});
 	}
 	
 	public void layoutFields(int width){
@@ -118,7 +104,7 @@ public abstract class DisplayWidget extends Composite {
 			} else {
 				rowData = (RowData) buf;
 			}
-			rowData.width = width;
+			rowData.width = width - 10;
 			f.setLayoutData(rowData);
 		}
 	}

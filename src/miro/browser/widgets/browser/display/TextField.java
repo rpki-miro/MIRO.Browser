@@ -28,6 +28,7 @@ import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -41,13 +42,14 @@ public class TextField extends InformationField {
 	public TextField(Composite parent, int style, Class type, Class cont, String labelText, int mH, String name, IConverter conv) {
 		super(parent, style, type,cont, labelText, mH, name, conv);
 		text = new Text(this, style | SWT.WRAP | SWT.READ_ONLY);
+		text.setData(RWT.CUSTOM_VARIANT, "informationText");
 		text.setEditable(false);
 		
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(0,0);
-		layoutData.bottom = new FormAttachment(100,0);
-		layoutData.left = new FormAttachment(label);
-		layoutData.right = new FormAttachment(100,0);
+		layoutData.top = new FormAttachment(0,5);
+		layoutData.bottom = new FormAttachment(100,-5);
+		layoutData.left = new FormAttachment(label,5);
+		layoutData.right = new FormAttachment(100,-5);
 		text.setLayoutData(layoutData);
 
 		text.addListener(SWT.Modify, new HeightModifier(this));

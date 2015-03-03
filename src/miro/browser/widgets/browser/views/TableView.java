@@ -22,6 +22,8 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.views;
 
+import java.util.HashMap;
+
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 
@@ -32,8 +34,6 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
 
 public class TableView extends Composite implements View{
 	
@@ -43,8 +43,9 @@ public class TableView extends Composite implements View{
 		super(parent, style);
 		setLayout(new FillLayout());
 		tableViewer = new TableViewer(this,SWT.VIRTUAL);
-		tableViewer.setLabelProvider(new ViewLabelProvider());
 		tableViewer.setContentProvider(new TableViewContentProvider());
+		ViewLabelProvider labelProvider = new ViewLabelProvider();
+		tableViewer.setLabelProvider(labelProvider);
 	}
 
 	public TableViewer getTableViewer() {

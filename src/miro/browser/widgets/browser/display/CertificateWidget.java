@@ -47,6 +47,7 @@ import net.ripe.rpki.commons.crypto.ValidityPeriod;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -66,7 +67,6 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 	
 	public CertificateWidget(Composite parent, int style, RPKIBrowser b) {
 		super(parent, style, b);
-		initTitleBar("Resource Certificate");
 		resourceSetTable = new ResourceSetTable(this, style);
 		setDisplayLayout();
 		layout();
@@ -75,29 +75,27 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 	public void setDisplayLayout(){
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-		layout.horizontalSpacing = 0;
+		layout.horizontalSpacing = 10;
 		layout.verticalSpacing = 0;
 		layout.marginHeight = MagicNumbers.DISPLAYWIDGET_MARGIN_HEIGHT;
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
-		
 		setLayout(layout);
 
 		GridData gridData = new GridData();
 		gridData.widthHint = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
 		informationContainer.setLayoutData(gridData);
-		gridData = new GridData();
-		gridData.horizontalSpan = 2;
-		titleBar.setLayoutData(gridData);
 
 		gridData = new GridData();
 		gridData.heightHint = MagicNumbers.CDW_RESOURCE_LIST_HEIGHT;
 		gridData.widthHint = MagicNumbers.CDW_RESOURCE_LIST_WIDTH;
 		gridData.verticalAlignment = SWT.FILL;
 		resourceSetTable.setLayoutData(gridData);
+		
+		resourceSetTable.moveAbove(null);
+		informationContainer.moveAbove(resourceSetTable);
 	}
 	
 	public void initFields(Composite parent, int style) {
-		style = SWT.NONE;
 		
 		ValidationCheckConverter checkToStringconv = new ValidationCheckConverter();
 		ValidityPeriodConverter validityPeriodConv = new ValidityPeriodConverter();

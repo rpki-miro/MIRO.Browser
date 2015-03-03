@@ -22,11 +22,24 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.header;
 
+
 import miro.browser.widgets.ContentContainer;
 
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.client.service.JavaScriptExecutor;
+import org.eclipse.rap.rwt.engine.RWTServlet;
+import org.eclipse.rap.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Link;
@@ -38,30 +51,25 @@ public class LinkContainer extends Composite {
 
 	public LinkContainer(Composite parent, int style) {
 		super(parent, style);
+		setData(RWT.CUSTOM_VARIANT, "linkContainer");
 		initLayout();
 		initLinks();
 	}
 
 	private void initLinks() {
-		RowData rowData;
-		
-		Link browserLink = new Link(this, SWT.NONE);
-		rowData = new RowData();
-		browserLink.setLayoutData(rowData);
-		browserLink.setText("<a>RPKI Browser</a>");
+		Button browserLink = new Button(this,SWT.PUSH);
+		browserLink.setText("RPKI Browser");
 		browserLink.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				if(content != null){
-					content.showBrowser();
-				}
+				content.showBrowser();
 			}
 		});
+		browserLink.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		browserLink.setData(RWT.CUSTOM_VARIANT, "navButton");
 		
-		Link statsLink = new Link(this,SWT.NONE);
-		rowData = new RowData();
-		statsLink.setLayoutData(rowData);
-		statsLink.setText("<a>Statistics</a>");
+		Button statsLink = new Button(this,SWT.NONE);
+		statsLink.setText("Statistics");
 		statsLink.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -70,6 +78,21 @@ public class LinkContainer extends Composite {
 				}
 			}
 		});
+		statsLink.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		statsLink.setData(RWT.CUSTOM_VARIANT, "navButton");
+		
+		Button aboutLink = new Button(this,SWT.NONE);
+		aboutLink.setText("About");
+		aboutLink.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				RWT.getClient().getService(JavaScriptExecutor.class).execute("window.location=\"" +"http://rpki-miro.realmv6.org/" +  "\";" );
+				
+			}
+		});
+		aboutLink.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		aboutLink.setData(RWT.CUSTOM_VARIANT, "navButton");
 	}
 	
 	public void setContentContainer(ContentContainer contentCont){
@@ -77,9 +100,11 @@ public class LinkContainer extends Composite {
 	}
 
 	private void initLayout() {
-		RowLayout layout = new RowLayout();
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 3;
 		layout.marginBottom = 0;
-		layout.marginTop = 3;
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
 		setLayout(layout);
 	}
 

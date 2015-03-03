@@ -104,7 +104,7 @@ public class RoaPrefixTable extends Composite {
 		
 		//AS field above prefix table
 		asText = new Text(this, SWT.READ_ONLY | SWT.BORDER);
-		asText.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
+//		asText.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
 		
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0,0);

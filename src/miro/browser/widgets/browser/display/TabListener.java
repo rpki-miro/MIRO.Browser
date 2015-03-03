@@ -32,6 +32,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
@@ -57,7 +58,7 @@ public class TabListener implements ISelectionChangedListener{
 		display.clearTabs();
 
 		
-		TabItem tab;
+		CTabItem tab;
 		
 		/* If the selection is a Certificate, init the appropriate tabs to display 
 		 * CertificateDisplay
@@ -65,17 +66,18 @@ public class TabListener implements ISelectionChangedListener{
 		if(obj instanceof CertificateObject){
 			CertificateDisplay certificateDisplay = display.getCertificateDisplay();
 			
-			tab = new TabItem(display, SWT.NONE);
+			tab = new CTabItem(display, SWT.NONE);
 			tab.setText("Certificate");
 			tab.setData(obj);
 			tab.setControl(certificateDisplay.getCertificateWidget().getParent());
-
-			tab = new TabItem(display, SWT.NONE);
+			display.setSelection(tab);
+			
+			tab = new CTabItem(display, SWT.NONE);
 			tab.setText("Manifest");
 			tab.setData(((CertificateObject) obj).getManifest());
 			tab.setControl(display.getCertificateDisplay().getManifestWidget().getParent());
 			
-			tab = new TabItem(display, SWT.NONE);
+			tab = new CTabItem(display, SWT.NONE);
 			tab.setText("CRL");
 			tab.setData(((CertificateObject) obj).getCrl());
 			tab.setControl(display.getCertificateDisplay().getCrlWidget().getParent());
@@ -85,12 +87,13 @@ public class TabListener implements ISelectionChangedListener{
 		 * RoaDisplay
 		 * */
 		if(obj instanceof RoaObject){
-			tab = new TabItem(display, SWT.NONE);
+			tab = new CTabItem(display, SWT.NONE);
 			tab.setText("ROA");
 			tab.setData(obj);
 			tab.setControl(display.getRoaDisplay().getRoaWidget().getParent());
+			display.setSelection(tab);
 			
-			tab = new TabItem(display, SWT.NONE);
+			tab = new CTabItem(display, SWT.NONE);
 			tab.setText("EE Certificate");
 			tab.setData(((RoaObject) obj).getEeCert());
 			tab.setControl(display.getRoaDisplay().getCertificateWidget().getParent());

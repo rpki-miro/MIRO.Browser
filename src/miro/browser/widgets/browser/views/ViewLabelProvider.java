@@ -35,8 +35,10 @@ import net.ripe.rpki.commons.validation.ValidationStatus;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -84,10 +86,12 @@ public class ViewLabelProvider extends CellLabelProvider{
 	
 	private void setBackgroundColor(ViewerCell cell, ResourceHoldingObject obj) {
 		if(viewer != null){
-			Color bg = isMarked(obj) ? Colors.DARK_GREY : Colors.WHITE;
+			String variant = isMarked(obj) ? "filterMatch" : null;
+//			Color bg = isMarked(obj) ? Colors.FILTER_MATCH : Colors.CER_OBJECT_COLOR;
 			if (cell.getViewerRow().getItem() instanceof TreeItem) {
 				TreeItem item = (TreeItem) cell.getViewerRow().getItem();
-				item.setBackground(bg);
+//				item.setData(RWT.CUSTOM_VARIANT, variant);
+//				item.setBackground(bg);
 			}
 		}
 	}

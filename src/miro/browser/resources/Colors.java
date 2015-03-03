@@ -70,6 +70,8 @@ public class Colors {
 	public static Color CRL_OBJECT_COLOR;
 	
 	public static Color ROA_OBJECT_COLOR;
+	
+	public static Color FILTER_MATCH;
 
 	
 	
@@ -105,7 +107,7 @@ public class Colors {
 		ROA_OBJECT_COLOR = new Color(DISPLAY, 148,103, 189);
 		
 		
-		
+		FILTER_MATCH = new Color(DISPLAY, 208, 233, 198);
 		
 		
 		

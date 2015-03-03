@@ -30,6 +30,7 @@ import java.util.Map;
 import miro.browser.resources.ValidationTranslation;
 import miro.browser.updater.ModelUpdater;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.Application.OperationMode;
 import org.eclipse.rap.rwt.application.ApplicationConfiguration;
@@ -50,6 +51,7 @@ public class BrowserApplicationConfiguration implements
 		ApplicationContext context = ((ApplicationImpl)application).getApplicationContext();
 		
 		application.addStyleSheet( "miro", "theme/miro_theme.css" );
+//		application.addStyleSheet( RWT.DEFAULT_THEME_ID, "theme/miro_theme.css" );
 //		application.addStyleSheet("scout", "theme/scout.css");
 //		application.addStyleSheet("controls", "theme/controls.css");
 //		application.addStyleSheet("business", "theme/business.css");

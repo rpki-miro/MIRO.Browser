@@ -58,10 +58,13 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 	
 	public RoaWidget(Composite parent, int style,RPKIBrowser b) {
 		super(parent, style,b);
-		initTitleBar("Route Authorization Object");
 		prefixTable = new RoaPrefixTable(this, style);
 		setDisplayLayout();
 		layout();
+		
+		informationContainer.moveAbove(null);
+		prefixTable.moveBelow(informationContainer);
+		
 	}
 	
 	public void setDisplayLayout(){
@@ -82,9 +85,6 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
 		informationContainer.setLayoutData(rowData);
 
-		RowData layoutData = new RowData();
-		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
-		titleBar.setLayoutData(layoutData);
 		rowData = new RowData();
 		rowData.height =  MagicNumbers.RDW_PREFIX_LIST_HEIGHT;
 		rowData.width = MagicNumbers.RDW_PREFIX_LIST_WIDTH;

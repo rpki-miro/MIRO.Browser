@@ -24,6 +24,7 @@ package miro.browser.widgets.header;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -39,16 +40,32 @@ public class HeaderBar extends Composite {
 	}
 	
 	private void initHeading(){
-		Label heading = new Label(this, SWT.NONE);
+		
+		Composite wrap = new Composite(this, SWT.NONE);
+		wrap.setData(RWT.CUSTOM_VARIANT, "heading_wrap");
+		
+		
+		FillLayout layout = new FillLayout();
+		layout.marginHeight = 15;
+		layout.marginWidth = 15;
+		wrap.setLayout(layout);
+
+		
+		Label heading = new Label(wrap, SWT.NONE);
 		heading.setText("RPKI Repository Browser");
 		heading.setData(RWT.CUSTOM_VARIANT, "heading");
-		RowData layoutData = new RowData();
-		heading.setLayoutData(layoutData);
 	}
 	
 	private void initLayout(){
 		RowLayout layout = new RowLayout();
 		layout.fill = true;
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		layout.marginBottom = 0;
+		layout.marginLeft = 0;
+		layout.marginTop = 0;
+		layout.marginRight = 0;
+		layout.spacing = 0;
 		setLayout(layout);
 	}
 

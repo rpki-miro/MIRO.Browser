@@ -70,12 +70,11 @@ public class ResultWidget extends Composite {
 		
 		initObjectBreakdownChart();
 		
-		
 	}
 
 	private void initDescriptor() {
 		descriptor = new Label(this, SWT.NONE);
-		descriptor.setFont(Fonts.SMALL_HEADER_FONT);
+//		descriptor.setFont(Fonts.SMALL_HEADER_FONT);
 		GridData gridData = new GridData();
 		gridData.horizontalSpan = 2;
 		gridData.verticalAlignment = SWT.BEGINNING;

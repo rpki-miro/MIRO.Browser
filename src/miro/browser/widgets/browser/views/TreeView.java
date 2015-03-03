@@ -51,8 +51,7 @@ public class TreeView extends Composite implements View{
 
 	private void init() {
 		setLayout(new FillLayout());
-
-		treeViewer = new TreeViewer(this, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL |  SWT.BORDER | SWT.VIRTUAL);	
+		treeViewer = new TreeViewer(this, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.VIRTUAL);	
 		treeViewer.setUseHashlookup(true);
 		treeViewer.setAutoExpandLevel(2);
 		ViewLabelProvider label_provider = new ViewLabelProvider();

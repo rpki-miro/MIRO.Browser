@@ -53,10 +53,13 @@ public class CrlWidget extends DisplayWidget implements ResourceHolderObservable
 	
 	public CrlWidget(Composite parent, int style, RPKIBrowser b ) {
 		super(parent, style, b);
-		initTitleBar("Certificate Revokation List");
 		revokedCertTable = new RevokedCertificateTable(this, style);
 		setDisplayLayout();
 		layout();
+		
+		informationContainer.moveAbove(null);
+		revokedCertTable.moveBelow(informationContainer);
+		
 	}
 	
 	public void setDisplayLayout(){
@@ -72,12 +75,11 @@ public class CrlWidget extends DisplayWidget implements ResourceHolderObservable
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
 		layout.spacing = 0;
 		setLayout(layout);
+
 		RowData rowData = new RowData();
 		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
 		informationContainer.setLayoutData(rowData);
-		RowData layoutData = new RowData();
-		layoutData.height = MagicNumbers.CDW_TITLE_BAR_HEIGHT;
-		titleBar.setLayoutData(layoutData);
+
 		rowData = new RowData();
 		rowData.height =  MagicNumbers.CRL_REVOKED_LIST_HEIGHT;
 		rowData.width = MagicNumbers.CRL_REVOKED_LIST_WIDTH;

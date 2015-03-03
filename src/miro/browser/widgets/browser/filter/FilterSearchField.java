@@ -55,7 +55,7 @@ public class FilterSearchField extends Composite {
 	private void initSearchFor() {
 		searchFor = new Label(this, SWT.NONE);
 		searchFor.setText("Search for:");
-		searchFor.setFont(Fonts.STANDARD_FONT);
+//		searchFor.setFont(Fonts.STANDARD_FONT);
 		FormData formData = new FormData();
 		formData.bottom = new FormAttachment(100,0);	
 		formData.left = new FormAttachment(0,0);
@@ -66,7 +66,7 @@ public class FilterSearchField extends Composite {
 	private void initSearchText() {
 		searchText = new Text(this, SWT.BORDER);
 		searchText.setBackground(Colors.WHITE);
-		searchText.setFont(Fonts.STANDARD_FONT);
+//		searchText.setFont(Fonts.STANDARD_FONT);
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0,0);
 		formData.left = new FormAttachment(searchFor,10);

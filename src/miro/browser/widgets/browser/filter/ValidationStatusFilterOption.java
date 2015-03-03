@@ -51,7 +51,7 @@ public class ValidationStatusFilterOption extends Composite implements FilterOpt
 	private void initButtons() {
 		Button button = new Button(this, SWT.CHECK);
 		button.setText("Passed");
-		button.setFont(Fonts.STANDARD_FONT);
+//		button.setFont(Fonts.STANDARD_FONT);
 		RowData rowData = new RowData();
 		button.setLayoutData(rowData);
 		button.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.PASSED_STATUS); 
@@ -60,7 +60,7 @@ public class ValidationStatusFilterOption extends Composite implements FilterOpt
 		
 		button = new Button(this, SWT.CHECK);
 		button.setText("Warning");
-		button.setFont(Fonts.STANDARD_FONT);
+//		button.setFont(Fonts.STANDARD_FONT);
 		rowData = new RowData();
 		button.setLayoutData(rowData);
 		button.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.WARNING_STATUS);
@@ -69,7 +69,7 @@ public class ValidationStatusFilterOption extends Composite implements FilterOpt
 
 		button = new Button(this, SWT.CHECK);
 		button.setText("Error");
-		button.setFont(Fonts.STANDARD_FONT);
+//		button.setFont(Fonts.STANDARD_FONT);
 		rowData = new RowData();
 		button.setLayoutData(rowData);
 		button.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.ERROR_STATUS);

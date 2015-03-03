@@ -49,13 +49,13 @@ public class StatsWidgetHeader extends Composite {
 		
 
 		filenameLabel = new Label(this, SWT.NONE);
-		filenameLabel.setFont(Fonts.SMALL_HEADER_FONT);
+//		filenameLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		FormData formData = new FormData();
 		formData.left = new FormAttachment(0,0);
 		filenameLabel.setLayoutData(formData);
 		
 		timestampLabel = new Label(this, SWT.NONE);
-		timestampLabel.setFont(Fonts.SMALL_HEADER_FONT);
+//		timestampLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		formData = new FormData();
 		formData.right = new FormAttachment(100,0);
 		timestampLabel.setLayoutData(formData);

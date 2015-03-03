@@ -25,6 +25,7 @@ package miro.browser.widgets;
 import miro.browser.widgets.browser.RPKIBrowser;
 import miro.browser.widgets.stats.RPKIStats;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StackLayout;
@@ -45,6 +46,8 @@ public class ContentContainer extends Composite {
 		this.setLayout(layout);
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
+		
+		setData(RWT.CUSTOM_VARIANT, "contentContainer");
 	}
 	
 	public void setBrowser(RPKIBrowser b) {
@@ -73,7 +76,7 @@ public class ContentContainer extends Composite {
 		scroller.setExpandHorizontal(true);
 		scroller.setExpandVertical(true);
 
-		RPKIStats statsContainer = new RPKIStats(scroller, SWT.BORDER);
+		RPKIStats statsContainer = new RPKIStats(scroller, SWT.NONE);
 		setStatsContainer(scroller);
 		scroller.setContent(statsContainer);
 		scroller.setMinSize(statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
