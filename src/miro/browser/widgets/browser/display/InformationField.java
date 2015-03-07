@@ -39,7 +39,7 @@ public abstract class InformationField extends Composite {
 
 	protected Label label;
 
-	protected int minHeight;
+	protected int minLines;
 	
 	protected Class<?> type;
 	
@@ -51,10 +51,11 @@ public abstract class InformationField extends Composite {
 	public InformationField(Composite parent, int style, Class<?> t, Class<?> cont, String labelText, int mH, String name, IConverter conv) {
 		super(parent, style);
 		setData(RWT.CUSTOM_VARIANT, "informationField");
+		
 		label = new Label(this, style | SWT.WRAP );
 		label.setData(RWT.CUSTOM_VARIANT, "informationLabel");
 
-		minHeight = mH + 10;
+		minLines = mH ;
 		type = t;
 		containerType = cont;
 		propertyName = name;
@@ -65,18 +66,19 @@ public abstract class InformationField extends Composite {
 		layout.marginHeight = MagicNumbers.INF_FIELD_MARGIN_HEIGHT;
 		layout.marginWidth = MagicNumbers.INF_FIELD_MARGIN_WIDTH;
 		layout.marginTop = 0;
+		layout.spacing = 0;
 		setLayout(layout);
 
 		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(0,5);
-		layoutData.bottom = new FormAttachment(100,-5);
-		layoutData.left = new FormAttachment(0,5);
+		layoutData.top = new FormAttachment(0,0);
+		layoutData.bottom = new FormAttachment(100,0);
+		layoutData.left = new FormAttachment(0,0);
 		layoutData.width = MagicNumbers.INF_FIELD_LABEL_WIDTH;
 		label.setLayoutData(layoutData);
 	}
 	
-	public int getMinHeight(){
-		return minHeight;
+	public int getMinLines(){
+		return minLines;
 	}
 
 	public abstract void bindField(IObservableValue selection, DataBindingContext dbc);

@@ -38,6 +38,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -45,8 +46,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -65,6 +64,7 @@ public class ManifestFilesTable extends Composite {
 	
 	public ManifestFilesTable(Composite parent, int style, RPKIBrowser b) {
 		super(parent, style);
+		setData(RWT.CUSTOM_VARIANT, "displayContent");
 		browser = b;
 		setLayout(new FillLayout());	
 
@@ -78,6 +78,8 @@ public class ManifestFilesTable extends Composite {
 		TableViewerColumn newCol;
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table,SWT.NONE));
 		newCol.getColumn().setWidth(MagicNumbers.MFT_HASH_LIST_FILENAME_COLUMN_WIDTH);
+		newCol.getColumn().setResizable(false);
+		newCol.getColumn().setMoveable(false);
 		newCol.getColumn().setText("Filename");
 		newCol.setLabelProvider(new CellLabelProvider() {
 			
@@ -90,6 +92,8 @@ public class ManifestFilesTable extends Composite {
 		
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table, SWT.NONE));
 		newCol.getColumn().setWidth(MagicNumbers.MFT_HASH_LIST_HASHVALUE_COLUMN_WIDTH);
+		newCol.getColumn().setResizable(false);
+		newCol.getColumn().setMoveable(false);
 		newCol.getColumn().setText("Hash");
 		newCol.setLabelProvider(new CellLabelProvider() {
 			
@@ -123,7 +127,6 @@ public class ManifestFilesTable extends Composite {
 				}
 			}
 		});
-		
 	}
 
 	public void setInput(ManifestObject manifest) {

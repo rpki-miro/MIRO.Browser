@@ -29,11 +29,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 
 /**
  * Widget container for the different Object Displays, in this case RoaDisplay and CertificateDisplay.

@@ -26,6 +26,7 @@ import java.net.URI;
 import java.util.ArrayList;
 
 import json.deserializers.ValidationStatus;
+import miro.browser.converters.ASNConverter;
 import miro.browser.converters.DateTimeConverter;
 import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
@@ -36,6 +37,7 @@ import miro.validator.types.RepositoryObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
 import miro.validator.types.ValidationResults;
+import net.ripe.ipresource.Asn;
 import net.ripe.rpki.commons.crypto.ValidityPeriod;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -78,7 +80,7 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 		layout.wrap = false;
 		layout.marginHeight = MagicNumbers.DISPLAYWIDGET_MARGIN_HEIGHT;
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
-		layout.spacing = 0;
+		layout.spacing = 20;
 		setLayout(layout);
 
 		RowData rowData = new RowData();
@@ -111,8 +113,10 @@ public class RoaWidget extends DisplayWidget implements ResourceHolderObservable
 		fields.add(new TextField(parent, style, ValidityPeriod.class, RoaObject.class ,"Validity Period: ", MagicNumbers.LINE_HEIGHT*2, "validityPeriod",validityPeriodConv));
 		
 		fields.add(new TextField(parent, style, DateTime.class, ResourceHoldingObject.class,"Signing Time: ", MagicNumbers.LINE_HEIGHT*2, "signingTime", new DateTimeConverter()));
+
+		fields.add(new TextField(parent,style,Asn.class, RoaObject.class, "ASN: ", MagicNumbers.LINE_HEIGHT,"asn", new ASNConverter()));
 		
-		layoutFields(MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH);
+		layoutFields(MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH - 20);
 		parent.layout();
 	}
 

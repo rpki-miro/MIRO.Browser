@@ -1,7 +1,7 @@
 /* For all widgets */
 * {
 
-	font: 14px "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font: 14px Arial,sans-serif; 
 }
 
 Button {
@@ -25,7 +25,7 @@ Composite.heading_wrap {
 Label.heading {
 	background-color:#008CBA;
 	color:#FFFFFF;
-	font: 24px "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font: 24px "Open Sans", sans-serif;
 }
 
 /* End Heading */
@@ -39,7 +39,7 @@ Composite.linkContainer {
 Button.navButton {
 	background-color:inherit;
 	color:#FFFFFF;
-	font: 16px "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font: 16px "Open Sans", sans-serif;
 	border:none;
 }
 
@@ -91,9 +91,11 @@ Label.updateTimestamp {
 /* End Controlbar */
 
 /* Start Views */
+/*
 TreeItem:even {
 	background-color:#C4E3F3;
 }
+*/
 TreeItem {
 	background-color:#FFFFFF;
 }
@@ -105,11 +107,11 @@ TreeItem.filterMatch {
 TreeItem:selected {
 	background-color:#008CBA;
 }
-
+/*
 TableItem:even {
 	background-color:#C4E3F3;
 }
-
+*/
 TableItem {
 	background-color:#FFFFFF;
 }
@@ -144,28 +146,37 @@ Composite.displayWidget {
 }
 
 Composite.informationContainer {
-	background-color:#EEEEEE;
-	border-radius:5px;
+	background-color:#FFFFFF;
+}
+
+Composite.displayContent {
+	box-shadow:0px 5px 15px rgba(0, 0, 0, 0.5);
 }
 
 Composite.informationField {
-	background-color:inherit;
+	background-color:#FFFFFF;
+	padding:0px;
 }
 
 Label.informationLabel {
 	background-color:inherit;
+	font:bold 13px Arial, sans-serif;
 }
 
 Text.informationText {
 	background-color:inherit;
+	padding:0px;
+	font:13px Arial, sans-serif;
 }
 
 Link.informationLink {
 	background-color:inherit;
+	font:13px Arial, sans-serif;
 }
 
 Link.downloadLink {
 	background-color:inherit;
+	font:11px Arial, sans-serif;
 }
 
 TableColumn {
@@ -173,8 +184,22 @@ TableColumn {
 	color:white;
 }
 
-/*
-*/
+/* End Display area*/
+
+/* Start Filter */
+Shell-Titlebar {
+	background-color:#008CBA;
+	height:30px;
+	
+}
+/* End Filter */
+
+ScrollBar {
+	background-color:#EEEEEE;
+}
+ScrollBar-Thumb {
+	background-color:#333333;
+}
 
 
 

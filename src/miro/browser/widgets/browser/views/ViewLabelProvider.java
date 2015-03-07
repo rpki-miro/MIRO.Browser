@@ -25,9 +25,7 @@ package miro.browser.widgets.browser.views;
 
 import java.util.HashMap;
 
-import miro.browser.resources.Colors;
 import miro.browser.resources.Images;
-import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.ValidationResults;
 import net.ripe.rpki.commons.validation.ValidationStatus;
@@ -35,11 +33,7 @@ import net.ripe.rpki.commons.validation.ValidationStatus;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.rap.rwt.RWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 

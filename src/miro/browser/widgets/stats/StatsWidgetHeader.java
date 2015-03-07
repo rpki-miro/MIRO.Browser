@@ -23,7 +23,6 @@ THE SOFTWARE.
 package miro.browser.widgets.stats;
 
 
-import miro.browser.resources.Fonts;
 import miro.validator.stats.types.RPKIRepositoryStats;
 
 import org.eclipse.swt.SWT;

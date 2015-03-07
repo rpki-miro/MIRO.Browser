@@ -58,7 +58,6 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		
 		informationContainer.moveAbove(null);
 		filesTable.moveBelow(informationContainer);
-		
 	}
 	
 	public void setDisplayLayout(){
@@ -72,7 +71,7 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		layout.wrap = false;
 		layout.marginHeight = MagicNumbers.DISPLAYWIDGET_MARGIN_HEIGHT;
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
-		layout.spacing = 0;
+		layout.spacing = 20;
 		setLayout(layout);
 
 		RowData rowData = new RowData();
@@ -102,7 +101,7 @@ public class ManifestWidget extends DisplayWidget implements ResourceHolderObser
 		InformationField warningsField = new TextField(parent,style,ArrayList.class, ValidationResults.class, "Warnings: ", MagicNumbers.LINE_HEIGHT*2,"warnings",checkToStringconv);
 		fields.add(warningsField);
 		
-		layoutFields(MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH);
+		layoutFields(MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH - 20);
 		parent.layout();
 	}
 	

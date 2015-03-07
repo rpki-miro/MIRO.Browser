@@ -22,7 +22,6 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
-import miro.browser.resources.Colors;
 import miro.browser.widgets.browser.RPKIBrowser;
 import miro.validator.types.CRLObject;
 import miro.validator.types.CertificateObject;

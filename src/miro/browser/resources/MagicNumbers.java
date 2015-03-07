@@ -65,11 +65,11 @@ public class MagicNumbers {
 	
 	//Util
 	public static final int SCROLLBAR_WIDTH = 10;
-	public static final int LINE_HEIGHT = 20;
+	public static final int LINE_HEIGHT = 30;
 	
 	//DisplayWidgets
-	public static final int DISPLAYWIDGET_MARGIN_HEIGHT = 10;
-	public static final int DISPLAYWIDGET_MARGIN_WIDTH = 0;
+	public static final int DISPLAYWIDGET_MARGIN_HEIGHT = 20;
+	public static final int DISPLAYWIDGET_MARGIN_WIDTH = 20;
 	
 	//Certificate Display, title bar
 	public static final int CDW_TITLE_BAR_HEIGHT = 35;
@@ -80,9 +80,9 @@ public class MagicNumbers {
 	
 	//CertificateDisplay, InformationContainer
 	public static final int CDW_INFORMATION_CONTAINER_WIDTH = 650;
-	public static final int CDW_INFORMATION_CONTAINER_MARGIN_HEIGHT = 0	;
+	public static final int CDW_INFORMATION_CONTAINER_MARGIN_HEIGHT = 10;
 	public static final int CDW_INFORMATION_CONTAINER_MARGIN_WIDTH = 10;
-	public static final int CDW_INFORMATION_CONTAINER_SPACING = 5;
+	public static final int CDW_INFORMATION_CONTAINER_SPACING = 10;
 
 	//CertificateDisplay, ResourceList
 	public static final int CDW_RESOURCE_LIST_WIDTH = 200;
@@ -101,22 +101,22 @@ public class MagicNumbers {
 	public static final int MFT_HASH_LIST_WIDTH = 400;
 	public static final int MFT_HASH_LIST_HEIGHT = 200;
 	public static final int MFT_HASH_LIST_FILENAME_COLUMN_WIDTH = 300;
-	public static final int MFT_HASH_LIST_HASHVALUE_COLUMN_WIDTH = 450;
+	public static final int MFT_HASH_LIST_HASHVALUE_COLUMN_WIDTH = 340;
 	
 	//CRLDisplay, hash table
 	public static final int CRL_REVOKED_LIST_MAX_WIDTH = 400;
 	public static final int CRL_REVOKED_LIST_WIDTH = 400;
 	public static final int CRL_REVOKED_LIST_HEIGHT = 200;
-	public static final int CRL_REVOKED_LIST_SERIAL_COLUMN_WIDTH = 100;
-	public static final int CRL_REVOKED_LIST_TIME_COLUMN_WIDTH = 260;
+	public static final int CRL_REVOKED_LIST_SERIAL_COLUMN_WIDTH = 375;
+	public static final int CRL_REVOKED_LIST_TIME_COLUMN_WIDTH = 265;
 	
 	
 	
 	//RoaDisplay, prefix table
 	public static final int RDW_PREFIX_LIST_WIDTH = 200;
 	public static final int RDW_PREFIX_LIST_HEIGHT = 200;
-	public static final int RDW_PREFIX_LIST_PREFIX_COLUMN_WIDTH = 120;
-	public static final int RDW_PREFIX_LIST_MAX_LENGTH_COLUMN_WIDTH = 80;
+	public static final int RDW_PREFIX_LIST_PREFIX_COLUMN_WIDTH = 320;
+	public static final int RDW_PREFIX_LIST_MAX_LENGTH_COLUMN_WIDTH = 320;
 	
 	
 	

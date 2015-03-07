@@ -25,24 +25,14 @@ package miro.browser.widgets.header;
 
 import miro.browser.widgets.ContentContainer;
 
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.client.service.JavaScriptExecutor;
-import org.eclipse.rap.rwt.engine.RWTServlet;
-import org.eclipse.rap.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.graphics.Cursor;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
 
 public class LinkContainer extends Composite {

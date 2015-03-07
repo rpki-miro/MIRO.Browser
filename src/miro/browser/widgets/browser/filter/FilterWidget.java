@@ -25,7 +25,6 @@ package miro.browser.widgets.browser.filter;
 import java.util.ArrayList;
 import java.util.List;
 
-import miro.browser.resources.Fonts;
 import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
 import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
 import miro.browser.widgets.browser.views.ViewManager;
@@ -33,8 +32,6 @@ import miro.browser.widgets.browser.views.ViewManager;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -67,20 +64,20 @@ public class FilterWidget extends Composite{
 		layout.marginWidth = 10;
 		setLayout(layout);
 		
-		Label header = new Label(this, SWT.NONE);
-		header.setText("Filter Options");
-//		header.setFont(Fonts.MEDIUM_HEADER_FONT);
-		FormData layoutData = new FormData();
-		layoutData.top = new FormAttachment(0,0);
-		layoutData.left = new FormAttachment(0,0);
-		header.setLayoutData(layoutData);
+//		Label header = new Label(this, SWT.NONE);
+//		header.setText("Filter Options");
+//		FormData layoutData = new FormData();
+//		layoutData.top = new FormAttachment(0,0);
+//		layoutData.left = new FormAttachment(0,0);
+//		header.setLayoutData(layoutData);
+		
+		FormData layoutData;
 		
 		/*Attribute options*/
 		Label attributeLabel = new Label(this, SWT.NONE);
 		attributeLabel.setText("Choose filter attribute:");
-//		attributeLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		layoutData = new FormData();
-		layoutData.top = new FormAttachment(header,15);
+		layoutData.top = new FormAttachment(0,15);
 		layoutData.left = new FormAttachment(0,0);
 		attributeLabel.setLayoutData(layoutData);
 		
@@ -92,7 +89,6 @@ public class FilterWidget extends Composite{
 		/*Filetype Options*/
 		Label filetypeLabel = new Label(this, SWT.NONE);
 		filetypeLabel.setText("Select File Type:");
-//		filetypeLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		layoutData = new FormData();
 		layoutData.top = new FormAttachment(attributeOption,15);
 		layoutData.left = new FormAttachment(0,0);
@@ -106,7 +102,6 @@ public class FilterWidget extends Composite{
 		/*Validation Status Options*/
 		Label validationStatusLabel = new Label(this, SWT.NONE);
 		validationStatusLabel.setText("Select Validation Status:");
-//		validationStatusLabel.setFont(Fonts.SMALL_HEADER_FONT);
 		layoutData = new FormData();
 		layoutData.top = new FormAttachment(filetypeOption,15);
 		layoutData.left = new FormAttachment(0,0);

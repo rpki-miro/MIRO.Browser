@@ -28,11 +28,10 @@ import miro.browser.updater.ModelObserver;
 import miro.browser.updater.ModelUpdater;
 import miro.browser.updater.ObserverType;
 import miro.browser.widgets.browser.RPKIBrowser;
-import miro.browser.widgets.browser.views.ViewManager;
 import miro.browser.widgets.browser.views.View.ViewType;
+import miro.browser.widgets.browser.views.ViewManager;
 import miro.validator.types.ResourceCertificateTree;
 
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;

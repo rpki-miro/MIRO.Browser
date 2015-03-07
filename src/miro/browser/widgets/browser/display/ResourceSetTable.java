@@ -34,6 +34,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -53,6 +54,7 @@ public class ResourceSetTable extends Composite{
 	public ResourceSetTable(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new FillLayout());
+		setData(RWT.CUSTOM_VARIANT, "displayContent");
 		
 		tableViewer = new TableViewer(this, SWT.V_SCROLL);
 		tableViewer.setContentProvider(new ResourceContentProvider());

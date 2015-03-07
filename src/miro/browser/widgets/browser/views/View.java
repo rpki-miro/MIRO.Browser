@@ -22,11 +22,11 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.views;
 
-import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.jface.viewers.ViewerFilter;
-
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
+
+import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 
 public interface View {
 	

@@ -22,7 +22,6 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
-import miro.browser.resources.Fonts;
 import miro.browser.resources.MagicNumbers;
 import miro.validator.types.RoaObject;
 import net.ripe.rpki.commons.crypto.cms.roa.RoaPrefix;
@@ -33,6 +32,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -46,12 +46,11 @@ public class RoaPrefixTable extends Composite {
 	
 	
 	private TableViewer tableViewer;
-	private Text asText;
 
 	public RoaPrefixTable(Composite parent, int style) {
 		super(parent, style);
+		setData(RWT.CUSTOM_VARIANT, "displayContent");
 		setLayout(new FormLayout());
-		createAsText();
 		createTableViewer();
 	}
 
@@ -62,7 +61,7 @@ public class RoaPrefixTable extends Composite {
 		createColumns(table);
 		
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(asText);
+		formData.top = new FormAttachment(0,0);
 		formData.left = new FormAttachment(0,0);
 		formData.right = new FormAttachment(100,0);
 		formData.bottom = new FormAttachment(100,0);
@@ -75,6 +74,8 @@ public class RoaPrefixTable extends Composite {
 		TableViewerColumn newCol;
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table,SWT.NONE));
 		newCol.getColumn().setWidth(MagicNumbers.RDW_PREFIX_LIST_PREFIX_COLUMN_WIDTH);
+		newCol.getColumn().setResizable(false);
+		newCol.getColumn().setMoveable(false);
 		newCol.getColumn().setText("Prefix");
 		newCol.setLabelProvider(new CellLabelProvider() {
 			
@@ -88,7 +89,9 @@ public class RoaPrefixTable extends Composite {
 		
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table,SWT.NONE));
 		newCol.getColumn().setWidth(MagicNumbers.RDW_PREFIX_LIST_MAX_LENGTH_COLUMN_WIDTH);
-		newCol.getColumn().setText("Max. Len.");
+		newCol.getColumn().setResizable(false);
+		newCol.getColumn().setMoveable(false);
+		newCol.getColumn().setText("Max. Length");
 		newCol.setLabelProvider(new CellLabelProvider() {
 			
 			@Override
@@ -99,23 +102,7 @@ public class RoaPrefixTable extends Composite {
 		});
 	}
 	
-	
-	public void createAsText(){
-		
-		//AS field above prefix table
-		asText = new Text(this, SWT.READ_ONLY | SWT.BORDER);
-//		asText.setFont(Fonts.DISPLAY_WIDGET_TITLEBAR_FONT);
-		
-		FormData formData = new FormData();
-		formData.top = new FormAttachment(0,0);
-		formData.left = new FormAttachment(0,0);
-		formData.right = new FormAttachment(100,0);
-		formData.height = 20;
-		asText.setLayoutData(formData);
-	}
-	
 	public void setInput(RoaObject roa) {
-		asText.setText(roa.getRoa().getAsn().toString());
 		tableViewer.setInput(roa);
 	}
 	

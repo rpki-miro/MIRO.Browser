@@ -33,6 +33,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -44,6 +45,7 @@ public class RevokedCertificateTable extends Composite {
 
 	public RevokedCertificateTable(Composite parent, int style) {
 		super(parent, style);
+		setData(RWT.CUSTOM_VARIANT, "displayContent");
 		setLayout(new FillLayout());
 		tableViewer = new TableViewer(this, SWT.V_SCROLL);
 		tableViewer.setContentProvider(new CRLEntryContentProvider());
@@ -57,6 +59,8 @@ public class RevokedCertificateTable extends Composite {
 		TableViewerColumn newCol;
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table,SWT.NONE));
 		newCol.getColumn().setWidth(MagicNumbers.CRL_REVOKED_LIST_SERIAL_COLUMN_WIDTH);
+		newCol.getColumn().setResizable(false);
+		newCol.getColumn().setMoveable(false);
 		newCol.getColumn().setText("Serial Nr.");
 		newCol.setLabelProvider(new CellLabelProvider() {
 			@Override
@@ -69,6 +73,8 @@ public class RevokedCertificateTable extends Composite {
 		
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table, SWT.NONE));
 		newCol.getColumn().setWidth(MagicNumbers.CRL_REVOKED_LIST_TIME_COLUMN_WIDTH);
+		newCol.getColumn().setResizable(false);
+		newCol.getColumn().setMoveable(false);
 		newCol.getColumn().setText("Revocation time");
 		newCol.setLabelProvider(new CellLabelProvider() {
 			@Override

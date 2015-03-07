@@ -25,7 +25,6 @@ package miro.browser.widgets.stats;
 import java.util.List;
 
 import miro.browser.resources.Colors;
-import miro.browser.resources.Fonts;
 import miro.validator.stats.types.Result;
 
 import org.eclipse.jface.viewers.CellLabelProvider;

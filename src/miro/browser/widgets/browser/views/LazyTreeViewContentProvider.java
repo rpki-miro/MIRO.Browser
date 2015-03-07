@@ -24,7 +24,6 @@ package miro.browser.widgets.browser.views;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Stack;
 
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceCertificateTree;
@@ -36,7 +35,6 @@ import org.eclipse.jface.viewers.ILazyTreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.swt.widgets.TreeItem;
 /**
  * Provides objects for our TreeView in a lazy way. This means only objects currently on the screen
  * will be actually loaded, everything else will be loaded dynamically when needed.

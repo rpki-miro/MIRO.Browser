@@ -73,7 +73,7 @@ public class CrlWidget extends DisplayWidget implements ResourceHolderObservable
 		layout.wrap = false;
 		layout.marginHeight = MagicNumbers.DISPLAYWIDGET_MARGIN_HEIGHT;
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
-		layout.spacing = 0;
+		layout.spacing = 20;
 		setLayout(layout);
 
 		RowData rowData = new RowData();
@@ -82,7 +82,6 @@ public class CrlWidget extends DisplayWidget implements ResourceHolderObservable
 
 		rowData = new RowData();
 		rowData.height =  MagicNumbers.CRL_REVOKED_LIST_HEIGHT;
-		rowData.width = MagicNumbers.CRL_REVOKED_LIST_WIDTH;
 		revokedCertTable.setLayoutData(rowData);	
 	}
 	
@@ -109,7 +108,7 @@ public class CrlWidget extends DisplayWidget implements ResourceHolderObservable
 		InformationField warningsField = new TextField(parent,style,ArrayList.class, ValidationResults.class, "Warnings: ", MagicNumbers.LINE_HEIGHT*2,"warnings",checkToStringconv);
 		fields.add(warningsField);
 		
-		layoutFields(MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH);
+		layoutFields(MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH - 20);
 		parent.layout();
 	}
 	

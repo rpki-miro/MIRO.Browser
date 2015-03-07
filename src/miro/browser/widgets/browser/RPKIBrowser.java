@@ -23,22 +23,19 @@ THE SOFTWARE.
 package miro.browser.widgets.browser;
 
 
-import miro.browser.resources.Colors;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.controlbar.BrowserControlBar;
 import miro.browser.widgets.browser.display.DisplayContainer;
 import miro.browser.widgets.browser.display.TabListener;
 import miro.browser.widgets.browser.display.TableListener;
 import miro.browser.widgets.browser.filter.FilterWidget;
-import miro.browser.widgets.browser.views.ViewManager;
 import miro.browser.widgets.browser.views.View.ViewType;
+import miro.browser.widgets.browser.views.ViewManager;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -104,7 +101,7 @@ public class RPKIBrowser extends Composite{
 
 		layoutData = new FormData();
 		layoutData.top = new FormAttachment(controlBar);	
-		layoutData.left = new FormAttachment(viewerManager);
+		layoutData.left = new FormAttachment(viewerManager,0);
 		layoutData.right = new FormAttachment(100,0);
 		layoutData.bottom = new FormAttachment(100,0);
 		displayContainer.setLayoutData(layoutData);
@@ -131,6 +128,7 @@ public class RPKIBrowser extends Composite{
 	private void initFilter() {
 		filterShell = new Shell(getShell(),  SWT.TITLE | SWT.CLOSE);
 		filterShell.setSize(380, 450);
+		filterShell.setText("Filter Options");
 		filterShell.setLayout(new FillLayout());
 		filter = new FilterWidget(filterShell, SWT.NONE, viewerManager);
 		filterShell.layout();

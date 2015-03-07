@@ -22,8 +22,6 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.stats;
 
-import miro.browser.resources.Fonts;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;

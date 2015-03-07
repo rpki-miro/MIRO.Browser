@@ -30,7 +30,6 @@ import java.util.Map;
 import miro.browser.resources.ValidationTranslation;
 import miro.browser.updater.ModelUpdater;
 
-import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.Application.OperationMode;
 import org.eclipse.rap.rwt.application.ApplicationConfiguration;

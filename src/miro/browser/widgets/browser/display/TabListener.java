@@ -22,8 +22,6 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
-import java.util.ArrayList;
-
 import miro.validator.types.CertificateObject;
 import miro.validator.types.ResourceHoldingObject;
 import miro.validator.types.RoaObject;
@@ -33,8 +31,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 
 /**
  * Listens for selection changes in a View and rearranges the Tabs of display 

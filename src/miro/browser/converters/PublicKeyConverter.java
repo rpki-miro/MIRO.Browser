@@ -25,9 +25,13 @@ package miro.browser.converters;
 import java.security.PublicKey;
 
 import org.eclipse.core.databinding.conversion.IConverter;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Text;
 
 public class PublicKeyConverter implements IConverter {
 
+	private Text text;
+	
 	@Override
 	public Object getFromType() {
 		return PublicKey.class;
@@ -43,7 +47,41 @@ public class PublicKeyConverter implements IConverter {
 		if(fromObject == null){
 			return "";
 		}
-		return ((PublicKey)fromObject).toString();
-	}
+		if(text == null)
+			return "";
 
+		/* -10 for VScrollbar that appears for some reason when trying to use the whole width */
+		int width = text.getClientArea().width - 10;
+		GC gc = new GC(text);
+		int charWidth = gc.getFontMetrics().getAverageCharWidth();
+		charWidth = gc.getCharWidth('0');
+		int charsPerLine = width/charWidth;
+		
+		/*Minus one for the newline char we will append to each line*/
+		charsPerLine--;
+		
+		
+		PublicKey key = (PublicKey) fromObject;
+		String result = "";
+		String[] lines = key.toString().split("\n");
+		String line;
+		String seg;
+		for(int i = 0;i<lines.length;i++){
+			line = lines[i];
+			while(line.length() > charsPerLine){
+				seg = line.substring(0,charsPerLine) + "\n";
+				result += seg;
+				line = line.substring(charsPerLine);
+			}
+			result += line;
+			if( i != lines.length -1)
+				result += "\n";
+		}
+		
+		return result ;
+	}
+	
+	public void setText(Text s){
+		text = s;
+	}
 }

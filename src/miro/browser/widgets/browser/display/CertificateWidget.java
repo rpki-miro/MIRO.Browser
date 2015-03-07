@@ -47,7 +47,6 @@ import net.ripe.rpki.commons.crypto.ValidityPeriod;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -75,7 +74,7 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 	public void setDisplayLayout(){
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-		layout.horizontalSpacing = 10;
+		layout.horizontalSpacing = 20;
 		layout.verticalSpacing = 0;
 		layout.marginHeight = MagicNumbers.DISPLAYWIDGET_MARGIN_HEIGHT;
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
@@ -91,7 +90,6 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		gridData.verticalAlignment = SWT.FILL;
 		resourceSetTable.setLayoutData(gridData);
 		
-		resourceSetTable.moveAbove(null);
 		informationContainer.moveAbove(resourceSetTable);
 	}
 	
@@ -101,16 +99,16 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		ValidityPeriodConverter validityPeriodConv = new ValidityPeriodConverter();
 
 		
-		InformationField validationStatusField = new TextField(parent, style, ValidationStatus.class,ValidationResults.class,"Validation Status: ", MagicNumbers.LINE_HEIGHT*2, "validationStatus",null);
+		InformationField validationStatusField = new TextField(parent, style, ValidationStatus.class,ValidationResults.class,"Validation Status: ", 1, "validationStatus",null);
 		fields.add(validationStatusField);
 
-		InformationField validityPeriodField = new TextField(parent, style, ValidityPeriod.class,ResourceHoldingObject.class,"Validity Period: ", MagicNumbers.LINE_HEIGHT*2, "validityPeriod",validityPeriodConv);
+		InformationField validityPeriodField = new TextField(parent, style, ValidityPeriod.class,ResourceHoldingObject.class,"Validity Period: ", 1, "validityPeriod",validityPeriodConv);
 		fields.add(validityPeriodField);
 
-		InformationField invalidReasonsField = new TextField(parent, style, ArrayList.class,ValidationResults.class,"Errors: ", MagicNumbers.LINE_HEIGHT*2, "errors",checkToStringconv);
+		InformationField invalidReasonsField = new TextField(parent, style, ArrayList.class,ValidationResults.class,"Errors: ", 1, "errors",checkToStringconv);
 		fields.add(invalidReasonsField);
 		
-		InformationField warningsField = new TextField(parent,style, ArrayList.class, ValidationResults.class, "Warnings: ", MagicNumbers.LINE_HEIGHT*2,"warnings",checkToStringconv);
+		InformationField warningsField = new TextField(parent,style, ArrayList.class, ValidationResults.class, "Warnings: ", 1,"warnings",checkToStringconv);
 		fields.add(warningsField);
 
 		InformationField subjectField = new TextField(parent, style, X500Principal.class, CertificateObject.class, "Subject: ", MagicNumbers.LINE_HEIGHT*2, "subject", new X500PrincipalConverter());
@@ -141,7 +139,7 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		InformationField filenameField = new TextField(parent, style, String.class,ResourceHoldingObject.class,"Filename: ", MagicNumbers.LINE_HEIGHT, "filename",null);
 		fields.add(filenameField);
 		
-		InformationField locationField = new TextField(parent, style, URI.class, ResourceHoldingObject.class,"Location: ", MagicNumbers.LINE_HEIGHT, "remoteLocation",new URIConverter());
+		InformationField locationField = new TextField(parent, style, URI.class, ResourceHoldingObject.class,"Location: ", MagicNumbers.LINE_HEIGHT*1, "remoteLocation",new URIConverter());
 		fields.add(locationField);
 
 		InformationField eeField = new TextField(parent, style, boolean.class,ResourceHoldingObject.class,"EE: ", MagicNumbers.LINE_HEIGHT, "isEE",null);
@@ -153,11 +151,13 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 		InformationField rootField = new TextField(parent, style, boolean.class,ResourceHoldingObject.class,"TA: ", MagicNumbers.LINE_HEIGHT, "isRoot",null);
 		fields.add(rootField);
 		
-		InformationField keyField = new TextField(parent, style, PublicKey.class,ResourceHoldingObject.class,"Public Key: ", MagicNumbers.LINE_HEIGHT*2, "publicKey",new PublicKeyConverter());
+		PublicKeyConverter pkconv = new PublicKeyConverter();
+		TextField keyField = new TextField(parent, style, PublicKey.class,ResourceHoldingObject.class,"Public Key: ", MagicNumbers.LINE_HEIGHT*2, "publicKey",pkconv);
+		pkconv.setText(keyField.getText());
 		fields.add(keyField);
 		
 		
-		layoutFields(MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH);
+		layoutFields(MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH - 20);
 		parent.layout();
 	}
 

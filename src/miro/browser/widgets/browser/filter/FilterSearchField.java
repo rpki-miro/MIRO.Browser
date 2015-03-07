@@ -23,7 +23,6 @@ THE SOFTWARE.
 package miro.browser.widgets.browser.filter;
 
 import miro.browser.resources.Colors;
-import miro.browser.resources.Fonts;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;

@@ -22,7 +22,6 @@ THE SOFTWARE.
  * */
 package miro.browser;
 import miro.browser.resources.Colors;
-import miro.browser.resources.Fonts;
 import miro.browser.resources.Images;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.ContentContainer;
@@ -36,7 +35,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Composite;
 
 public class SessionRealm implements Runnable {

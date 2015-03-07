@@ -25,7 +25,6 @@ package miro.browser.widgets.browser.filter;
 import java.util.ArrayList;
 import java.util.List;
 
-import miro.browser.resources.Fonts;
 import miro.browser.widgets.browser.filter.filters.FileTypeFilter;
 import miro.browser.widgets.browser.filter.filters.FilterKeys;
 import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
@@ -54,7 +53,6 @@ public class FileTypeFilterOption extends RadioButtonContainer implements Filter
 	private void initButtons() {
 		allButton = new Button(this, SWT.RADIO);
 		allButton.setText("All files");
-//		allButton.setFont(Fonts.STANDARD_FONT);
 		RowData rowData = new RowData();
 		allButton.setLayoutData(rowData);
 		allButton.addListener(SWT.Selection, new SelectedButtonListener());
@@ -64,7 +62,6 @@ public class FileTypeFilterOption extends RadioButtonContainer implements Filter
 		
 		cerButton = new Button(this, SWT.RADIO);
 		cerButton.setText("Only .cer files");
-//		cerButton.setFont(Fonts.STANDARD_FONT);
 		rowData = new RowData();
 		cerButton.setLayoutData(rowData);
 		cerButton.addListener(SWT.Selection, new SelectedButtonListener());
@@ -72,7 +69,6 @@ public class FileTypeFilterOption extends RadioButtonContainer implements Filter
 
 		roaButton = new Button(this, SWT.RADIO);
 		roaButton.setText("Only .roa files");
-//		roaButton.setFont(Fonts.STANDARD_FONT);
 		rowData = new RowData();
 		roaButton.setLayoutData(rowData);
 		roaButton.addListener(SWT.Selection, new SelectedButtonListener());

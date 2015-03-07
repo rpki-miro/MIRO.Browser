@@ -22,9 +22,6 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.stats;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import miro.validator.stats.types.RPKIRepositoryStats;
 import miro.validator.stats.types.Result;
 

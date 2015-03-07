@@ -22,8 +22,6 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.views;
 
-import java.util.HashMap;
-
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 

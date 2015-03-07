@@ -32,9 +32,6 @@ import miro.validator.types.RepositoryObject;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -65,6 +62,8 @@ public abstract class DisplayWidget extends Composite {
 	public void createInformationContainer(Composite parent, int style){
 		informationContainer = new Composite(parent,style);
 		informationContainer.setData(RWT.CUSTOM_VARIANT, "informationContainer");
+		informationContainer.setData(RWT.CUSTOM_VARIANT, "displayContent");
+
 		
 		RowLayout layout = new RowLayout();
 		layout.type = SWT.VERTICAL;
@@ -96,15 +95,9 @@ public abstract class DisplayWidget extends Composite {
 	
 	public void layoutFields(int width){
 		RowData rowData;
-		Object buf;
 		for(InformationField f : fields){
-			buf = f.getLayoutData();
-			if(buf == null){
-				rowData = new RowData();
-			} else {
-				rowData = (RowData) buf;
-			}
-			rowData.width = width - 10;
+			rowData = new RowData();
+			rowData.width = width;
 			f.setLayoutData(rowData);
 		}
 	}

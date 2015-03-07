@@ -27,7 +27,6 @@ import net.ripe.ipresource.IpResourceSet;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.client.service.JavaScriptExecutor;
-import org.eclipse.rap.rwt.client.service.UrlLauncher;
 import org.eclipse.rap.rwt.service.ServiceHandler;
 
 import com.google.gson.Gson;
