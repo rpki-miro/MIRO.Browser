@@ -34,6 +34,8 @@ import miro.validator.stats.types.RPKIRepositoryStats;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
@@ -43,28 +45,28 @@ public class RPKIStats extends Composite implements StatsObserver{
 	
 	private static final Logger log = LoggerFactory.getLogger(RPKIStats.class, Level.FINEST);
 	
-	private TabFolder statsTabFolder;
+	private CTabFolder statsTabFolder;
 	
 	public RPKIStats(Composite parent, int style) {
 		super(parent, style);
 		ModelUpdater.addObserver(this, ObserverType.STATS);
 		setBackground(Colors.BROWSER_BACKGROUND);
 		setLayout(new GridLayout());
-		statsTabFolder = new TabFolder(this, SWT.NONE);
+		statsTabFolder = new CTabFolder(this, SWT.NONE);
 		showNewestStats();
 	}
 
 	private void showRPKIRepositoryStats(String[] statsNames) {
-		for(TabItem tab : statsTabFolder.getItems()) {
+		for(CTabItem tab : statsTabFolder.getItems()) {
 			tab.dispose();
 		}
 
-		TabItem newTab;
+		CTabItem newTab;
 		StatsWidget statsWidget;
 		RPKIRepositoryStats stats;
 		for(String statName : statsNames) {
 			stats = (RPKIRepositoryStats) RWT.getApplicationContext().getAttribute(statName);
-			newTab = new TabItem(statsTabFolder, SWT.NONE);
+			newTab = new CTabItem(statsTabFolder, SWT.NONE);
 			newTab.setText(stats.getName());
 			
 			statsWidget = new StatsWidget(statsTabFolder, SWT.NONE);
