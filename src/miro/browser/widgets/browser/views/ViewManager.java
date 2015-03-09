@@ -98,7 +98,8 @@ public class ViewManager extends Composite {
 
 	public void resetViewerFilters() {
 		currentView.resetFilters();
-		currentView.getViewer().refresh();
+		currentView.getViewer().refresh(true);
+
 	}
 
 	public ResourceHoldingObject getSelectedObject() {
