@@ -61,14 +61,18 @@ Composite.browserControlbar {
 
 ToolBar {
 	background-color:inherit;
-	border-radius:0px 3px 3px 0px;
 	font: normal 14px "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
 }
 ToolItem.controlbarItem {
 	cursor:pointer;
 	background-color:#333333;
 	color:#FFFFFF;
-	animation: hoverIn 300ms ease-in-out
+	border:0px;
+}
+
+
+ToolItem.controlbarItem:selected {
+	background-color:#272727;
 }
 
 ToolItem.controlbarItem:hover {

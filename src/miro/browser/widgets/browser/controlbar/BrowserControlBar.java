@@ -22,6 +22,8 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.controlbar;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 import miro.browser.updater.ModelObserver;
@@ -35,6 +37,7 @@ import miro.validator.types.ResourceCertificateTree;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -75,13 +78,12 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 		updateTimestamp.setData(RWT.CUSTOM_VARIANT, "updateTimestamp");
 	}
 	
-	
 	/**
 	 * Creates the ToolItems contained by the ToolBar including their various handlers
 	 */
 	private void initToolbar(){
 		ToolItem filterItem = new ToolItem(toolbar, SWT.PUSH);
-		filterItem.setText("Show Filter");
+		filterItem.setText("Filter");
 		filterItem.setData(RWT.CUSTOM_VARIANT, "controlbarItem");
 		filterItem.addListener(SWT.Selection, new Listener() {
 			@Override
@@ -104,7 +106,8 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 		});
 		
 		ToolItem toggleViewerItem = new ToolItem(toolbar, SWT.CHECK);
-		toggleViewerItem.setText("Show List View");
+		toggleViewerItem.setText("List View");
+		toggleViewerItem.setWidth(150);
 		toggleViewerItem.setData(RWT.CUSTOM_VARIANT, "controlbarItem");
 		toggleViewerItem.addListener(SWT.Selection, new Listener() {
 			
@@ -123,7 +126,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 		/* A separator item can hold a CCombo */
 		ToolItem sep = new ToolItem(toolbar, SWT.SEPARATOR);
 		sep.setControl(dropDown);
-		sep.setWidth(200);
+		sep.setWidth(130);
 		dropDown.setData(RWT.CUSTOM_VARIANT, "controlbarDropdown");
 		dropDown.addListener(SWT.Selection, new Listener() {
 			@Override
