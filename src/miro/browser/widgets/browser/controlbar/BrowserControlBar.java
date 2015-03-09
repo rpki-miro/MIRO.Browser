@@ -141,8 +141,9 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 				/* Get the corresponding model and set as input*/
 				ResourceCertificateTree certTree = (ResourceCertificateTree) RWT.getApplicationContext().getAttribute(selectedName);
 				browser.getViewerContainer().setViewerInput(certTree);
-				
+				browser.getViewerContainer().setSelection(certTree.getTrustAnchor());
 				updateTimestamp.setText(certTree.getTimeStamp());
+				
 				layout();
 			}
 		});

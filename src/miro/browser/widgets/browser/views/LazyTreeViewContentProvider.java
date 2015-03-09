@@ -131,7 +131,17 @@ public class LazyTreeViewContentProvider implements ILazyTreeContentProvider {
 
 	@Override
 	public Object getParent(Object element) {
-		return ((ResourceHoldingObject)element).getParent();
+		if(!(element instanceof CertificateObject)){
+			return ((ResourceHoldingObject)element).getParent();
+		}
+		
+		CertificateObject cert = (CertificateObject) element;
+		if(cert.getIsRoot())
+			return viewer.getInput();
+		
+		return cert.getParent();
+		
+		
 	}
 	
 	

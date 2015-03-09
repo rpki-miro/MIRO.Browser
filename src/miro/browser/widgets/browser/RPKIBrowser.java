@@ -62,21 +62,21 @@ public class RPKIBrowser extends Composite{
 	public RPKIBrowser(Composite parent, int style) {
 		super(parent, style);
 		createWidgets();
-		displayContainer.initDisplays(this);
-
-		viewerManager.getView(ViewType.TREE).getViewer().addSelectionChangedListener(new TabListener(displayContainer));
-		viewerManager.getView(ViewType.TREE).getViewer().addSelectionChangedListener(new TableListener(displayContainer));
-		viewerManager.getView(ViewType.TABLE).getViewer().addSelectionChangedListener(new TabListener(displayContainer));
-		viewerManager.getView(ViewType.TABLE).getViewer().addSelectionChangedListener(new TableListener(displayContainer));
-		
-		initDatabindings();
 		createLayout();
 	}
 	
 	public void createWidgets(){
 		viewerManager = new ViewManager(this, SWT.NONE);
-		controlBar = new BrowserControlBar(this, SWT.NONE,this);
+		
 		displayContainer = new DisplayContainer(this, SWT.NONE);
+		displayContainer.initDisplays(this);
+		initDatabindings();
+		
+		viewerManager.getView(ViewType.TREE).getViewer().addSelectionChangedListener(new TabListener(displayContainer));
+		viewerManager.getView(ViewType.TREE).getViewer().addSelectionChangedListener(new TableListener(displayContainer));
+		viewerManager.getView(ViewType.TABLE).getViewer().addSelectionChangedListener(new TabListener(displayContainer));
+		viewerManager.getView(ViewType.TABLE).getViewer().addSelectionChangedListener(new TableListener(displayContainer));
+		controlBar = new BrowserControlBar(this, SWT.NONE,this);
 		initFilter();
 	}
 	
@@ -155,7 +155,6 @@ public class RPKIBrowser extends Composite{
 		viewer = viewerManager.getView(ViewType.TABLE).getViewer();
 		selection = ViewersObservables.observeSingleSelection(viewer);
 		dbc = new DataBindingContext();
-		viewer.addSelectionChangedListener(new TableListener(displayContainer));
 		displayContainer.bindDisplays(selection, dbc);
 	}
 	
