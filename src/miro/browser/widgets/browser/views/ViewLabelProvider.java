@@ -53,7 +53,7 @@ public class ViewLabelProvider extends CellLabelProvider{
 		cell.setText(obj.getFilename());
 		Image i = getImage(obj);
 		cell.setImage(i);
-		setBackgroundColor(cell,obj);
+//		setBackgroundColor(cell,obj);
 	}
 	
 	private Image getImage(ResourceHoldingObject obj) {
