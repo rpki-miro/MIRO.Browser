@@ -8,6 +8,10 @@ Button {
 	cursor: pointer;
 }
 
+Label {
+	background-color:inherit;
+}
+
 Composite.contentContainer {
 	animation:fadeIn 1000ms linear;
 }
@@ -23,9 +27,8 @@ Composite.heading_wrap {
 }
 
 Label.heading {
-	background-color:#008CBA;
 	color:#FFFFFF;
-	font: 24px "Open Sans", sans-serif;
+	font: normal 24px "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
 }
 
 /* End Heading */
@@ -39,7 +42,7 @@ Composite.linkContainer {
 Button.navButton {
 	background-color:inherit;
 	color:#FFFFFF;
-	font: 16px "Open Sans", sans-serif;
+	font: normal 16px "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
 	border:none;
 }
 
@@ -59,6 +62,7 @@ Composite.browserControlbar {
 ToolBar {
 	background-color:inherit;
 	border-radius:0px 3px 3px 0px;
+	font: normal 14px "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
 }
 ToolItem.controlbarItem {
 	cursor:pointer;
@@ -85,7 +89,6 @@ CCombo-List-Item {
 
 Label.updateTimestamp {
 	color:#FFFFFF;
-	background-color:inherit;
 }
 
 /* End Controlbar */
@@ -159,7 +162,6 @@ Composite.informationField {
 }
 
 Label.informationLabel {
-	background-color:inherit;
 	font:bold 13px Arial, sans-serif;
 }
 
@@ -187,12 +189,55 @@ TableColumn {
 /* End Display area*/
 
 /* Start Filter */
+Shell.filterShell {
+	background-color:#FAFAFA;
+}
 Shell-Titlebar {
-	background-color:#008CBA;
-	height:30px;
+	background-color:#333333;
+/* 	height:30px; */
 	
 }
+
+Composite.filterWidget {
+	background-color:inherit;
+}
+
+Composite.filterOption {
+	background-color:inherit;
+}
+
+Composite.filterHeadingHolder {
+	background-color:#008CBA;
+}
+
+Label.filterHeading {
+	color:#FFFFFF;
+	font:bold 13px Arial, sans-serif;
+}
+
+Label.filterText {
+	font:bold 13px Arial, sans-serif;
+	color:#000000;
+}
+
+Button.filterButton {
+	background-color:#008CBA;
+	border: 1px solid black;
+	color:#FFFFFF;
+}
+
+Button.filterButton:hover {
+	background-color:#006687;
+}
+
+Button[RADIO]{
+	font: 12px Arial, sans-serif;
+	background-color:inherit;
+}
+
 /* End Filter */
+
+
 
 ScrollBar {
 	background-color:#EEEEEE;

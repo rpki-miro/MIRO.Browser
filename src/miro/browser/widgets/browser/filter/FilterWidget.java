@@ -32,6 +32,7 @@ import miro.browser.widgets.browser.views.ViewManager;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -53,6 +54,7 @@ public class FilterWidget extends Composite{
 
 	public FilterWidget(Composite parent, int style, ViewManager treeCont) {
 		super(parent, style);
+		setData(RWT.CUSTOM_VARIANT, "filterWidget");
 		viewerContainer = treeCont;
 		createWidgets();
 		createLayout();
@@ -64,56 +66,77 @@ public class FilterWidget extends Composite{
 		layout.marginWidth = 10;
 		setLayout(layout);
 		
-//		Label header = new Label(this, SWT.NONE);
-//		header.setText("Filter Options");
-//		FormData layoutData = new FormData();
-//		layoutData.top = new FormAttachment(0,0);
-//		layoutData.left = new FormAttachment(0,0);
-//		header.setLayoutData(layoutData);
-		
 		FormData layoutData;
 		
 		/*Attribute options*/
-		Label attributeLabel = new Label(this, SWT.NONE);
+		Composite labelHolder = new Composite(this, SWT.NONE);
+		labelHolder.setData(RWT.CUSTOM_VARIANT, "filterHeadingHolder");
+		FillLayout fillLayout = new FillLayout();
+		fillLayout.marginHeight = 5;
+		fillLayout.marginWidth = 5;
+		labelHolder.setLayout(fillLayout);
+		Label attributeLabel = new Label(labelHolder, SWT.NONE);
+		attributeLabel.setData(RWT.CUSTOM_VARIANT, "filterHeading");
 		attributeLabel.setText("Choose filter attribute:");
 		layoutData = new FormData();
-		layoutData.top = new FormAttachment(0,15);
+		layoutData.top = new FormAttachment(0,0);
 		layoutData.left = new FormAttachment(0,0);
-		attributeLabel.setLayoutData(layoutData);
+		layoutData.right = new FormAttachment(100,0);
+		labelHolder.setLayoutData(layoutData);
 		
 		layoutData = new FormData();
-		layoutData.top = new FormAttachment(attributeLabel);
+		layoutData.top = new FormAttachment(attributeLabel.getParent());
 		layoutData.left = new FormAttachment(0,0);
+		layoutData.right = new FormAttachment(100,0);
 		attributeOption.setLayoutData(layoutData);
 		
 		/*Filetype Options*/
-		Label filetypeLabel = new Label(this, SWT.NONE);
-		filetypeLabel.setText("Select File Type:");
+		labelHolder = new Composite(this, SWT.NONE);
+		labelHolder.setData(RWT.CUSTOM_VARIANT, "filterHeadingHolder");
+		fillLayout = new FillLayout();
+		fillLayout.marginHeight = 5;
+		fillLayout.marginWidth = 5;
+		labelHolder.setLayout(fillLayout);
+		Label filetypeLabel = new Label(labelHolder, SWT.NONE);
+		filetypeLabel.setData(RWT.CUSTOM_VARIANT, "filterHeading");
+		filetypeLabel.setText("Select file type:");
 		layoutData = new FormData();
 		layoutData.top = new FormAttachment(attributeOption,15);
 		layoutData.left = new FormAttachment(0,0);
-		filetypeLabel.setLayoutData(layoutData);
+		layoutData.right = new FormAttachment(100,0);
+		labelHolder.setLayoutData(layoutData);
 		
 		layoutData = new FormData();
-		layoutData.top = new FormAttachment(filetypeLabel);
+		layoutData.top = new FormAttachment(filetypeLabel.getParent());
 		layoutData.left = new FormAttachment(0,0);
+		layoutData.right = new FormAttachment(100,0);
 		filetypeOption.setLayoutData(layoutData);
 	
 		/*Validation Status Options*/
-		Label validationStatusLabel = new Label(this, SWT.NONE);
-		validationStatusLabel.setText("Select Validation Status:");
+		labelHolder = new Composite(this, SWT.NONE);
+		labelHolder.setData(RWT.CUSTOM_VARIANT, "filterHeadingHolder");
+		fillLayout = new FillLayout();
+		fillLayout.marginHeight = 5;
+		fillLayout.marginWidth = 5;
+		labelHolder.setLayout(fillLayout);
+		Label validationStatusLabel = new Label(labelHolder, SWT.NONE);
+		validationStatusLabel.setData(RWT.CUSTOM_VARIANT, "filterHeading");
+		validationStatusLabel.setText("Select validation status:");
 		layoutData = new FormData();
 		layoutData.top = new FormAttachment(filetypeOption,15);
 		layoutData.left = new FormAttachment(0,0);
-		validationStatusLabel.setLayoutData(layoutData);
+		layoutData.right = new FormAttachment(100,0);
+		labelHolder.setLayoutData(layoutData);
 
 		layoutData = new FormData();
-		layoutData.top = new FormAttachment(validationStatusLabel);
+		layoutData.top = new FormAttachment(validationStatusLabel.getParent());
 		layoutData.left = new FormAttachment(0,0); 
+		layoutData.right = new FormAttachment(100,0);
 		validationStatusOption.setLayoutData(layoutData);
 		
 		/*Buttons*/
 		Button okButton = new Button(this,SWT.PUSH);
+		okButton.setData(RWT.CUSTOM_VARIANT, "filterButton");
 		okButton.setText("OK");
 		layoutData = new FormData();
 		layoutData.bottom = new FormAttachment(100,0);
@@ -128,6 +151,7 @@ public class FilterWidget extends Composite{
 		});
 		
 		Button applyFilterBtn = new Button(this, SWT.PUSH);
+		applyFilterBtn.setData(RWT.CUSTOM_VARIANT, "filterButton");
 		applyFilterBtn.setText("Apply Filter");
 		layoutData = new FormData();
 		layoutData.bottom = new FormAttachment(100,0);
@@ -142,6 +166,7 @@ public class FilterWidget extends Composite{
 		});
 		
 		Button clearFilter = new Button(this, SWT.PUSH);
+		clearFilter.setData(RWT.CUSTOM_VARIANT, "filterButton");
 		clearFilter.setText("Clear");
 		layoutData = new FormData();
 		layoutData.left = new FormAttachment(0,0);

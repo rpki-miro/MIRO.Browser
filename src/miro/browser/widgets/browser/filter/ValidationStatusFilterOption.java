@@ -31,6 +31,7 @@ import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
 import miro.browser.widgets.browser.filter.filters.ValidationStatusFilter;
 import net.ripe.rpki.commons.validation.ValidationStatus;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
@@ -43,6 +44,7 @@ public class ValidationStatusFilterOption extends Composite implements FilterOpt
 	
 	public ValidationStatusFilterOption(Composite parent, int style) {
 		super(parent, style);
+		setData(RWT.CUSTOM_VARIANT, "filterOption");
 		init();
 		initButtons();
 	}

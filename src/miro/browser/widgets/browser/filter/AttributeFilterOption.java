@@ -30,6 +30,7 @@ import miro.browser.widgets.browser.filter.filters.FilterKeys;
 import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
 import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -42,6 +43,7 @@ public class AttributeFilterOption extends RadioButtonContainer implements Filte
 	
 	public AttributeFilterOption(Composite parent, int style) {
 		super(parent, style);
+		setData(RWT.CUSTOM_VARIANT, "filterOption");
 		init();
 		initButtons();
 		initSearchField();

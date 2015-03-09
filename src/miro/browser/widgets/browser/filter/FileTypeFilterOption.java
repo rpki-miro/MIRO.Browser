@@ -30,6 +30,7 @@ import miro.browser.widgets.browser.filter.filters.FilterKeys;
 import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
 import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
@@ -46,13 +47,14 @@ public class FileTypeFilterOption extends RadioButtonContainer implements Filter
 	
 	public FileTypeFilterOption(Composite parent, int style) {
 		super(parent, style);
+		setData(RWT.CUSTOM_VARIANT, "filterOption");
 		init();
 		initButtons();
 	}
 
 	private void initButtons() {
 		allButton = new Button(this, SWT.RADIO);
-		allButton.setText("All files");
+		allButton.setText("All");
 		RowData rowData = new RowData();
 		allButton.setLayoutData(rowData);
 		allButton.addListener(SWT.Selection, new SelectedButtonListener());
@@ -61,14 +63,14 @@ public class FileTypeFilterOption extends RadioButtonContainer implements Filter
 		selectedButton = allButton;
 		
 		cerButton = new Button(this, SWT.RADIO);
-		cerButton.setText("Only .cer files");
+		cerButton.setText("Only .cer");
 		rowData = new RowData();
 		cerButton.setLayoutData(rowData);
 		cerButton.addListener(SWT.Selection, new SelectedButtonListener());
 		cerButton.setData(FilterKeys.FILTER_TYPE_KEY, FilterKey.CER_FILES);
 
 		roaButton = new Button(this, SWT.RADIO);
-		roaButton.setText("Only .roa files");
+		roaButton.setText("Only .roa");
 		rowData = new RowData();
 		roaButton.setLayoutData(rowData);
 		roaButton.addListener(SWT.Selection, new SelectedButtonListener());

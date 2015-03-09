@@ -24,6 +24,7 @@ package miro.browser.widgets.browser.filter;
 
 import miro.browser.resources.Colors;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -54,18 +55,15 @@ public class FilterSearchField extends Composite {
 	private void initSearchFor() {
 		searchFor = new Label(this, SWT.NONE);
 		searchFor.setText("Search for:");
-//		searchFor.setFont(Fonts.STANDARD_FONT);
+		searchFor.setData(RWT.CUSTOM_VARIANT, "filterText");
 		FormData formData = new FormData();
 		formData.bottom = new FormAttachment(100,0);	
 		formData.left = new FormAttachment(0,0);
 		searchFor.setLayoutData(formData);
-		
 	}
 	
 	private void initSearchText() {
 		searchText = new Text(this, SWT.BORDER);
-		searchText.setBackground(Colors.WHITE);
-//		searchText.setFont(Fonts.STANDARD_FONT);
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0,0);
 		formData.left = new FormAttachment(searchFor,10);
@@ -73,7 +71,6 @@ public class FilterSearchField extends Composite {
 		formData.height = 10;
 		
 		searchText.setLayoutData(formData);
-		
 	}
 	
 	public Text getSearchText(){

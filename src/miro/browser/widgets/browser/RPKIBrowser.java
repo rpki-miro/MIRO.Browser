@@ -36,6 +36,7 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -126,10 +127,12 @@ public class RPKIBrowser extends Composite{
 	}
 
 	private void initFilter() {
-		filterShell = new Shell(getShell(),  SWT.TITLE | SWT.CLOSE);
+		filterShell = new Shell(getShell(),  SWT.CLOSE | SWT.TITLE );
+		filterShell.setData(RWT.CUSTOM_VARIANT, "filterShell");
 		filterShell.setSize(380, 450);
 		filterShell.setText("Filter Options");
-		filterShell.setLayout(new FillLayout());
+		FillLayout layout = new FillLayout();
+		filterShell.setLayout(layout);
 		filter = new FilterWidget(filterShell, SWT.NONE, viewerManager);
 		filterShell.layout();
 		filterShell.addListener(SWT.Close, new Listener() {
