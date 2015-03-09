@@ -27,6 +27,8 @@ import java.util.HashMap;
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -34,6 +36,9 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TreeItem;
 
 
 public class TreeView extends Composite implements View{
@@ -56,6 +61,15 @@ public class TreeView extends Composite implements View{
 		treeViewer.setContentProvider(content_provider);
 		treeViewer.setLabelProvider(label_provider);
 		label_provider.setViewer(treeViewer);
+		treeViewer.getTree().addListener(SWT.DefaultSelection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				TreeItem treeItem = (TreeItem) event.item;
+				boolean expand = !treeItem.getExpanded();
+				treeItem.setExpanded(expand);
+			}
+		});
 		
 	}
 	
