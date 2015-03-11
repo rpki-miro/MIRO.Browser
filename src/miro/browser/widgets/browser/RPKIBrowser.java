@@ -64,6 +64,7 @@ public class RPKIBrowser extends Composite{
 		super(parent, style);
 		createWidgets();
 		createLayout();
+		controlBar.showCurrentRepos();
 	}
 	
 	public void createWidgets(){

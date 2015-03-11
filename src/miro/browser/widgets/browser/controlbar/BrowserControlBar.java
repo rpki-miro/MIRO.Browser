@@ -146,11 +146,13 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 				browser.getViewerContainer().setViewerInput(certTree);
 				browser.getViewerContainer().setSelection(certTree.getTrustAnchor());
 				updateTimestamp.setText(certTree.getTimeStamp());
-				
-				layout();
 			}
 		});
 
+	}
+	
+	
+	public void showCurrentRepos(){
 		/* See if names are loaded, if so display them */
 		String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
 		if(names != null){

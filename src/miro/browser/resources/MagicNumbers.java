@@ -85,9 +85,9 @@ public class MagicNumbers {
 	public static final int CDW_INFORMATION_CONTAINER_SPACING = 10;
 
 	//CertificateDisplay, ResourceList
-	public static final int CDW_RESOURCE_LIST_WIDTH = 200;
+	public static final int CDW_RESOURCE_LIST_WIDTH = 220;
 	public static final int CDW_RESOURCE_LIST_HEIGHT = 400;
-	public static final int CDW_RESOURCE_LIST_COLUMN_WIDTH = 200;
+	public static final int CDW_RESOURCE_LIST_COLUMN_WIDTH = 210;
 	
 	//ManifestDIsplay, InformationContainer
 	public static final int MDW_INFORMATION_CONTAINER_WIDTH = 650;

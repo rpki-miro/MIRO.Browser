@@ -128,8 +128,11 @@ public class HeightModifier implements Listener{
 		}
 
 		DisplayWidget dw = (DisplayWidget) c;
-
+		dw.getParent().layout();
+		dw.getParent().getParent().layout();
 		Point size = dw.computeSize(dw.getSize().x, SWT.DEFAULT);
+//		Point size = dw.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		Point wat = dw.getParent().computeSize(SWT.DEFAULT, SWT.DEFAULT);
 
 		ScrolledComposite scroller = (ScrolledComposite) dw.getParent();
 		scroller.setMinHeight(size.y);

@@ -57,7 +57,7 @@ public class RevokedCertificateTable extends Composite {
 		table.setHeaderVisible(true);
 		
 		TableViewerColumn newCol;
-		newCol = new TableViewerColumn(tableViewer, new TableColumn(table,SWT.NONE));
+		newCol = new TableViewerColumn(tableViewer, new TableColumn(table,SWT.VIRTUAL));
 		newCol.getColumn().setWidth(MagicNumbers.CRL_REVOKED_LIST_SERIAL_COLUMN_WIDTH);
 		newCol.getColumn().setResizable(false);
 		newCol.getColumn().setMoveable(false);

@@ -68,7 +68,7 @@ public class ManifestFilesTable extends Composite {
 		browser = b;
 		setLayout(new FillLayout());	
 
-		tableViewer = new TableViewer(this, SWT.V_SCROLL | SWT.H_SCROLL );
+		tableViewer = new TableViewer(this, SWT.V_SCROLL | SWT.H_SCROLL | SWT.VIRTUAL);
 		tableViewer.setContentProvider(new ManifestFilesContentProvider());
 		createColumns(tableViewer.getTable());
 	}

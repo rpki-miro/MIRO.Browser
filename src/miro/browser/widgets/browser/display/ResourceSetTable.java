@@ -56,7 +56,7 @@ public class ResourceSetTable extends Composite{
 		setLayout(new FillLayout());
 		setData(RWT.CUSTOM_VARIANT, "displayContent");
 		
-		tableViewer = new TableViewer(this, SWT.V_SCROLL);
+		tableViewer = new TableViewer(this, SWT.V_SCROLL | SWT.VIRTUAL);
 		tableViewer.setContentProvider(new ResourceContentProvider());
 		createColumns(tableViewer.getTable());
 	}
@@ -65,7 +65,7 @@ public class ResourceSetTable extends Composite{
 		table.setHeaderVisible(true);
 		TableViewerColumn newCol;
 		newCol = new TableViewerColumn(tableViewer, new TableColumn(table,SWT.NONE));
-		newCol.getColumn().setWidth(MagicNumbers.CDW_RESOURCE_LIST_COLUMN_WIDTH-10);
+		newCol.getColumn().setWidth(MagicNumbers.CDW_RESOURCE_LIST_COLUMN_WIDTH);
 		newCol.getColumn().setMoveable(false);
 		newCol.getColumn().setResizable(false);
 		newCol.getColumn().setText("Resources");

@@ -48,8 +48,8 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -72,25 +72,49 @@ public class CertificateWidget extends DisplayWidget implements ResourceHolderOb
 	}
 	
 	public void setDisplayLayout(){
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
-		layout.horizontalSpacing = 20;
-		layout.verticalSpacing = 0;
+//		GridLayout layout = new GridLayout();
+//		layout.numColumns = 2;
+//		layout.horizontalSpacing = 20;
+//		layout.verticalSpacing = 0;
+//		layout.marginHeight = MagicNumbers.DISPLAYWIDGET_MARGIN_HEIGHT;
+//		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
+//		setLayout(layout);
+//
+//		GridData gridData = new GridData();
+//		gridData.widthHint = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
+//		informationContainer.setLayoutData(gridData);
+//
+//		gridData = new GridData();
+//		gridData.heightHint = MagicNumbers.CDW_RESOURCE_LIST_HEIGHT;
+//		gridData.widthHint = MagicNumbers.CDW_RESOURCE_LIST_WIDTH;
+//		gridData.verticalAlignment = SWT.FILL;
+//		resourceSetTable.setLayoutData(gridData);
+//		
+//		informationContainer.moveAbove(resourceSetTable);
+		
+		RowLayout layout = new RowLayout();
+		layout.type = SWT.HORIZONTAL;
+		layout.fill = true;
+		layout.spacing = 20;
+		layout.marginLeft = 0;
+		layout.marginRight = 0;
+		layout.marginTop = 0;
+		layout.marginBottom = 0;
 		layout.marginHeight = MagicNumbers.DISPLAYWIDGET_MARGIN_HEIGHT;
 		layout.marginWidth = MagicNumbers.DISPLAYWIDGET_MARGIN_WIDTH;
 		setLayout(layout);
-
-		GridData gridData = new GridData();
-		gridData.widthHint = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
-		informationContainer.setLayoutData(gridData);
-
-		gridData = new GridData();
-		gridData.heightHint = MagicNumbers.CDW_RESOURCE_LIST_HEIGHT;
-		gridData.widthHint = MagicNumbers.CDW_RESOURCE_LIST_WIDTH;
-		gridData.verticalAlignment = SWT.FILL;
-		resourceSetTable.setLayoutData(gridData);
 		
-		informationContainer.moveAbove(resourceSetTable);
+		RowData rowData = new RowData();
+		rowData.width = MagicNumbers.CDW_INFORMATION_CONTAINER_WIDTH;
+		informationContainer.setLayoutData(rowData);
+		
+		rowData = new RowData();
+		rowData.width = MagicNumbers.CDW_RESOURCE_LIST_WIDTH;
+		rowData.height = MagicNumbers.CDW_RESOURCE_LIST_HEIGHT;
+		resourceSetTable.setLayoutData(rowData);
+		
+		
+		
 	}
 	
 	public void initFields(Composite parent, int style) {

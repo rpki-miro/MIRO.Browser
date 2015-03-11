@@ -32,7 +32,14 @@ import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DragDetectEvent;
+import org.eclipse.swt.events.DragDetectListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 public class CertificateDisplay implements ResourceHolderObservableBinder{
 	
@@ -46,6 +53,25 @@ public class CertificateDisplay implements ResourceHolderObservableBinder{
 		ScrolledComposite scroller = createScrollingContainer(parent);
 		certWidget = new CertificateWidget(scroller, SWT.NONE,b);
 		scroller.setContent(certWidget);
+		certWidget.addControlListener(new ControlListener() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				final ScrolledComposite scroller = (ScrolledComposite) certWidget.getParent();
+				Point size = certWidget.computeSize(certWidget.getSize().x, SWT.DEFAULT);
+				scroller.setMinHeight(size.y);
+
+				certWidget.getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						scroller.layout();
+					}
+				});
+			}
+			
+			@Override
+			public void controlMoved(ControlEvent e) {
+			}
+		});
 		
 		scroller = createScrollingContainer(parent);
 		manifestWidget = new ManifestWidget(scroller, SWT.NONE,b);
