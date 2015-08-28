@@ -34,13 +34,13 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
 
-public class RoaDisplay implements ResourceHolderObservableBinder{
+public class RoaView implements ResourceHolderObservableBinder{
 	
 	private RoaWidget roaWidget;
 	
 	private CertificateWidget certificateWidget;
 	
-	public RoaDisplay(Composite parent, RPKIBrowser b) {
+	public RoaView(Composite parent, RPKIBrowser b) {
 		ScrolledComposite scroller = createScrollingContainer(parent);
 		roaWidget = new RoaWidget(scroller, SWT.NONE,b);
 		scroller.setContent(roaWidget);

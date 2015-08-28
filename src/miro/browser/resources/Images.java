@@ -43,7 +43,7 @@ public class Images {
 	}
 	
 	private static void initImages(){
-		String tmp_path = "/var/data/certmon/resources/images/";
+		String tmp_path = "/var/data/MIRO/MIRO.Browser/resources/images/";
 		VALID_ICON = new Image(DISPLAY, tmp_path + "valid_icon.png");
 		INVALID_ICON = new Image(DISPLAY, tmp_path + "error_icon.png");
 		WARNING_ICON = new Image(DISPLAY, tmp_path + "warning_icon.png");

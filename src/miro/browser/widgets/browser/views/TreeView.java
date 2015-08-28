@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
 
 
-public class TreeView extends Composite implements View{
+public class TreeView extends Composite implements RepositoryView{
 
 	private TreeViewer treeViewer;
 	
@@ -89,8 +89,8 @@ public class TreeView extends Composite implements View{
 	}
 
 	@Override
-	public ViewType getType() {
-		return ViewType.TREE;
+	public RepositoryViewType getType() {
+		return RepositoryViewType.TREE;
 	}
 
 	@Override

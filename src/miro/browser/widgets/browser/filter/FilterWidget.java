@@ -27,7 +27,7 @@ import java.util.List;
 
 import miro.browser.widgets.browser.filter.filters.ResourceCertificateTreeFilter;
 import miro.browser.widgets.browser.filter.filters.ResourceHoldingObjectFilter;
-import miro.browser.widgets.browser.views.ViewManager;
+import miro.browser.widgets.browser.views.RepositoryViewContainer;
 
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.rap.rwt.RWT;
@@ -50,9 +50,9 @@ public class FilterWidget extends Composite{
 	
 	private ValidationStatusFilterOption validationStatusOption;
 	
-	private ViewManager viewerContainer;
+	private RepositoryViewContainer viewerContainer;
 
-	public FilterWidget(Composite parent, int style, ViewManager treeCont) {
+	public FilterWidget(Composite parent, int style, RepositoryViewContainer treeCont) {
 		super(parent, style);
 		setData(RWT.CUSTOM_VARIANT, "filterWidget");
 		viewerContainer = treeCont;

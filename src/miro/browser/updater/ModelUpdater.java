@@ -65,9 +65,17 @@ public class ModelUpdater implements Runnable {
 	
 	public static final String STATS_NAMES_KEY = "Stats.names";
 	
+	final String CONFIG_FILE_LOCATION = "/var/data/MIRO/MIRO.Browser/miro.browser_config";
+
+	final String PREFETCH_URI_FILE_LOCATION = "/var/data/MIRO/MIRO.Browser/prefetchURIs";
+	
+	final String STATS_NAME_PREFIX = "Stats.";
+	
+	final String STATS_ARCHIVE_DIRECTORY = "/var/data/MIRO/MIRO.Stats/repo/"; 
+	
 	private static HashMap<String, String> modelNames;
 	
-	private int port; 
+	private int UPDATE_PORT; 
 	
 	private String inputPath;
 	
@@ -124,22 +132,20 @@ public class ModelUpdater implements Runnable {
 	
 	@Override
 	public void run() {
+		log.log(Level.INFO, "Thread started");
 		ServerSocket triggerSocket;
 		Socket clientSocket;
-		
-		log.log(Level.INFO, "Thread started");
-		
+		URI[] prefetchURIs;
 		try {
-			readConfig("/var/data/MIRO/MIRO.Browser/miro.browser_config");
-			triggerSocket = new ServerSocket(port);
+			readConfig(CONFIG_FILE_LOCATION);
+			triggerSocket = new ServerSocket(UPDATE_PORT);
+			prefetchURIs = readPrefetchURIs(PREFETCH_URI_FILE_LOCATION);
 		} catch (IOException e) {
 			log.log(Level.SEVERE, e.toString(),e);
 			throw new RuntimeException(e);
 		}
 		
-		URI[] prefetchURIs = readPrefetchURIs("/var/data/MIRO/MIRO.Browser/prefetchURIs");
 		update(prefetchURIs);
-		
 		while(run){
 			try {
 				clientSocket = triggerSocket.accept();
@@ -148,6 +154,7 @@ public class ModelUpdater implements Runnable {
 				} 
 			} catch (IOException e) {
 				log.log(Level.SEVERE, e.toString(),e);
+				log.log(Level.SEVERE,"Update failed");
 				continue;
 			}
 		}
@@ -157,9 +164,7 @@ public class ModelUpdater implements Runnable {
 		} catch (IOException e) {
 			log.log(Level.SEVERE,e.toString(),e);
 		}
-		
 		log.log(Level.INFO,"Quitting thread");
-		
 	}
 	
 	public void notifyObservers() {
@@ -216,65 +221,74 @@ public class ModelUpdater implements Runnable {
 		}
  		return result.toArray(new URI[result.size()]);
 	}
+	
+	public void cleanInputPath(){
+		try {
+			FileUtils.cleanDirectory(new File(inputPath));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void getModels(URI[] uris){
 		log.log(Level.INFO, "Getting models");
-		ResultExtractor extractor;
+
 		RPKIRepositoryStats stats;
 		ResourceCertificateTree certTree;
 		int index = 0;
 		String name = "";
 		
-		/*Get all trust anchor locator files */
 		File[] talFiles = new File(TALDirectory).listFiles();
 		String[] statsKeys = new String[talFiles.length];
 		String[] modelKeys = new String[talFiles.length];
-		
-		
-		
+		String key;
+		cleanInputPath();
 		ResourceCertificateTreeValidator treeValidator = new ResourceCertificateTreeValidator(inputPath);
-		try {
-//			FileUtils.cleanDirectory(new File(inputPath));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		treeValidator.preFetch(uris);
-		
-		for(File talFile : new File(TALDirectory).listFiles()){
+		for(File talFile : talFiles){
 			
+			/* Get repo name from TAL file, get ResourceCertificateTree, save it to application context and remember the key */
 			name = getRepositoryName(talFile.getName());
-			certTree = treeValidator.getModelByTAL(talFile.toString(), name);
+			certTree = treeValidator.getTreeWithTAL(talFile.toString(), name);
+			key = certTree.getName();
+			context.setAttribute(key, certTree);
+			modelKeys[index] = key;			
 			
-			context.setAttribute(certTree.getName(), certTree);
-			modelKeys[index] = certTree.getName();
-		
-			/* Gather stats, then save them in our application context */
-			extractor = new ResultExtractor(certTree);
-			extractor.count();
-			stats = extractor.getRPKIRepositoryStats();
-			context.setAttribute("Stats."+name, stats);
-			
-			/* Write them to disk */
-			ResultExtractor.archiveStats(stats, "/var/data/MIRO/MIRO.Stats/repo/" + name);
-			
-			statsKeys[index] = "Stats."+name;
+			/* Get stats about the tree, save them to disk, save them to context and remember the key */
+			stats = getRPKIRepositoryStats(certTree);
+			ResultExtractor.archiveStats(stats, STATS_ARCHIVE_DIRECTORY + name);
+			key = STATS_NAME_PREFIX + name;
+			context.setAttribute(key, stats);
+			statsKeys[index] = key;
+
 			index++;
 		}
-		context.setAttribute(MODEL_NAMES_KEY, modelKeys);
 		
-		
-		Arrays.sort(statsKeys);
+		/* Get global RPKI stats over all processed repositories */
 		RPKIRepositoryStats totalStats = getTotalStats(statsKeys);
-		String[] allStatsKeys = new String[statsKeys.length + 1];
-		allStatsKeys[0] = "Stats." + totalStats.getName();
-		for(int i = 1; i< allStatsKeys.length;i++){
-			allStatsKeys[i] = statsKeys[i-1];
-		}
+		key = STATS_NAME_PREFIX + totalStats.getName();
+		context.setAttribute(key, totalStats);
+
+		String[] allStatsKeys = prependToStringArray(statsKeys,key);
+		Arrays.sort(statsKeys);
 		
-		context.setAttribute(allStatsKeys[0], totalStats);
-		
-		/* Put the stats keys in the context, so observers know where the stats objects are */
+		context.setAttribute(MODEL_NAMES_KEY, modelKeys);
 		context.setAttribute(STATS_NAMES_KEY, allStatsKeys);
+	}
+	
+	public String[] prependToStringArray(String[] arr, String str) {
+		String[] resultArr = new String[arr.length + 1];
+		resultArr[0] = str;
+		for(int i = 1; i< resultArr.length;i++){
+			resultArr[i] = arr[i-1];
+		}
+		return resultArr;
+	}
+	
+	public RPKIRepositoryStats getRPKIRepositoryStats(ResourceCertificateTree certTree){
+		ResultExtractor extractor = new ResultExtractor(certTree);
+		extractor.count();
+		return extractor.getRPKIRepositoryStats();
 	}
 	
 	private RPKIRepositoryStats getTotalStats(String[] statsKeys) {
@@ -352,7 +366,7 @@ public class ModelUpdater implements Runnable {
 	}
 
 	private void setPort(String port2) {
-		port = Integer.parseInt(port2);
+		UPDATE_PORT = Integer.parseInt(port2);
 		log.log(Level.FINE,"Set port: {0}",port2);
 		
 	}

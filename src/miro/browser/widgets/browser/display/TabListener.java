@@ -40,9 +40,9 @@ import org.eclipse.swt.custom.CTabItem;
  */
 public class TabListener implements ISelectionChangedListener{
 
-	private DisplayContainer display;
+	private DetailViewContainer display;
 	
-	public TabListener(DisplayContainer b) {
+	public TabListener(DetailViewContainer b) {
 		display = b;
 	}
 
@@ -60,7 +60,7 @@ public class TabListener implements ISelectionChangedListener{
 		 * CertificateDisplay
 		 * */
 		if(obj instanceof CertificateObject){
-			CertificateDisplay certificateDisplay = display.getCertificateDisplay();
+			CertificateView certificateDisplay = display.getCertificateDisplay();
 			
 			tab = new CTabItem(display, SWT.NONE);
 			tab.setText("Certificate");

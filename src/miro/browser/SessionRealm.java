@@ -52,7 +52,6 @@ public class SessionRealm implements Runnable {
 		
 		//Init resources
 		Colors.init(parent.getDisplay());
-//		Fonts.init(parent.getDisplay());
 		Images.init(parent.getDisplay());
 
 		FormLayout layout = new FormLayout();

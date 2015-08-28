@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-public class CertificateDisplay implements ResourceHolderObservableBinder{
+public class CertificateView implements ResourceHolderObservableBinder{
 	
 	private CertificateWidget certWidget;
 	
@@ -49,7 +49,7 @@ public class CertificateDisplay implements ResourceHolderObservableBinder{
 	
 	private CrlWidget crlWidget;
 	
-	public CertificateDisplay(Composite parent, RPKIBrowser b) {
+	public CertificateView(Composite parent, RPKIBrowser b) {
 		ScrolledComposite scroller = createScrollingContainer(parent);
 		certWidget = new CertificateWidget(scroller, SWT.NONE,b);
 		scroller.setContent(certWidget);

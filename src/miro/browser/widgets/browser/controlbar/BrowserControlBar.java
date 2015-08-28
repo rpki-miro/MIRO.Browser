@@ -30,8 +30,8 @@ import miro.browser.updater.ModelObserver;
 import miro.browser.updater.ModelUpdater;
 import miro.browser.updater.ObserverType;
 import miro.browser.widgets.browser.RPKIBrowser;
-import miro.browser.widgets.browser.views.View.ViewType;
-import miro.browser.widgets.browser.views.ViewManager;
+import miro.browser.widgets.browser.views.RepositoryView.RepositoryViewType;
+import miro.browser.widgets.browser.views.RepositoryViewContainer;
 import miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.rap.rwt.RWT;
@@ -100,7 +100,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 			@Override
 			public void handleEvent(Event event) {
 				browser.getFilterWidget().clearSelection();
-				ViewManager viewerContainer = browser.getViewerContainer();
+				RepositoryViewContainer viewerContainer = browser.getViewerContainer();
 				viewerContainer.resetViewerFilters();
 			}
 		});
@@ -115,9 +115,9 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 			public void handleEvent(Event event) {
 				ToolItem item = (ToolItem) event.widget;
 				if(item.getSelection()){
-					browser.getViewerContainer().showView(ViewType.TABLE);
+					browser.getViewerContainer().showView(RepositoryViewType.TABLE);
 				} else {
-					browser.getViewerContainer().showView(ViewType.TREE);
+					browser.getViewerContainer().showView(RepositoryViewType.TREE);
 				}
 				
 			}

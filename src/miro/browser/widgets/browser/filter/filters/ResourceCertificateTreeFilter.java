@@ -45,10 +45,17 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 		ResourceHoldingObject obj = (ResourceHoldingObject) element;
-		boolean selected = matchesAll(obj);
+		boolean selected = passesAll(obj);
 		return getSelectResult(selected, viewer, obj);
 	}
 	
+	public boolean passesAll(ResourceHoldingObject obj){
+		boolean matches = true;
+		for(ResourceHoldingObjectFilter filter : filters){
+			matches &= filter.isMatch(obj);
+		}
+		return matches;
+	}
 	public void addFilter(ResourceHoldingObjectFilter f){
 		filters.add(f);
 	}
@@ -57,13 +64,6 @@ public class ResourceCertificateTreeFilter extends ViewerFilter {
 		filters.addAll(fs);
 	}
 	
-	public boolean matchesAll(ResourceHoldingObject obj){
-		boolean matches = true;
-		for(ResourceHoldingObjectFilter filter : filters){
-			matches &= filter.isMatch(obj);
-		}
-		return matches;
-	}
 
 	public boolean getSelectResult(boolean selected, Viewer viewer, ResourceHoldingObject obj) {
 		if (selected) {

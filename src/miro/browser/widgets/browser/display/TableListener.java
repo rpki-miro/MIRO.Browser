@@ -40,9 +40,9 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 @SuppressWarnings("serial")
 public class TableListener implements ISelectionChangedListener {
 
-	private DisplayContainer display;
+	private DetailViewContainer display;
 	
-	public TableListener(DisplayContainer b) {
+	public TableListener(DetailViewContainer b) {
 		display = b;
 	}
 	

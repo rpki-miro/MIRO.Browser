@@ -38,34 +38,34 @@ import org.eclipse.swt.widgets.Composite;
  * @author ponken
  *
  */
-public class DisplayContainer extends CTabFolder{
+public class DetailViewContainer extends CTabFolder{
 
-	private CertificateDisplay certificateDisplay;
+	private CertificateView certificateDisplay;
 	
-	private RoaDisplay roaDisplay;
+	private RoaView roaDisplay;
 
-	public DisplayContainer(Composite parent, int style) {
+	public DetailViewContainer(Composite parent, int style) {
 		super(parent, style);
 		setData(RWT.CUSTOM_VARIANT, "displayContainer");
 	}
 	
 	
 	public void initDisplays(RPKIBrowser b){
-		certificateDisplay = new CertificateDisplay(this,b);
-		roaDisplay = new RoaDisplay(this, b);
+		certificateDisplay = new CertificateView(this,b);
+		roaDisplay = new RoaView(this, b);
 	}
 	
-	public void bindDisplays(IObservableValue selection,
+	public void bindViews(IObservableValue selection,
 			DataBindingContext dbc){
 		certificateDisplay.bindToResourceHolder(selection, dbc);
 		roaDisplay.bindToResourceHolder(selection, dbc);
 	}
 
-	public CertificateDisplay getCertificateDisplay() {
+	public CertificateView getCertificateDisplay() {
 		return certificateDisplay;
 	}
 	
-	public RoaDisplay getRoaDisplay() {
+	public RoaView getRoaDisplay() {
 		return roaDisplay;
 	}
 

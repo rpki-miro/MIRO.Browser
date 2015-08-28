@@ -25,12 +25,12 @@ package miro.browser.widgets.browser;
 
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.controlbar.BrowserControlBar;
-import miro.browser.widgets.browser.display.DisplayContainer;
+import miro.browser.widgets.browser.display.DetailViewContainer;
 import miro.browser.widgets.browser.display.TabListener;
 import miro.browser.widgets.browser.display.TableListener;
 import miro.browser.widgets.browser.filter.FilterWidget;
-import miro.browser.widgets.browser.views.View.ViewType;
-import miro.browser.widgets.browser.views.ViewManager;
+import miro.browser.widgets.browser.views.RepositoryView.RepositoryViewType;
+import miro.browser.widgets.browser.views.RepositoryViewContainer;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
@@ -50,9 +50,9 @@ import org.eclipse.swt.widgets.Shell;
 
 public class RPKIBrowser extends Composite{
 	
-	private ViewManager viewerManager;
+	private RepositoryViewContainer repositoryViewContainer;
 	
-	private DisplayContainer displayContainer;
+	private DetailViewContainer detailViewContainer;
 	
 	private BrowserControlBar controlBar;
 	
@@ -68,16 +68,16 @@ public class RPKIBrowser extends Composite{
 	}
 	
 	public void createWidgets(){
-		viewerManager = new ViewManager(this, SWT.NONE);
+		repositoryViewContainer = new RepositoryViewContainer(this, SWT.NONE);
 		
-		displayContainer = new DisplayContainer(this, SWT.NONE);
-		displayContainer.initDisplays(this);
+		detailViewContainer = new DetailViewContainer(this, SWT.NONE);
+		detailViewContainer.initDisplays(this);
 		initDatabindings();
 		
-		viewerManager.getView(ViewType.TREE).getViewer().addSelectionChangedListener(new TabListener(displayContainer));
-		viewerManager.getView(ViewType.TREE).getViewer().addSelectionChangedListener(new TableListener(displayContainer));
-		viewerManager.getView(ViewType.TABLE).getViewer().addSelectionChangedListener(new TabListener(displayContainer));
-		viewerManager.getView(ViewType.TABLE).getViewer().addSelectionChangedListener(new TableListener(displayContainer));
+		repositoryViewContainer.getView(RepositoryViewType.TREE).getViewer().addSelectionChangedListener(new TabListener(detailViewContainer));
+		repositoryViewContainer.getView(RepositoryViewType.TREE).getViewer().addSelectionChangedListener(new TableListener(detailViewContainer));
+		repositoryViewContainer.getView(RepositoryViewType.TABLE).getViewer().addSelectionChangedListener(new TabListener(detailViewContainer));
+		repositoryViewContainer.getView(RepositoryViewType.TABLE).getViewer().addSelectionChangedListener(new TableListener(detailViewContainer));
 		controlBar = new BrowserControlBar(this, SWT.NONE,this);
 		initFilter();
 	}
@@ -99,19 +99,19 @@ public class RPKIBrowser extends Composite{
 		layoutData.bottom = new FormAttachment(100,0);
 		layoutData.left = new FormAttachment(0,0);
 		layoutData.width = MagicNumbers.TREE_VIEWER_WIDTH;
-		viewerManager.setLayoutData(layoutData);
+		repositoryViewContainer.setLayoutData(layoutData);
 
 		layoutData = new FormData();
 		layoutData.top = new FormAttachment(controlBar);	
-		layoutData.left = new FormAttachment(viewerManager,0);
+		layoutData.left = new FormAttachment(repositoryViewContainer,0);
 		layoutData.right = new FormAttachment(100,0);
 		layoutData.bottom = new FormAttachment(100,0);
-		displayContainer.setLayoutData(layoutData);
+		detailViewContainer.setLayoutData(layoutData);
 		
 		final Sash sash = new Sash(this, SWT.VERTICAL);
 		layoutData = new FormData();
 		layoutData.top = new FormAttachment(controlBar);
-		layoutData.left = new FormAttachment(viewerManager,-5);
+		layoutData.left = new FormAttachment(repositoryViewContainer,-5);
 		layoutData.width = 5;
 		layoutData.bottom = new FormAttachment(100,0);
 		sash.setLayoutData(layoutData);
@@ -119,9 +119,9 @@ public class RPKIBrowser extends Composite{
 			@Override
 			public void handleEvent(Event e) {
 		        sash.setBounds(e.x, e.y, e.width, e.height);
-		        FormData formData = (FormData) viewerManager.getLayoutData();
+		        FormData formData = (FormData) repositoryViewContainer.getLayoutData();
 		        formData.width = e.x;
-		        viewerManager.setLayoutData(formData);
+		        repositoryViewContainer.setLayoutData(formData);
 		        layout(true);
 			}
 		});
@@ -134,7 +134,7 @@ public class RPKIBrowser extends Composite{
 		filterShell.setText("Filter Options");
 		FillLayout layout = new FillLayout();
 		filterShell.setLayout(layout);
-		filter = new FilterWidget(filterShell, SWT.NONE, viewerManager);
+		filter = new FilterWidget(filterShell, SWT.NONE, repositoryViewContainer);
 		filterShell.layout();
 		filterShell.addListener(SWT.Close, new Listener() {
 			@Override
@@ -150,20 +150,20 @@ public class RPKIBrowser extends Composite{
 	 * Binds the selection of viewers held by viewerManager to the displays held by displayContainer
 	 */
 	private void initDatabindings() {
-		StructuredViewer viewer = viewerManager.getView(ViewType.TREE).getViewer();
+		StructuredViewer viewer = repositoryViewContainer.getView(RepositoryViewType.TREE).getViewer();
 		IViewerObservableValue selection = ViewersObservables.observeSingleSelection(viewer);
 		DataBindingContext dbc = new DataBindingContext();
-		displayContainer.bindDisplays(selection, dbc);
+		detailViewContainer.bindViews(selection, dbc);
 		
 		
-		viewer = viewerManager.getView(ViewType.TABLE).getViewer();
+		viewer = repositoryViewContainer.getView(RepositoryViewType.TABLE).getViewer();
 		selection = ViewersObservables.observeSingleSelection(viewer);
 		dbc = new DataBindingContext();
-		displayContainer.bindDisplays(selection, dbc);
+		detailViewContainer.bindViews(selection, dbc);
 	}
 	
-	public DisplayContainer getDisplayContainer() {
-		return displayContainer;
+	public DetailViewContainer getDisplayContainer() {
+		return detailViewContainer;
 	}
 	
 	
@@ -171,8 +171,8 @@ public class RPKIBrowser extends Composite{
 		return controlBar;
 	}
 	
-	public ViewManager getViewerContainer(){
-		return viewerManager;
+	public RepositoryViewContainer getViewerContainer(){
+		return repositoryViewContainer;
 	}
 	
 

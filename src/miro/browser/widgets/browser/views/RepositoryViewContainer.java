@@ -25,7 +25,7 @@ package miro.browser.widgets.browser.views;
 
 import java.util.HashMap;
 
-import miro.browser.widgets.browser.views.View.ViewType;
+import miro.browser.widgets.browser.views.RepositoryView.RepositoryViewType;
 import miro.validator.types.ResourceCertificateTree;
 import miro.validator.types.ResourceHoldingObject;
 
@@ -40,17 +40,17 @@ import org.eclipse.swt.widgets.Control;
  * @author ponken
  *
  */
-public class ViewManager extends Composite {
+public class RepositoryViewContainer extends Composite {
 	
-	private HashMap<ViewType, View> viewMap;
+	private HashMap<RepositoryViewType, RepositoryView> viewMap;
 	
 	private StackLayout layout;
 	
-	private View currentView;
+	private RepositoryView currentView;
 
-	public ViewManager(Composite parent, int style) {
+	public RepositoryViewContainer(Composite parent, int style) {
 		super(parent, style);
-		viewMap = new HashMap<View.ViewType, View>();
+		viewMap = new HashMap<RepositoryView.RepositoryViewType, RepositoryView>();
 
 		layout = new StackLayout();
 		layout.marginHeight = 0;
@@ -58,7 +58,7 @@ public class ViewManager extends Composite {
 		this.setLayout(layout);
 
 		initViewers();
-		showView(ViewType.TREE);
+		showView(RepositoryViewType.TREE);
 	}
 	
 	/**
@@ -66,29 +66,29 @@ public class ViewManager extends Composite {
 	 * Tries to preserve selection, input and filters from the old View.
 	 * @param type Type of the View to display
 	 */
-	public void showView(ViewType type){
-		View viewer = viewMap.get(type);
+	public void showView(RepositoryViewType type){
+		RepositoryView view = viewMap.get(type);
 		if(currentView != null){
-			viewer.setInput(currentView.getInput());
+			view.setInput(currentView.getInput());
 			if(currentView.getSelection() != null){
-				viewer.setSelection(currentView.getSelection());
+				view.setSelection(currentView.getSelection());
 			}
-			viewer.setFilters(currentView.getFilters());
+			view.setFilters(currentView.getFilters());
 		}
-		layout.topControl = (Control) viewer;
-		currentView = viewer;
+		layout.topControl = (Control) view;
+		currentView = view;
 		layout();
 	}
 
 	private void initViewers() {
-		View viewer = new TreeView(this, SWT.NONE);
+		RepositoryView viewer = new TreeView(this, SWT.NONE);
 		viewMap.put(viewer.getType(), viewer);
 
 		viewer = new TableView(this, SWT.NONE);
 		viewMap.put(viewer.getType(), viewer);
 	}
 	
-	public View getView(ViewType type){
+	public RepositoryView getView(RepositoryViewType type){
 		return viewMap.get(type);
 	}
 	

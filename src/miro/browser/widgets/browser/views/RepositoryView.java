@@ -28,27 +28,22 @@ import miro.validator.types.ResourceHoldingObject;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-public interface View {
+public interface RepositoryView {
 	
+	public void setInput(ResourceCertificateTree tree);
+	public ResourceCertificateTree getInput();
+
 	public void setSelection(ResourceHoldingObject obj);
-	
 	public ResourceHoldingObject getSelection();
 	
-	public ViewType getType();
-
-	public void setInput(ResourceCertificateTree tree);
-
-	public ResourceCertificateTree getInput();
-	
 	public ViewerFilter[] getFilters();
-	
 	public void setFilters(ViewerFilter[] filters);
-
 	public void resetFilters();
-	
-	public StructuredViewer getViewer();
 
-	public enum ViewType {
+	public RepositoryViewType getType();
+
+	public StructuredViewer getViewer();
+	public enum RepositoryViewType {
 		TREE, TABLE
 	}
 

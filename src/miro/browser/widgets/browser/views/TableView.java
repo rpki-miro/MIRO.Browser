@@ -33,7 +33,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class TableView extends Composite implements View{
+public class TableView extends Composite implements RepositoryView{
 	
 	private TableViewer tableViewer;
 
@@ -63,8 +63,8 @@ public class TableView extends Composite implements View{
 	}
 
 	@Override
-	public ViewType getType() {
-		return ViewType.TABLE;
+	public RepositoryViewType getType() {
+		return RepositoryViewType.TABLE;
 	}
 
 	@Override
