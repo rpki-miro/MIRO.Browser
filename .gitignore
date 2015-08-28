@@ -1,0 +1,12 @@
+#Maven
+target/
+
+#Eclipse
+*.settings/
+*.project
+*.classpath
+bin/
+META-INF
+build.properties
+miro.warproduct
+
