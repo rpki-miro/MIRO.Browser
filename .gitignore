@@ -10,3 +10,6 @@ META-INF
 build.properties
 miro.warproduct
 
+#Test
+test/resources/*
+
