@@ -22,9 +22,9 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.views;
 
-import miro.validator.types.CertificateObject;
-import miro.validator.types.ResourceCertificateTree;
-import miro.validator.types.ResourceHoldingObject;
+import main.java.miro.validator.types.CertificateObject;
+import main.java.miro.validator.types.ResourceCertificateTree;
+import main.java.miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;

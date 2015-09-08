@@ -40,12 +40,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import main.java.miro.validator.ResourceCertificateTreeValidator;
+import main.java.miro.validator.stats.ResultExtractor;
+import main.java.miro.validator.stats.types.RPKIRepositoryStats;
+import main.java.miro.validator.stats.types.Result;
+import main.java.miro.validator.types.ResourceCertificateTree;
 import miro.logging.LoggerFactory;
-import miro.validator.ResourceCertificateTreeValidator;
-import miro.validator.stats.ResultExtractor;
-import miro.validator.stats.types.RPKIRepositoryStats;
-import miro.validator.stats.types.Result;
-import miro.validator.types.ResourceCertificateTree;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.rap.rwt.service.ApplicationContext;

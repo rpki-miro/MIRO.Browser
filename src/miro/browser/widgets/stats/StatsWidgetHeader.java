@@ -23,7 +23,7 @@ THE SOFTWARE.
 package miro.browser.widgets.stats;
 
 
-import miro.validator.stats.types.RPKIRepositoryStats;
+import main.java.miro.validator.stats.types.RPKIRepositoryStats;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;

@@ -22,10 +22,10 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
+import main.java.miro.validator.types.CertificateObject;
+import main.java.miro.validator.types.RoaObject;
 import miro.browser.resources.Colors;
 import miro.browser.widgets.browser.RPKIBrowser;
-import miro.validator.types.CertificateObject;
-import miro.validator.types.RoaObject;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;

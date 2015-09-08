@@ -24,11 +24,9 @@ package miro.browser.widgets.browser.views;
 
 import java.util.HashMap;
 
-import miro.validator.types.ResourceCertificateTree;
-import miro.validator.types.ResourceHoldingObject;
+import main.java.miro.validator.types.ResourceCertificateTree;
+import main.java.miro.validator.types.ResourceHoldingObject;
 
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;

@@ -26,12 +26,12 @@ import java.net.URI;
 import java.util.ArrayList;
 
 import json.deserializers.ValidationStatus;
+import main.java.miro.validator.types.RepositoryObject;
+import main.java.miro.validator.types.ValidationResults;
 import miro.browser.converters.URIConverter;
 import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.RPKIBrowser;
-import miro.validator.types.RepositoryObject;
-import miro.validator.types.ValidationResults;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;

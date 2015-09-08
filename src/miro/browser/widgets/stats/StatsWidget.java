@@ -22,8 +22,8 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.stats;
 
-import miro.validator.stats.types.RPKIRepositoryStats;
-import miro.validator.stats.types.Result;
+import main.java.miro.validator.stats.types.RPKIRepositoryStats;
+import main.java.miro.validator.stats.types.Result;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;

@@ -22,8 +22,8 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.stats;
 
+import main.java.miro.validator.stats.types.RPKIRepositoryStats;
 import miro.browser.resources.Colors;
-import miro.validator.stats.types.RPKIRepositoryStats;
 
 import org.eclipse.rap.addons.d3chart.ChartItem;
 import org.eclipse.rap.addons.d3chart.PieChart;

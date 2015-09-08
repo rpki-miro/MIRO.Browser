@@ -22,22 +22,19 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.controlbar;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 
+import main.java.miro.validator.types.ResourceCertificateTree;
 import miro.browser.updater.ModelObserver;
 import miro.browser.updater.ModelUpdater;
 import miro.browser.updater.ObserverType;
 import miro.browser.widgets.browser.RPKIBrowser;
 import miro.browser.widgets.browser.views.RepositoryView.RepositoryViewType;
 import miro.browser.widgets.browser.views.RepositoryViewContainer;
-import miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -145,7 +142,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 				ResourceCertificateTree certTree = (ResourceCertificateTree) RWT.getApplicationContext().getAttribute(selectedName);
 				browser.getViewerContainer().setViewerInput(certTree);
 				browser.getViewerContainer().setSelection(certTree.getTrustAnchor());
-				updateTimestamp.setText(certTree.getTimeStamp());
+				updateTimestamp.setText(certTree.getTimeStamp().toString());
 			}
 		});
 

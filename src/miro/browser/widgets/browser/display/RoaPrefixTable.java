@@ -22,8 +22,8 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
+import main.java.miro.validator.types.RoaObject;
 import miro.browser.resources.MagicNumbers;
-import miro.validator.types.RoaObject;
 import net.ripe.rpki.commons.crypto.cms.roa.RoaPrefix;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
@@ -40,7 +40,6 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
 
 public class RoaPrefixTable extends Composite {
 	

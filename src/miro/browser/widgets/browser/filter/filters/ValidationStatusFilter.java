@@ -24,7 +24,7 @@ package miro.browser.widgets.browser.filter.filters;
 
 import java.util.List;
 
-import miro.validator.types.ResourceHoldingObject;
+import main.java.miro.validator.types.ResourceHoldingObject;
 import net.ripe.rpki.commons.validation.ValidationStatus;
 
 public class ValidationStatusFilter implements ResourceHoldingObjectFilter{

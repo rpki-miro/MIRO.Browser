@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import miro.validator.types.CertificateObject;
-import miro.validator.types.ResourceHoldingObject;
+import main.java.miro.validator.types.CertificateObject;
+import main.java.miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;

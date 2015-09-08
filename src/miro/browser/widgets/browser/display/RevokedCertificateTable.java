@@ -22,8 +22,8 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
+import main.java.miro.validator.types.CRLObject;
 import miro.browser.resources.MagicNumbers;
-import miro.validator.types.CRLObject;
 import net.ripe.rpki.commons.crypto.crl.X509Crl;
 import net.ripe.rpki.commons.crypto.crl.X509Crl.Entry;
 

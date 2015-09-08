@@ -25,10 +25,10 @@ package miro.browser.widgets.browser.filter.filters;
 import java.math.BigInteger;
 import java.net.URI;
 
+import main.java.miro.validator.types.CertificateObject;
+import main.java.miro.validator.types.ResourceHoldingObject;
+import main.java.miro.validator.types.RoaObject;
 import miro.browser.widgets.browser.filter.filters.FilterKeys.FilterKey;
-import miro.validator.types.CertificateObject;
-import miro.validator.types.ResourceHoldingObject;
-import miro.validator.types.RoaObject;
 import net.ripe.ipresource.IpResource;
 import net.ripe.rpki.commons.crypto.cms.roa.RoaPrefix;
 

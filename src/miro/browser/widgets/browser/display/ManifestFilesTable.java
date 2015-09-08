@@ -25,12 +25,12 @@ package miro.browser.widgets.browser.display;
 import java.util.ArrayList;
 import java.util.Map;
 
+import main.java.miro.validator.types.CertificateObject;
+import main.java.miro.validator.types.ManifestObject;
+import main.java.miro.validator.types.ResourceHoldingObject;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.RPKIBrowser;
 import miro.util.ByteArrayPrinter;
-import miro.validator.types.CertificateObject;
-import miro.validator.types.ManifestObject;
-import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;

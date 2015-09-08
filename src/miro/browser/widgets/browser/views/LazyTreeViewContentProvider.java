@@ -25,10 +25,10 @@ package miro.browser.widgets.browser.views;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import miro.validator.types.CertificateObject;
-import miro.validator.types.ResourceCertificateTree;
-import miro.validator.types.ResourceHoldingObject;
-import miro.validator.types.RoaObject;
+import main.java.miro.validator.types.CertificateObject;
+import main.java.miro.validator.types.ResourceCertificateTree;
+import main.java.miro.validator.types.ResourceHoldingObject;
+import main.java.miro.validator.types.RoaObject;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.jface.viewers.ILazyTreeContentProvider;

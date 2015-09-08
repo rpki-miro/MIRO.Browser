@@ -25,17 +25,15 @@ package miro.browser.widgets.browser.views;
 
 import java.util.HashMap;
 
-import miro.browser.resources.Colors;
+import main.java.miro.validator.types.ResourceHoldingObject;
+import main.java.miro.validator.types.ValidationResults;
 import miro.browser.resources.Images;
-import miro.validator.types.ResourceHoldingObject;
-import miro.validator.types.ValidationResults;
 import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.rap.rwt.RWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 

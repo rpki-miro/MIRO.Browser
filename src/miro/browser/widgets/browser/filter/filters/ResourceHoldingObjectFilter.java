@@ -22,7 +22,7 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.filter.filters;
 
-import miro.validator.types.ResourceHoldingObject;
+import main.java.miro.validator.types.ResourceHoldingObject;
 
 public interface ResourceHoldingObjectFilter {
 

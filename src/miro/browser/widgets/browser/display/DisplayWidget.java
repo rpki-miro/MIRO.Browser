@@ -24,10 +24,10 @@ package miro.browser.widgets.browser.display;
 
 import java.util.ArrayList;
 
+import main.java.miro.validator.types.RepositoryObject;
 import miro.browser.download.DownloadHandler;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.RPKIBrowser;
-import miro.validator.types.RepositoryObject;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;

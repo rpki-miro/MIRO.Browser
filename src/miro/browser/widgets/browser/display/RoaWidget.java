@@ -26,6 +26,10 @@ import java.net.URI;
 import java.util.ArrayList;
 
 import json.deserializers.ValidationStatus;
+import main.java.miro.validator.types.RepositoryObject;
+import main.java.miro.validator.types.ResourceHoldingObject;
+import main.java.miro.validator.types.RoaObject;
+import main.java.miro.validator.types.ValidationResults;
 import miro.browser.converters.ASNConverter;
 import miro.browser.converters.DateTimeConverter;
 import miro.browser.converters.URIConverter;
@@ -33,10 +37,6 @@ import miro.browser.converters.ValidationCheckConverter;
 import miro.browser.converters.ValidityPeriodConverter;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.RPKIBrowser;
-import miro.validator.types.RepositoryObject;
-import miro.validator.types.ResourceHoldingObject;
-import miro.validator.types.RoaObject;
-import miro.validator.types.ValidationResults;
 import net.ripe.ipresource.Asn;
 import net.ripe.rpki.commons.crypto.ValidityPeriod;
 

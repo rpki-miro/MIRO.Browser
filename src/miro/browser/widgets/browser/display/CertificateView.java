@@ -22,10 +22,10 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
+import main.java.miro.validator.types.CRLObject;
+import main.java.miro.validator.types.CertificateObject;
+import main.java.miro.validator.types.ManifestObject;
 import miro.browser.widgets.browser.RPKIBrowser;
-import miro.validator.types.CRLObject;
-import miro.validator.types.CertificateObject;
-import miro.validator.types.ManifestObject;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
@@ -34,12 +34,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.events.DragDetectEvent;
-import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 
 public class CertificateView implements ResourceHolderObservableBinder{
 	

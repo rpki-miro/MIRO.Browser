@@ -25,8 +25,8 @@ package miro.browser.widgets.stats;
 import java.util.ArrayList;
 import java.util.List;
 
-import miro.validator.stats.StatsKeys;
-import miro.validator.stats.types.Result;
+import main.java.miro.validator.stats.StatsKeys;
+import main.java.miro.validator.stats.types.Result;
 
 public class StatsTreeItem {
 

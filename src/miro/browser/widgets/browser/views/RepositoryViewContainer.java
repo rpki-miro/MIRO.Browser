@@ -25,9 +25,9 @@ package miro.browser.widgets.browser.views;
 
 import java.util.HashMap;
 
+import main.java.miro.validator.types.ResourceCertificateTree;
+import main.java.miro.validator.types.ResourceHoldingObject;
 import miro.browser.widgets.browser.views.RepositoryView.RepositoryViewType;
-import miro.validator.types.ResourceCertificateTree;
-import miro.validator.types.ResourceHoldingObject;
 
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;

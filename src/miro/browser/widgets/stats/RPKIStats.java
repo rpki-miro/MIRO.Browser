@@ -25,12 +25,12 @@ package miro.browser.widgets.stats;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import main.java.miro.validator.stats.types.RPKIRepositoryStats;
 import miro.browser.resources.Colors;
 import miro.browser.updater.ModelUpdater;
 import miro.browser.updater.ObserverType;
 import miro.browser.updater.StatsObserver;
 import miro.logging.LoggerFactory;
-import miro.validator.stats.types.RPKIRepositoryStats;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
@@ -38,8 +38,6 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 
 public class RPKIStats extends Composite implements StatsObserver{
 	

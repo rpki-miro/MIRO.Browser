@@ -22,9 +22,9 @@ THE SOFTWARE.
  * */
 package miro.browser.widgets.browser.display;
 
-import miro.validator.types.CertificateObject;
-import miro.validator.types.ResourceHoldingObject;
-import miro.validator.types.RoaObject;
+import main.java.miro.validator.types.CertificateObject;
+import main.java.miro.validator.types.ResourceHoldingObject;
+import main.java.miro.validator.types.RoaObject;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;

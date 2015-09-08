@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import javax.security.auth.x500.X500Principal;
 
 import json.deserializers.ValidationStatus;
+import main.java.miro.validator.types.CertificateObject;
+import main.java.miro.validator.types.ResourceHoldingObject;
+import main.java.miro.validator.types.ValidationResults;
 import miro.browser.converters.ByteArrayConverter;
 import miro.browser.converters.PublicKeyConverter;
 import miro.browser.converters.URIConverter;
@@ -39,9 +42,6 @@ import miro.browser.converters.X500PrincipalConverter;
 import miro.browser.converters.X500PrincipalLinkConverter;
 import miro.browser.resources.MagicNumbers;
 import miro.browser.widgets.browser.RPKIBrowser;
-import miro.validator.types.CertificateObject;
-import miro.validator.types.ResourceHoldingObject;
-import miro.validator.types.ValidationResults;
 import net.ripe.rpki.commons.crypto.ValidityPeriod;
 
 import org.eclipse.core.databinding.DataBindingContext;
