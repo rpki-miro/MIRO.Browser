@@ -6,8 +6,6 @@ target/
 *.project
 *.classpath
 bin/
-META-INF
-build.properties
 miro.warproduct
 
 #Test
