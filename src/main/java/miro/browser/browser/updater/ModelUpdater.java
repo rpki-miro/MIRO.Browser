@@ -24,6 +24,7 @@ package main.java.miro.browser.browser.updater;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -41,7 +42,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.miro.browser.logging.LoggerFactory;
+import main.java.miro.browser.util.DirectoryFilter;
+import main.java.miro.browser.util.FileExtensionFilter;
 import main.java.miro.validator.ResourceCertificateTreeValidator;
+import main.java.miro.validator.TrustAnchorLocator;
+import main.java.miro.validator.fetcher.ObjectFetcher;
+import main.java.miro.validator.fetcher.RsyncFetcher;
 import main.java.miro.validator.stats.ResultExtractor;
 import main.java.miro.validator.stats.types.RPKIRepositoryStats;
 import main.java.miro.validator.stats.types.Result;
@@ -49,6 +55,7 @@ import main.java.miro.validator.types.ResourceCertificateTree;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.rap.rwt.service.ApplicationContext;
+import org.joda.time.DateTime;
 
 public class ModelUpdater implements Runnable {
 
@@ -63,9 +70,11 @@ public class ModelUpdater implements Runnable {
 
 	public static final String STATS_NAMES_KEY = "Stats.names";
 
-	final String CONFIG_FILE_LOCATION = "/var/data/MIRO/MIRO.Browser/miro.browser_config";
+	final String CONFIG_FILE_LOCATION = "/var/data/MIRO/Browser/miro.browser.conf";
+	
+	final String BASE_DIRECTORY = "/var/data/MIRO/Browser/repositories/";
 
-	final String PREFETCH_URI_FILE_LOCATION = "/var/data/MIRO/MIRO.Browser/prefetchURIs";
+	final String PREFETCH_FILE_DIRECTORY = "/var/data/MIRO/Browser/prefetching/";
 
 	final String STATS_NAME_PREFIX = "Stats.";
 
@@ -93,12 +102,12 @@ public class ModelUpdater implements Runnable {
 	@Override
 	public void run() {
 		try {
-			ServerSocket triggerSocket = new ServerSocket(UPDATE_PORT);
 			readConfig(CONFIG_FILE_LOCATION);
-//			update(prefetchURIs);
+			ServerSocket triggerSocket = new ServerSocket(UPDATE_PORT);
+			update();
 			while(run) {
 				waitForUpdateTrigger(triggerSocket);
-//				update(prefetchURIs);
+				update();
 			}
 			triggerSocket.close();
 		} catch (IOException e) {
@@ -121,63 +130,83 @@ public class ModelUpdater implements Runnable {
 		}
 	}
 
-
-	public void update(URI[] prefetchURIs) {
-		getModels();
+	public void update() {
+		addModels();
 		notifyObservers();
 	}
 
-	public void getModels() {
-//		log.log(Level.INFO, "Getting models");
-//
-//		RPKIRepositoryStats stats;
-//		ResourceCertificateTree certTree;
-//		int index = 0;
-//		String name = "";
-//
-//		File[] talFiles = new File(TALDirectory).listFiles();
-//		String[] statsKeys = new String[talFiles.length];
-//		String[] modelKeys = new String[talFiles.length];
-//		String key;
-//		cleanInputPath();
-//		ResourceCertificateTreeValidator treeValidator = new ResourceCertificateTreeValidator(
-//				inputPath);
-//		treeValidator.preFetch(uris);
-//		for (File talFile : talFiles) {
-//
-//			/*
-//			 * Get repo name from TAL file, get ResourceCertificateTree, save it
-//			 * to application context and remember the key
-//			 */
-//			name = getRepositoryName(talFile.getName());
-//			certTree = treeValidator.getTreeWithTAL(talFile.toString(), name);
-//			key = certTree.getName();
-//			context.setAttribute(key, certTree);
-//			modelKeys[index] = key;
-//
-//			/*
-//			 * Get stats about the tree, save them to disk, save them to context
-//			 * and remember the key
-//			 */
-//			stats = getRPKIRepositoryStats(certTree);
-//			ResultExtractor.archiveStats(stats, STATS_ARCHIVE_DIRECTORY + name);
-//			key = STATS_NAME_PREFIX + name;
-//			context.setAttribute(key, stats);
-//			statsKeys[index] = key;
-//
-//			index++;
-//		}
-//
-//		/* Get global RPKI stats over all processed repositories */
-//		RPKIRepositoryStats totalStats = getTotalStats(statsKeys);
-//		key = STATS_NAME_PREFIX + totalStats.getName();
-//		context.setAttribute(key, totalStats);
-//
-//		String[] allStatsKeys = prependToStringArray(statsKeys, key);
-//		Arrays.sort(statsKeys);
-//
-//		context.setAttribute(MODEL_NAMES_KEY, modelKeys);
-//		context.setAttribute(STATS_NAMES_KEY, allStatsKeys);
+	public void addModels() {
+		log.log(Level.INFO, "Getting models");
+		List<String> modelKeys = new ArrayList<String>();
+		List<String> statsKeys = new ArrayList<String>();
+		for (File talGroupDirectory : getTALGroupDirectories()) {
+			addModelsFromTALGroup(talGroupDirectory, modelKeys, statsKeys);
+		}
+		addStatsToContext(getTotalStats(statsKeys), statsKeys);
+		archiveStats(statsKeys);
+		context.setAttribute(MODEL_NAMES_KEY, modelKeys);
+		context.setAttribute(STATS_NAMES_KEY, statsKeys);
+	}
+	
+	public File[] getTALGroupDirectories() {
+		File talMainDir = new File(TALDirectory);
+		File[] talGroupDirectories = talMainDir.listFiles(new DirectoryFilter());
+		return talGroupDirectories;
+	}
+	
+	public void addModelsFromTALGroup(File talDirectory, List<String> modelKeys, List<String> statsKeys) {
+		ResourceCertificateTreeValidator validator;
+		ObjectFetcher fetcher;
+		TrustAnchorLocator tal;
+		ResourceCertificateTree tree;
+		try {
+			fetcher = new RsyncFetcher(BASE_DIRECTORY, PREFETCH_FILE_DIRECTORY
+					+ talDirectory.getName());
+			validator = new ResourceCertificateTreeValidator(fetcher);
+
+			for (String filename : talDirectory.list(new FileExtensionFilter("tal"))) {
+				tal = new TrustAnchorLocator(talDirectory.getAbsolutePath() + "/" + filename);
+				tree = validator.withTAL(tal);
+
+				if (tree == null)
+					continue;
+
+				addModelToContext(tree, modelKeys);
+				addStatsToContext(getRPKIRepositoryStats(tree), statsKeys);
+			}
+		} catch (IOException e) {
+			log.log(Level.SEVERE, "Could not process " + talDirectory.getName(), e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void addModelToContext(ResourceCertificateTree tree, List<String> modelKeys) {
+		String key = getModelKey(tree);
+		context.setAttribute(key, tree);
+		modelKeys.add(key);
+	}
+	
+	public void addStatsToContext(RPKIRepositoryStats stats, List<String> statsKeys) {
+		String key = getStatsKey(stats);
+		context.setAttribute(key, stats);
+		statsKeys.add(key);
+	}
+	
+	public void archiveStats(List<String> statsKeys) {
+		RPKIRepositoryStats stats;
+		for(String statsKey : statsKeys) {
+			stats = (RPKIRepositoryStats) context.getAttribute(statsKey);
+			ResultExtractor.archiveStats(stats, STATS_ARCHIVE_DIRECTORY + stats.getName());
+		}
+	}
+	
+	public String getModelKey(ResourceCertificateTree tree) {
+		return tree.getName();
+	}
+	
+	public String getStatsKey(RPKIRepositoryStats stats) {
+		return STATS_NAME_PREFIX + "." + stats.getName();
 	}
 
 	public String[] prependToStringArray(String[] arr, String str) {
@@ -196,28 +225,16 @@ public class ModelUpdater implements Runnable {
 		return extractor.getRPKIRepositoryStats();
 	}
 
-	private RPKIRepositoryStats getTotalStats(String[] statsKeys) {
+	private RPKIRepositoryStats getTotalStats(List<String> statsKeys) {
 
-//		RPKIRepositoryStats totalStats = new RPKIRepositoryStats(
-//				"All repositories", "-", "-", new Result("Total"),
-//				new ArrayList<Result>());
-//		for (String statsKey : statsKeys) {
-//			RPKIRepositoryStats stats = (RPKIRepositoryStats) context
-//					.getAttribute(statsKey);
-//			totalStats.addStats(stats);
-//		}
-//		return totalStats;
-		return null;
-
-	}
-
-	private String getRepositoryName(String name) {
-
-		/* Use the filename without its extension suffix */
-		if (name.indexOf(".") > 0) {
-			return name.substring(0, name.lastIndexOf("."));
+		RPKIRepositoryStats totalStats = new RPKIRepositoryStats("Global RPKI", new DateTime(), "All", new Result("Total"),
+				new ArrayList<Result>());
+		for (String statsKey : statsKeys) {
+			RPKIRepositoryStats stats = (RPKIRepositoryStats) context
+					.getAttribute(statsKey);
+			totalStats.addStats(stats);
 		}
-		return name;
+		return totalStats;
 	}
 
 	public void readConfig(String path) throws IOException {

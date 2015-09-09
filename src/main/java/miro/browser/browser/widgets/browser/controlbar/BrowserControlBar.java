@@ -23,6 +23,8 @@ THE SOFTWARE.
 package main.java.miro.browser.browser.widgets.browser.controlbar;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import main.java.miro.browser.browser.updater.ModelObserver;
 import main.java.miro.browser.browser.updater.ModelUpdater;
@@ -151,7 +153,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 	
 	public void showCurrentRepos(){
 		/* See if names are loaded, if so display them */
-		String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
+		List<String> names = (List<String>) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
 		if(names != null){
 			updateDropDown(names);
 		}
@@ -176,19 +178,18 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 	 * in case the old selection is contained within modelNames 
 	 * @param modelNames The new items to display
 	 */
-	public void updateDropDown(String[] modelNames){
-		String[] names = modelNames;
-    	if(names.length == 0){
-    		dropDown.setItems(names);
+	public void updateDropDown(List<String> names){
+    	if(names.isEmpty()){
+    		dropDown.setItems(names.toArray(new String[]{}));
     		dropDown.notifyListeners(SWT.Selection, new Event());
     		return;
     	}
     	
     	int selectIndex = dropDown.getSelectionIndex();
-    	String currentSelection = selectIndex != -1 ? dropDown.getItem(selectIndex) : names[0];
+    	String currentSelection = selectIndex != -1 ? dropDown.getItem(selectIndex) : names.get(0);
     	
-    	Arrays.sort(names);
-    	dropDown.setItems(names);
+    	Collections.sort(names);
+    	dropDown.setItems(names.toArray(new String[]{}));
     	
     	for(int i = 0;i<dropDown.getItemCount();i++){
     		if(dropDown.getItem(i).equals(currentSelection)){
@@ -212,7 +213,7 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 		//(only SWT UI thread is allowed to make UI changes)
 		this.getDisplay().asyncExec(new Runnable() {
 		    public void run() {
-		    	String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
+		    	List<String> names =  (List<String>) RWT.getApplicationContext().getAttribute(ModelUpdater.MODEL_NAMES_KEY);
 		    	updateDropDown(names);
 		    	layout();
 		    }

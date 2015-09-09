@@ -22,6 +22,7 @@ THE SOFTWARE.
  * */
 package main.java.miro.browser.browser.widgets.stats;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,7 +55,7 @@ public class RPKIStats extends Composite implements StatsObserver{
 		showNewestStats();
 	}
 
-	private void showRPKIRepositoryStats(String[] statsNames) {
+	private void showRPKIRepositoryStats(List<String> statsNames) {
 		for(CTabItem tab : statsTabFolder.getItems()) {
 			tab.dispose();
 		}
@@ -76,7 +77,7 @@ public class RPKIStats extends Composite implements StatsObserver{
 	}
 	
 	public void showNewestStats() {
-		String names[] = (String[]) RWT.getApplicationContext().getAttribute(ModelUpdater.STATS_NAMES_KEY);
+		List<String> names = (List<String>) RWT.getApplicationContext().getAttribute(ModelUpdater.STATS_NAMES_KEY);
 		if(names != null){
 			showRPKIRepositoryStats(names);
 		}
