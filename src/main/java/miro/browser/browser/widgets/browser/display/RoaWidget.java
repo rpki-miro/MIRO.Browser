@@ -25,7 +25,6 @@ package main.java.miro.browser.browser.widgets.browser.display;
 import java.net.URI;
 import java.util.ArrayList;
 
-import json.deserializers.ValidationStatus;
 import main.java.miro.browser.browser.converters.ASNConverter;
 import main.java.miro.browser.browser.converters.DateTimeConverter;
 import main.java.miro.browser.browser.converters.URIConverter;
@@ -39,6 +38,7 @@ import main.java.miro.validator.types.RoaObject;
 import main.java.miro.validator.types.ValidationResults;
 import net.ripe.ipresource.Asn;
 import net.ripe.rpki.commons.crypto.ValidityPeriod;
+import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;

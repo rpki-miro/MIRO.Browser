@@ -32,10 +32,5 @@
   		<artifactId>commons-io</artifactId>
   		<version>2.4</version>
   	</dependency>
-  	<dependency>
-  		<groupId>MIRO.Reader</groupId>
-  		<artifactId>MIRO.Reader</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
   </dependencies>
 </project>

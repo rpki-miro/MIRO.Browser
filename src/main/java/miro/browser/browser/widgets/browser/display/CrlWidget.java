@@ -25,13 +25,13 @@ package main.java.miro.browser.browser.widgets.browser.display;
 import java.net.URI;
 import java.util.ArrayList;
 
-import json.deserializers.ValidationStatus;
 import main.java.miro.browser.browser.converters.URIConverter;
 import main.java.miro.browser.browser.converters.ValidationCheckConverter;
 import main.java.miro.browser.browser.resources.MagicNumbers;
 import main.java.miro.browser.browser.widgets.browser.RPKIBrowser;
 import main.java.miro.validator.types.RepositoryObject;
 import main.java.miro.validator.types.ValidationResults;
+import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;

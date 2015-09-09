@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 import javax.security.auth.x500.X500Principal;
 
-import json.deserializers.ValidationStatus;
 import main.java.miro.browser.browser.converters.ByteArrayConverter;
 import main.java.miro.browser.browser.converters.PublicKeyConverter;
 import main.java.miro.browser.browser.converters.URIConverter;
@@ -43,6 +42,7 @@ import main.java.miro.validator.types.CertificateObject;
 import main.java.miro.validator.types.ResourceHoldingObject;
 import main.java.miro.validator.types.ValidationResults;
 import net.ripe.rpki.commons.crypto.ValidityPeriod;
+import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
