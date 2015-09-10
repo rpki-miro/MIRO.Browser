@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import main.java.miro.browser.browser.download.DownloadHandler;
 import main.java.miro.browser.browser.updater.ModelObserver;
 import main.java.miro.browser.browser.updater.ModelUpdater;
 import main.java.miro.browser.browser.updater.ObserverType;
@@ -40,6 +41,7 @@ import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -59,6 +61,8 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 	
 	private Label updateTimestamp;
 	
+	private Button downloadButton;
+	
 	public BrowserControlBar(Composite parent, int style, RPKIBrowser b) {
 		super(parent, style);
 		setData(RWT.CUSTOM_VARIANT, "browserControlbar");
@@ -67,12 +71,14 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 		
 		createWidgets();
 		initToolbar();
+		initDownloadButton();
 		createLayout();
 	}
 	
 	public void createWidgets(){
 		toolbar = new ToolBar(this, SWT.NONE);
 		dropDown = new CCombo(toolbar, SWT.READ_ONLY | SWT.FLAT);
+		downloadButton = new Button(this, SWT.PUSH);
 		updateTimestamp = new Label(this, SWT.NONE);
 		updateTimestamp.setData(RWT.CUSTOM_VARIANT, "updateTimestamp");
 	}
@@ -131,23 +137,28 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 			@Override
 			public void handleEvent(Event e) {
 				
-				/* Find the selected model name */
-				CCombo combo = (CCombo) e.widget;
-				int selection = combo.getSelectionIndex();
-				if(selection == -1){
+				ResourceCertificateTree certTree = getCurrentTree();
+				if(certTree == null)
 					return;
-				}
-				String selectedName = combo.getItem(selection);
-				
-				
-				/* Get the corresponding model and set as input*/
-				ResourceCertificateTree certTree = (ResourceCertificateTree) RWT.getApplicationContext().getAttribute(selectedName);
+
 				browser.getViewerContainer().setViewerInput(certTree);
 				browser.getViewerContainer().setSelection(certTree.getTrustAnchor());
 				updateTimestamp.setText(certTree.getTimeStamp().toString());
 			}
 		});
 
+	}
+	
+	public ResourceCertificateTree getCurrentTree() {
+		int selection = dropDown.getSelectionIndex();
+		if (selection == -1) {
+			return null;
+		}
+		String selectedName = dropDown.getItem(selection);
+
+		ResourceCertificateTree certTree = (ResourceCertificateTree) RWT.getApplicationContext()
+				.getAttribute(selectedName);
+		return certTree;
 	}
 	
 	
@@ -168,9 +179,30 @@ public class BrowserControlBar extends Composite implements ModelObserver {
 		toolbar.setLayoutData(layoutData);
 		
 		layoutData = new FormData();
+		layoutData.left = new FormAttachment(toolbar);
+		downloadButton.setLayoutData(layoutData);
+		
+		layoutData = new FormData();
 		layoutData.right = new FormAttachment(100,0);
 		layoutData.bottom = new FormAttachment(100,0);
 		updateTimestamp.setLayoutData(layoutData);
+	}
+	
+	private void initDownloadButton() {
+		downloadButton.setText("Download (JSON)");
+		downloadButton.setData(RWT.CUSTOM_VARIANT, "downloadButton");
+		downloadButton.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				ResourceCertificateTree tree = getCurrentTree();
+				if(tree == null)
+					return;
+				
+				DownloadHandler dlHandler = new DownloadHandler();
+				dlHandler.sendDownload(ModelUpdater.EXPORT_DIRECTORY + tree.getName());
+			}
+		});
 	}
 
 	/**

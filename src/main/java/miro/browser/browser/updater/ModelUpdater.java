@@ -46,6 +46,7 @@ import main.java.miro.browser.util.DirectoryFilter;
 import main.java.miro.browser.util.FileExtensionFilter;
 import main.java.miro.validator.ResourceCertificateTreeValidator;
 import main.java.miro.validator.TrustAnchorLocator;
+import main.java.miro.validator.export.json.JsonExporter;
 import main.java.miro.validator.fetcher.ObjectFetcher;
 import main.java.miro.validator.fetcher.RsyncFetcher;
 import main.java.miro.validator.stats.ResultExtractor;
@@ -76,6 +77,8 @@ public class ModelUpdater implements Runnable {
 
 	final String PREFETCH_FILE_DIRECTORY = "/var/data/MIRO/Browser/prefetching/";
 
+	public static final String EXPORT_DIRECTORY = "/var/data/MIRO/Browser/export/";
+
 	final String STATS_NAME_PREFIX = "Stats.";
 
 	final String STATS_ARCHIVE_DIRECTORY = "/var/data/MIRO/MIRO.Stats/repo/";
@@ -88,7 +91,6 @@ public class ModelUpdater implements Runnable {
 
 	private String TALDirectory;
 
-	private String exportPath;
 
 	private volatile boolean run;
 
@@ -173,6 +175,7 @@ public class ModelUpdater implements Runnable {
 
 				addModelToContext(tree, modelKeys);
 				addStatsToContext(getRPKIRepositoryStats(tree), statsKeys);
+				exportTreeAsJson(tree);
 			}
 		} catch (IOException e) {
 			log.log(Level.SEVERE, "Could not process " + talDirectory.getName(), e.getMessage());
@@ -191,6 +194,11 @@ public class ModelUpdater implements Runnable {
 		String key = getStatsKey(stats);
 		context.setAttribute(key, stats);
 		statsKeys.add(key);
+	}
+	
+	public void exportTreeAsJson(ResourceCertificateTree tree) {
+		JsonExporter exporter = new JsonExporter(EXPORT_DIRECTORY + tree.getName());
+		exporter.export(tree);
 	}
 	
 	public void archiveStats(List<String> statsKeys) {
@@ -257,9 +265,6 @@ public class ModelUpdater implements Runnable {
 				break;
 			case "TALDir":
 				setTALDir(prop.getProperty(key));
-				break;
-			case "exportDir":
-				setExportPath(prop.getProperty(key));
 				break;
 			default:
 				break;
@@ -343,11 +348,6 @@ public class ModelUpdater implements Runnable {
 		UPDATE_PORT = Integer.parseInt(port2);
 		log.log(Level.FINE, "Set port: {0}", port2);
 
-	}
-
-	private void setExportPath(String key) {
-		exportPath = key;
-		log.log(Level.FINE, "Set exportPath: {0}", key);
 	}
 
 	private void setTALDir(String key) {
