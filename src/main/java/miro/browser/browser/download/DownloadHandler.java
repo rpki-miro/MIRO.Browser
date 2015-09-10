@@ -1,7 +1,12 @@
 package main.java.miro.browser.browser.download;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -35,30 +40,12 @@ import com.google.gson.GsonBuilder;
 public class DownloadHandler {
 	
 	public boolean sendDownload(RepositoryObject obj) {
-
-        DownloadService service = new DownloadService(obj);
-        service.register();
-        RWT.getClient().getService(JavaScriptExecutor.class).execute("window.location=\"" + service.getURL() +  "\";" );
-        return true;
-    }
-
-    private static final class DownloadService implements ServiceHandler {
-
-        private final RepositoryObject obj;
-
-        private final String filename;
-        private String id;
-        private String text;
-
-        public DownloadService(RepositoryObject obj) {
-            this.obj = obj;
-            this.filename = obj.getFilename() + ".json";
-            this.id = calculateId();
-            
+		try {
 			GsonBuilder builder = new GsonBuilder();
 			builder.setPrettyPrinting();
 			builder.registerTypeAdapter(RepositoryObject.class, new RepositoryObjectSerializer());
-			builder.registerTypeAdapter(CertificateObject.class, new CertificateObjectJsonSerializer());
+			builder.registerTypeAdapter(CertificateObject.class,
+					new CertificateObjectJsonSerializer());
 			builder.registerTypeAdapter(ManifestObject.class, new ManifestSerializer());
 			builder.registerTypeAdapter(CRLObject.class, new CRLSerializer());
 			builder.registerTypeAdapter(RoaObject.class, new RoaSerializer());
@@ -66,7 +53,55 @@ public class DownloadHandler {
 			builder.registerTypeAdapter(IpResourceSet.class, new IpResourceSetSerializer());
 			builder.registerTypeAdapter(byte[].class, new ByteArrayToHexSerializer());
 			Gson gson = builder.create();
-			text = gson.toJson(obj, RepositoryObject.class);
+			String text = gson.toJson(obj, RepositoryObject.class);
+			StringBuffer sb = new StringBuffer(text);
+			ByteArrayInputStream in;
+			in = new ByteArrayInputStream(sb.toString().getBytes("ASCII"));
+			DownloadService service = new DownloadService(in, obj.getFilename());
+			runDownloadService(service);
+			return true;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return false;
+		}
+    }
+	
+	public boolean sendDownload(String filepath) {
+		try {
+			File file = new File(filepath);
+			FileInputStream stream = new FileInputStream(file);
+			DownloadService service = new DownloadService(stream, file.getName());
+			runDownloadService(service);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		/*
+		 * TODO:
+		 * DownloadService should take a byte stream (the data that is to be sent to the user) and a filename
+		 * Then here we open the filestream and derive filename from filepath, open a DownloadService and execute the js code
+		 */
+		return false;
+	}
+	
+	public void runDownloadService(DownloadService service) {
+        service.register();
+        RWT.getClient().getService(JavaScriptExecutor.class).execute("window.location=\"" + service.getURL() +  "\";" );
+	}
+
+    private static final class DownloadService implements ServiceHandler {
+
+        private final String filename;
+
+        private String id;
+        
+        private InputStream stream;
+
+        public DownloadService(InputStream strm, String filename) {
+        	this.filename = filename;
+            this.id = calculateId();
+            this.stream = strm;
         }
 
         public String getURL() {
@@ -78,7 +113,7 @@ public class DownloadHandler {
         }
 
         private String calculateId() {
-            return String.valueOf(System.currentTimeMillis()) + obj.getFilename().length();
+            return String.valueOf(System.currentTimeMillis()) + filename.length();
         }
 
         public boolean register() {
@@ -103,23 +138,25 @@ public class DownloadHandler {
         public void service(HttpServletRequest request, HttpServletResponse response)
                 throws IOException, ServletException {
             try {
-                response.setContentType("application/octet-stream");
-                response.setHeader("Content-Disposition", "attachment; filename=\"" + filename
-                        + "\"");
-                StringBuffer sb = new StringBuffer(text);
-                ByteArrayInputStream in = new ByteArrayInputStream(sb.toString().getBytes("ASCII"));
-                ServletOutputStream out = response.getOutputStream();
-                
-                IOUtils.copy(in, out);
-                
-                in.close();
-                out.flush();
-                out.close();
-                
+            	setResponseMetadata(response);
+            	writeDataToStream(response.getOutputStream());
             } catch (Exception e) {
             } finally {
                 unregister();
             }
+        }
+        
+        public void setResponseMetadata(HttpServletResponse response) {
+                response.setContentType("application/octet-stream");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + filename
+                        + "\"");
+        }
+        
+        public void writeDataToStream(ServletOutputStream out) throws IOException {
+                IOUtils.copy(stream, out);
+                stream.close();
+                out.flush();
+                out.close();
         }
 
     }
