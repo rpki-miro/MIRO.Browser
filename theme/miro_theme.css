@@ -91,6 +91,14 @@ CCombo-List-Item {
 	color:inherit;
 }
 
+Button.downloadButton {
+	font: normal 14px "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
+	background-color:#333333;
+	color:#FFFFFF;
+	border:none;
+	padding:8px 0px 0px 0px;
+}
+
 Label.updateTimestamp {
 	color:#FFFFFF;
 }
