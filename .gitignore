@@ -6,7 +6,7 @@ target/
 *.project
 *.classpath
 bin/
-miro.warproduct
+miro.browser.warproduct
 
 #Test
 
