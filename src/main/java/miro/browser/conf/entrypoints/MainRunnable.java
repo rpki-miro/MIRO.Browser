@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package main.java.miro.browser.browser;
+package main.java.miro.browser.conf.entrypoints;
 import main.java.miro.browser.browser.resources.Colors;
 import main.java.miro.browser.browser.resources.Images;
 import main.java.miro.browser.browser.resources.MagicNumbers;
@@ -37,11 +37,11 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class SessionRealm implements Runnable {
+public class MainRunnable implements Runnable {
 
 	private Composite parent;
 	
-	public SessionRealm(Composite p){
+	public MainRunnable(Composite p){
 		parent = p;
 	}
 

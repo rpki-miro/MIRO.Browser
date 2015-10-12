@@ -20,18 +20,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  * 
  * */
-package main.java.miro.browser.browser;
+package main.java.miro.browser.conf.entrypoints;
+
+import main.java.miro.browser.browser.resources.Colors;
+import main.java.miro.browser.browser.resources.Images;
+import main.java.miro.browser.browser.resources.MagicNumbers;
+import main.java.miro.browser.browser.widgets.ContentContainer;
+import main.java.miro.browser.browser.widgets.browser.RPKIBrowser;
+import main.java.miro.browser.browser.widgets.header.HeaderBar;
+import main.java.miro.browser.browser.widgets.header.LinkContainer;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
+import org.eclipse.rap.rwt.service.ServerPushSession;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class ClientEntryPoint extends AbstractEntryPoint {
+public class MainEntryPoint extends AbstractEntryPoint{
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	protected void createContents(Composite parent) {
-		Realm.runWithDefault(SWTObservables.getRealm(parent.getDisplay()), new SessionRealm(parent));
+		Realm.runWithDefault(SWTObservables.getRealm(parent.getDisplay()), new MainRunnable(parent));
 	}
 }

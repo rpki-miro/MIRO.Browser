@@ -21,7 +21,7 @@ THE SOFTWARE.
  * 
  * */
 
-package main.java.miro.browser.browser;
+package main.java.miro.browser.conf;
 
 
 import java.util.HashMap;
@@ -29,6 +29,7 @@ import java.util.Map;
 
 import main.java.miro.browser.browser.resources.ValidationTranslation;
 import main.java.miro.browser.browser.updater.ModelUpdater;
+import main.java.miro.browser.conf.entrypoints.MainEntryPoint;
 
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.Application.OperationMode;
@@ -50,25 +51,15 @@ public class BrowserApplicationConfiguration implements
 		ApplicationContext context = ((ApplicationImpl)application).getApplicationContext();
 		
 		application.addStyleSheet( "miro", "theme/miro_theme.css" );
-//		application.addStyleSheet( RWT.DEFAULT_THEME_ID, "theme/miro_theme.css" );
-//		application.addStyleSheet("scout", "theme/scout.css");
-//		application.addStyleSheet("controls", "theme/controls.css");
-//		application.addStyleSheet("business", "theme/business.css");
-//		application.addStyleSheet("fancy", "theme/fancy.css");
 	
 		ValidationTranslation.readTranslation();
-		
-		
-		
-		
 		
 		new Thread(new ModelUpdater(context)).start();
 		Map<String, String> properties = new HashMap<String, String>();
 		
 		properties.put( WebClient.THEME_ID, "miro" );
 		properties.put(WebClient.PAGE_TITLE, "Resource Certificate Monitor");
-		application.addEntryPoint("/", ClientEntryPoint.class,
-				properties);
+		application.addEntryPoint("/", MainEntryPoint.class,properties);
 		application.setOperationMode(OperationMode.JEE_COMPATIBILITY);
 	}
 
