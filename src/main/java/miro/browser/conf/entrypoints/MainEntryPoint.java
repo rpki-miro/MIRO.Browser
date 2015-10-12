@@ -48,4 +48,56 @@ public class MainEntryPoint extends AbstractEntryPoint{
 	protected void createContents(Composite parent) {
 		Realm.runWithDefault(SWTObservables.getRealm(parent.getDisplay()), new MainRunnable(parent));
 	}
+	
+	
+	private class MainRunnable implements Runnable {
+
+		private Composite parent;
+
+		public MainRunnable(Composite p) {
+			parent = p;
+		}
+
+		public void run() {
+			// Enable push, for async. events
+			final ServerPushSession pushSession = new ServerPushSession();
+			pushSession.start();
+
+			// Init resources
+			Colors.init(parent.getDisplay());
+			Images.init(parent.getDisplay());
+
+			FormLayout layout = new FormLayout();
+			parent.setLayout(layout);
+			parent.setData(RWT.CUSTOM_VARIANT, "mainShell");
+
+			HeaderBar header = new HeaderBar(parent, SWT.NONE);
+			FormData layoutData = new FormData();
+			layoutData.left = new FormAttachment(0, MagicNumbers.SHELL_OUTER_GAPS);
+			layoutData.right = new FormAttachment(100, -MagicNumbers.SHELL_OUTER_GAPS);
+			layoutData.top = new FormAttachment(0, MagicNumbers.SHELL_OUTER_GAPS);
+			header.setLayoutData(layoutData);
+
+			LinkContainer linkContainer = new LinkContainer(header, SWT.NONE);
+
+			ContentContainer content = new ContentContainer(parent, SWT.NONE);
+			layoutData = new FormData();
+			layoutData.top = new FormAttachment(header, 0);
+			layoutData.left = new FormAttachment(0, MagicNumbers.SHELL_OUTER_GAPS);
+			layoutData.bottom = new FormAttachment(100, -MagicNumbers.SHELL_OUTER_GAPS);
+			layoutData.right = new FormAttachment(100, -MagicNumbers.SHELL_OUTER_GAPS);
+			content.setLayoutData(layoutData);
+
+			// init browser
+			RPKIBrowser browser = new RPKIBrowser(content, SWT.NONE);
+			content.setBrowser(browser);
+
+			// Show browser default
+			content.showBrowser();
+
+			linkContainer.setContentContainer(content);
+
+			parent.layout();
+		}
+	}
 }
