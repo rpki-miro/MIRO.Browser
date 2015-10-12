@@ -29,6 +29,7 @@ import java.util.Map;
 
 import main.java.miro.browser.browser.resources.ValidationTranslation;
 import main.java.miro.browser.browser.updater.ModelUpdater;
+import main.java.miro.browser.conf.entrypoints.DownloadEntryPoint;
 import main.java.miro.browser.conf.entrypoints.MainEntryPoint;
 
 import org.eclipse.rap.rwt.application.Application;
@@ -42,25 +43,36 @@ public class BrowserApplicationConfiguration implements
 		ApplicationConfiguration {
 
 	public void configure(Application application) {
-		/*
-		 * TODO:
-		 * statische Resourcen (immoment nur images) im ResourceManager speichern	
-		 */
-
+		addStyleSheets(application);
+		addMainEntryPoint(application);
+		addDownloadEntryPoint(application);
+		initModelUpdater(application);
+		ValidationTranslation.readTranslation();
+		application.setOperationMode(OperationMode.JEE_COMPATIBILITY);
+	}
+	
+	public void addStyleSheets(Application application) {
+		application.addStyleSheet( "miro", "theme/miro_theme.css" );
+	}
+	
+	public void addMainEntryPoint(Application application) {
+		Map<String, String> properties = new HashMap<String, String>();
+		properties.put(WebClient.THEME_ID, "miro" );
+		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO");
+		application.addEntryPoint("/", MainEntryPoint.class,properties);
+	}
+	
+	public void initModelUpdater(Application application) {
 		@SuppressWarnings("restriction")
 		ApplicationContext context = ((ApplicationImpl)application).getApplicationContext();
-		
-		application.addStyleSheet( "miro", "theme/miro_theme.css" );
-	
-		ValidationTranslation.readTranslation();
-		
 		new Thread(new ModelUpdater(context)).start();
+	}
+	
+	public void addDownloadEntryPoint(Application application) {
 		Map<String, String> properties = new HashMap<String, String>();
+		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Download API");
+		application.addEntryPoint("/download", DownloadEntryPoint.class,properties);
 		
-		properties.put( WebClient.THEME_ID, "miro" );
-		properties.put(WebClient.PAGE_TITLE, "Resource Certificate Monitor");
-		application.addEntryPoint("/", MainEntryPoint.class,properties);
-		application.setOperationMode(OperationMode.JEE_COMPATIBILITY);
 	}
 
 }
