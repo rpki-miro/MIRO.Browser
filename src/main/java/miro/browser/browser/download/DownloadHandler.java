@@ -19,12 +19,14 @@ import main.java.miro.validator.export.json.CertificateObjectJsonSerializer;
 import main.java.miro.validator.export.json.IpResourceSetSerializer;
 import main.java.miro.validator.export.json.ManifestSerializer;
 import main.java.miro.validator.export.json.RepositoryObjectSerializer;
+import main.java.miro.validator.export.json.ResourceHoldingObjectSerializer;
 import main.java.miro.validator.export.json.RoaSerializer;
 import main.java.miro.validator.export.json.ValidationResultsSerializer;
 import main.java.miro.validator.types.CRLObject;
 import main.java.miro.validator.types.CertificateObject;
 import main.java.miro.validator.types.ManifestObject;
 import main.java.miro.validator.types.RepositoryObject;
+import main.java.miro.validator.types.ResourceHoldingObject;
 import main.java.miro.validator.types.RoaObject;
 import main.java.miro.validator.types.ValidationResults;
 import net.ripe.ipresource.IpResourceSet;
@@ -44,6 +46,7 @@ public class DownloadHandler {
 			GsonBuilder builder = new GsonBuilder();
 			builder.setPrettyPrinting();
 			builder.registerTypeAdapter(RepositoryObject.class, new RepositoryObjectSerializer());
+			builder.registerTypeAdapter(ResourceHoldingObject.class, new ResourceHoldingObjectSerializer());
 			builder.registerTypeAdapter(CertificateObject.class,
 					new CertificateObjectJsonSerializer());
 			builder.registerTypeAdapter(ManifestObject.class, new ManifestSerializer());
