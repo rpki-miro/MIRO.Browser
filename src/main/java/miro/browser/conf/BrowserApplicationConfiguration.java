@@ -72,7 +72,6 @@ public class BrowserApplicationConfiguration implements
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Download API");
 		application.addEntryPoint("/download", DownloadEntryPoint.class,properties);
-		
 	}
 
 }
