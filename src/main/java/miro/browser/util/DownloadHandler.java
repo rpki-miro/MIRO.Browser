@@ -42,32 +42,39 @@ import com.google.gson.GsonBuilder;
 public class DownloadHandler {
 	
 	public boolean sendDownload(RepositoryObject obj) {
+		InputStream in = objectToStream(obj);
+		DownloadService service = new DownloadService(in, obj.getFilename());
+		runDownloadService(service);
+		return true;
+    }
+	
+	private InputStream objectToStream(RepositoryObject obj) {
 		try {
-			GsonBuilder builder = new GsonBuilder();
-			builder.setPrettyPrinting();
-			builder.registerTypeAdapter(RepositoryObject.class, new RepositoryObjectSerializer());
-			builder.registerTypeAdapter(ResourceHoldingObject.class, new ResourceHoldingObjectSerializer());
-			builder.registerTypeAdapter(CertificateObject.class,
-					new CertificateObjectJsonSerializer());
-			builder.registerTypeAdapter(ManifestObject.class, new ManifestSerializer());
-			builder.registerTypeAdapter(CRLObject.class, new CRLSerializer());
-			builder.registerTypeAdapter(RoaObject.class, new RoaSerializer());
-			builder.registerTypeAdapter(ValidationResults.class, new ValidationResultsSerializer());
-			builder.registerTypeAdapter(IpResourceSet.class, new IpResourceSetSerializer());
-			builder.registerTypeAdapter(byte[].class, new ByteArrayToHexSerializer());
-			Gson gson = builder.create();
-			String text = gson.toJson(obj, RepositoryObject.class);
+			String text = objectToJson(obj);
 			StringBuffer sb = new StringBuffer(text);
-			ByteArrayInputStream in;
-			in = new ByteArrayInputStream(sb.toString().getBytes("ASCII"));
-			DownloadService service = new DownloadService(in, obj.getFilename());
-			runDownloadService(service);
-			return true;
+			return new ByteArrayInputStream(sb.toString().getBytes("ASCII"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-			return false;
+			return new ByteArrayInputStream("ERROR: Unsupported Encoding".getBytes()); 
 		}
-    }
+	}
+	
+	private String objectToJson(RepositoryObject obj) {
+		GsonBuilder builder = new GsonBuilder();
+		builder.setPrettyPrinting();
+		builder.registerTypeAdapter(RepositoryObject.class, new RepositoryObjectSerializer());
+		builder.registerTypeAdapter(ResourceHoldingObject.class,
+				new ResourceHoldingObjectSerializer());
+		builder.registerTypeAdapter(CertificateObject.class, new CertificateObjectJsonSerializer());
+		builder.registerTypeAdapter(ManifestObject.class, new ManifestSerializer());
+		builder.registerTypeAdapter(CRLObject.class, new CRLSerializer());
+		builder.registerTypeAdapter(RoaObject.class, new RoaSerializer());
+		builder.registerTypeAdapter(ValidationResults.class, new ValidationResultsSerializer());
+		builder.registerTypeAdapter(IpResourceSet.class, new IpResourceSetSerializer());
+		builder.registerTypeAdapter(byte[].class, new ByteArrayToHexSerializer());
+		Gson gson = builder.create();
+		return gson.toJson(obj, RepositoryObject.class);
+	}
 	
 	public boolean sendDownload(String filepath) {
 		try {
@@ -75,17 +82,11 @@ public class DownloadHandler {
 			FileInputStream stream = new FileInputStream(file);
 			DownloadService service = new DownloadService(stream, file.getName());
 			runDownloadService(service);
+			return true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return false;
 		}
-		
-		/*
-		 * TODO:
-		 * DownloadService should take a byte stream (the data that is to be sent to the user) and a filename
-		 * Then here we open the filestream and derive filename from filepath, open a DownloadService and execute the js code
-		 */
-		return false;
 	}
 	
 	public void runDownloadService(DownloadService service) {
@@ -93,7 +94,7 @@ public class DownloadHandler {
         RWT.getClient().getService(JavaScriptExecutor.class).execute("window.location=\"" + service.getURL() +  "\";" );
 	}
 
-    private static final class DownloadService implements ServiceHandler {
+    private final class DownloadService implements ServiceHandler {
 
         private final String filename;
 
