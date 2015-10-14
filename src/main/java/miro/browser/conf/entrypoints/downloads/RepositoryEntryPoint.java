@@ -1,4 +1,4 @@
-package main.java.miro.browser.conf.entrypoints;
+package main.java.miro.browser.conf.entrypoints.downloads;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,7 +8,7 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.widgets.Composite;
 
-public class DownloadEntryPoint extends AbstractEntryPoint {
+public class RepositoryEntryPoint extends AbstractEntryPoint {
 
 	@Override
 	protected void createContents(Composite parent) {

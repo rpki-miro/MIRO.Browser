@@ -29,8 +29,8 @@ import java.util.Map;
 
 import main.java.miro.browser.browser.resources.ValidationTranslation;
 import main.java.miro.browser.browser.updater.ModelUpdater;
-import main.java.miro.browser.conf.entrypoints.DownloadEntryPoint;
 import main.java.miro.browser.conf.entrypoints.MainEntryPoint;
+import main.java.miro.browser.conf.entrypoints.downloads.RepositoryEntryPoint;
 
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.Application.OperationMode;
@@ -71,6 +71,6 @@ public class BrowserApplicationConfiguration implements
 	public void addDownloadEntryPoint(Application application) {
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Download API");
-		application.addEntryPoint("/download", DownloadEntryPoint.class,properties);
+		application.addEntryPoint("/download", RepositoryEntryPoint.class,properties);
 	}
 }
