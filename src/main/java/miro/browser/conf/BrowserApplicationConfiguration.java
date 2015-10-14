@@ -31,6 +31,7 @@ import main.java.miro.browser.browser.resources.ValidationTranslation;
 import main.java.miro.browser.browser.updater.ModelUpdater;
 import main.java.miro.browser.conf.entrypoints.MainEntryPoint;
 import main.java.miro.browser.conf.entrypoints.downloads.RepositoryDLEntryPoint;
+import main.java.miro.browser.conf.entrypoints.downloads.StatsDLEntryPoint;
 
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.Application.OperationMode;
@@ -70,11 +71,18 @@ public class BrowserApplicationConfiguration implements
 	
 	public void addDownloadEntryPoints(Application application) {
 		addRepositoryDLEntryPoint(application);
+		addStatsDLEntryPoint(application);
 	}
 	
 	public void addRepositoryDLEntryPoint(Application application) {
 		Map<String, String> properties = new HashMap<String, String>();
-		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Download API");
+		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Repository Download");
 		application.addEntryPoint("/repository", RepositoryDLEntryPoint.class,properties);
+	}
+
+	public void addStatsDLEntryPoint(Application application) {
+		Map<String, String> properties = new HashMap<String, String>();
+		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Stats Download");
+		application.addEntryPoint("/stats", StatsDLEntryPoint.class,properties);
 	}
 }
