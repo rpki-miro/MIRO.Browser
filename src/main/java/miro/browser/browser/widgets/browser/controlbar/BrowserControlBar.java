@@ -26,13 +26,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import main.java.miro.browser.browser.download.DownloadHandler;
 import main.java.miro.browser.browser.updater.ModelObserver;
 import main.java.miro.browser.browser.updater.ModelUpdater;
 import main.java.miro.browser.browser.updater.ObserverType;
 import main.java.miro.browser.browser.widgets.browser.RPKIBrowser;
 import main.java.miro.browser.browser.widgets.browser.views.RepositoryViewContainer;
 import main.java.miro.browser.browser.widgets.browser.views.RepositoryView.RepositoryViewType;
+import main.java.miro.browser.util.DownloadHandler;
 import main.java.miro.validator.types.ResourceCertificateTree;
 
 import org.eclipse.rap.rwt.RWT;

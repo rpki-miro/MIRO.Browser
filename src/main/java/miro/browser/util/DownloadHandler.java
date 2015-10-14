@@ -1,4 +1,4 @@
-package main.java.miro.browser.browser.download;
+package main.java.miro.browser.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

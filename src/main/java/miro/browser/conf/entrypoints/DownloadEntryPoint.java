@@ -20,9 +20,7 @@ public class DownloadEntryPoint extends AbstractEntryPoint {
 		@Override
 		public void run() {
 			HttpServletRequest request = RWT.getRequest();
-			
 			String foo = request.getParameter( "foo" );
-			String bar = request.getParameter( "bar" );
 			// TODO Auto-generated method stub
 			
 		}

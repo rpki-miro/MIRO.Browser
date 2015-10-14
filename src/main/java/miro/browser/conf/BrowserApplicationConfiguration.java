@@ -73,5 +73,4 @@ public class BrowserApplicationConfiguration implements
 		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Download API");
 		application.addEntryPoint("/download", DownloadEntryPoint.class,properties);
 	}
-
 }

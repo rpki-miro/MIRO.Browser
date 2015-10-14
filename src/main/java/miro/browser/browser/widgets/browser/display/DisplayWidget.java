@@ -24,9 +24,9 @@ package main.java.miro.browser.browser.widgets.browser.display;
 
 import java.util.ArrayList;
 
-import main.java.miro.browser.browser.download.DownloadHandler;
 import main.java.miro.browser.browser.resources.MagicNumbers;
 import main.java.miro.browser.browser.widgets.browser.RPKIBrowser;
+import main.java.miro.browser.util.DownloadHandler;
 import main.java.miro.validator.types.RepositoryObject;
 
 import org.eclipse.rap.rwt.RWT;
