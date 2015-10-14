@@ -8,14 +8,14 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.widgets.Composite;
 
-public class RepositoryEntryPoint extends AbstractEntryPoint {
+public class RepositoryDLEntryPoint extends AbstractEntryPoint {
 
 	@Override
 	protected void createContents(Composite parent) {
-		Realm.runWithDefault(SWTObservables.getRealm(parent.getDisplay()), new DownloadRunnable());
+		Realm.runWithDefault(SWTObservables.getRealm(parent.getDisplay()), new RepositoryDLRunnable());
 	}
 
-	private class DownloadRunnable implements Runnable {
+	private class RepositoryDLRunnable implements Runnable {
 
 		@Override
 		public void run() {
@@ -24,8 +24,5 @@ public class RepositoryEntryPoint extends AbstractEntryPoint {
 			// TODO Auto-generated method stub
 			
 		}
-		
 	}
-	
-	
 }

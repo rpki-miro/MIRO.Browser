@@ -30,7 +30,7 @@ import java.util.Map;
 import main.java.miro.browser.browser.resources.ValidationTranslation;
 import main.java.miro.browser.browser.updater.ModelUpdater;
 import main.java.miro.browser.conf.entrypoints.MainEntryPoint;
-import main.java.miro.browser.conf.entrypoints.downloads.RepositoryEntryPoint;
+import main.java.miro.browser.conf.entrypoints.downloads.RepositoryDLEntryPoint;
 
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.Application.OperationMode;
@@ -45,7 +45,7 @@ public class BrowserApplicationConfiguration implements
 	public void configure(Application application) {
 		addStyleSheets(application);
 		addMainEntryPoint(application);
-		addDownloadEntryPoint(application);
+		addDownloadEntryPoints(application);
 		initModelUpdater(application);
 		ValidationTranslation.readTranslation();
 		application.setOperationMode(OperationMode.JEE_COMPATIBILITY);
@@ -68,9 +68,13 @@ public class BrowserApplicationConfiguration implements
 		new Thread(new ModelUpdater(context)).start();
 	}
 	
-	public void addDownloadEntryPoint(Application application) {
+	public void addDownloadEntryPoints(Application application) {
+		addRepositoryDLEntryPoint(application);
+	}
+	
+	public void addRepositoryDLEntryPoint(Application application) {
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Download API");
-		application.addEntryPoint("/download", RepositoryEntryPoint.class,properties);
+		application.addEntryPoint("/repository", RepositoryDLEntryPoint.class,properties);
 	}
 }
