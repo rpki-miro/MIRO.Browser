@@ -32,6 +32,7 @@ import main.java.miro.browser.browser.updater.ModelUpdater;
 import main.java.miro.browser.conf.entrypoints.MainEntryPoint;
 import main.java.miro.browser.conf.entrypoints.downloads.RepositoryDLEntryPoint;
 import main.java.miro.browser.conf.entrypoints.downloads.StatsDLEntryPoint;
+import main.java.miro.browser.conf.entrypoints.widgets.BrowserEntryPoint;
 
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.Application.OperationMode;
@@ -47,6 +48,7 @@ public class BrowserApplicationConfiguration implements
 		addStyleSheets(application);
 		addMainEntryPoint(application);
 		addDownloadEntryPoints(application);
+		addBrowserEntryPoint(application);
 		initModelUpdater(application);
 		ValidationTranslation.readTranslation();
 		application.setOperationMode(OperationMode.JEE_COMPATIBILITY);
@@ -84,5 +86,12 @@ public class BrowserApplicationConfiguration implements
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Stats Download");
 		application.addEntryPoint("/stats", StatsDLEntryPoint.class,properties);
+	}
+	
+	public void addBrowserEntryPoint(Application application) {
+		Map<String, String> properties = new HashMap<String, String>();
+		properties.put(WebClient.THEME_ID, "miro" );
+		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Browser");
+		application.addEntryPoint("/browser", BrowserEntryPoint.class,properties);
 	}
 }

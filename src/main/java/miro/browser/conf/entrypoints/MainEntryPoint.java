@@ -49,7 +49,6 @@ public class MainEntryPoint extends AbstractEntryPoint{
 		Realm.runWithDefault(SWTObservables.getRealm(parent.getDisplay()), new MainRunnable(parent));
 	}
 	
-	
 	private class MainRunnable implements Runnable {
 
 		private Composite parent;
