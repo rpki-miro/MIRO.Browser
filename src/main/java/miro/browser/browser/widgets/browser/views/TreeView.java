@@ -58,7 +58,6 @@ public class TreeView extends Composite implements RepositoryView{
 		LazyTreeViewContentProvider content_provider = new LazyTreeViewContentProvider();
 		treeViewer.setContentProvider(content_provider);
 		treeViewer.setLabelProvider(label_provider);
-		label_provider.setViewer(treeViewer);
 		treeViewer.getTree().addListener(SWT.DefaultSelection, new Listener() {
 			
 			@Override

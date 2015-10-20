@@ -24,6 +24,8 @@ THE SOFTWARE.
 package main.java.miro.browser.conf;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,26 +36,34 @@ import main.java.miro.browser.conf.entrypoints.downloads.RepositoryDLEntryPoint;
 import main.java.miro.browser.conf.entrypoints.downloads.StatsDLEntryPoint;
 import main.java.miro.browser.conf.entrypoints.widgets.BrowserEntryPoint;
 
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.Application.OperationMode;
 import org.eclipse.rap.rwt.application.ApplicationConfiguration;
 import org.eclipse.rap.rwt.client.WebClient;
 import org.eclipse.rap.rwt.internal.application.ApplicationImpl;
 import org.eclipse.rap.rwt.service.ApplicationContext;
+import org.eclipse.rap.rwt.service.ResourceLoader;
+import org.eclipse.rap.rwt.service.ResourceManager;
 
 public class BrowserApplicationConfiguration implements
 		ApplicationConfiguration {
 
 	public void configure(Application application) {
 		addStyleSheets(application);
-		addMainEntryPoint(application);
-		addDownloadEntryPoints(application);
-		addBrowserEntryPoint(application);
+		addResources(application);
+		addEntryPoints(application);
 		initModelUpdater(application);
 		ValidationTranslation.readTranslation();
 		application.setOperationMode(OperationMode.JEE_COMPATIBILITY);
 	}
 	
+	public void addEntryPoints(Application application) {
+		addMainEntryPoint(application);
+		addDownloadEntryPoints(application);
+		addBrowserEntryPoint(application);
+	}
+
 	public void addStyleSheets(Application application) {
 		application.addStyleSheet( "miro", "theme/miro_theme.css" );
 	}
@@ -93,5 +103,22 @@ public class BrowserApplicationConfiguration implements
 		properties.put(WebClient.THEME_ID, "miro" );
 		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Browser");
 		application.addEntryPoint("/browser", BrowserEntryPoint.class,properties);
+	}
+	
+	public void addResources(Application application){
+		addImages(application);
+	}
+	
+	public void addImages(Application application) {
+		ResourceLoader loader = new ResourceLoader() {
+			@Override
+			public InputStream getResourceAsStream(String resourceName) throws IOException {
+			    return this.getClass().getClassLoader().getResourceAsStream(resourceName);
+			}
+		};
+		application.addResource( "resources/images/valid_icon.png", loader);
+		application.addResource( "resources/images/error_icon.png", loader);
+		application.addResource( "resources/images/warning_icon.png", loader);
+		
 	}
 }

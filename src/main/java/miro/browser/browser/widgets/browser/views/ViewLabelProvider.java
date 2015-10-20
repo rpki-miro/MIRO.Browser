@@ -23,80 +23,48 @@ THE SOFTWARE.
 package main.java.miro.browser.browser.widgets.browser.views;
 
 
-import java.util.HashMap;
-
-import main.java.miro.browser.browser.resources.Images;
 import main.java.miro.validator.types.ResourceHoldingObject;
-import main.java.miro.validator.types.ValidationResults;
 import net.ripe.rpki.commons.validation.ValidationStatus;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.service.ResourceManager;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Display;
 
 
 public class ViewLabelProvider extends CellLabelProvider{
 
-	private Viewer viewer;
-	
-	public void setViewer(Viewer v){
-		viewer = v;
-	}
-	
 	public void update(ViewerCell cell) {
 		ResourceHoldingObject obj = (ResourceHoldingObject) cell.getElement();
 		cell.setText(obj.getFilename());
 		Image i = getImage(obj);
 		cell.setImage(i);
-//		setBackgroundColor(cell,obj);
 	}
 	
 	private Image getImage(ResourceHoldingObject obj) {
-		ValidationStatus status = null;
-		ValidationResults results = obj.getValidationResults();
-		status = results.getValidationStatus();
+		ValidationStatus status = obj.getValidationResults().getValidationStatus();
+		Display display = Display.getDefault();
+		ResourceManager rm = RWT.getApplicationContext().getResourceManager();
 		Image i = null;
 		switch (status) {
-		
 		case PASSED:
-			i = Images.VALID_ICON;
+			i = new Image(display,rm.getRegisteredContent("resources/images/valid_icon.png"));
 			break;
 			
 		case ERROR:
-			i = Images.INVALID_ICON;
+			i = new Image(display,rm.getRegisteredContent("resources/images/error_icon.png"));
 			break;
 			
 		case WARNING:
-			i = Images.WARNING_ICON;
+			i = new Image(display,rm.getRegisteredContent("resources/images/warning_icon.png"));
 			break;
 
 		default:
 			break;
 		}
 		return i;
-	}
-	
-	private void setBackgroundColor(ViewerCell cell, ResourceHoldingObject obj) {
-		if(viewer != null){
-			String variant = isMarked(obj) ? "filterMatch" : null;
-			if (cell.getViewerRow().getItem() instanceof TreeItem) {
-				TreeItem item = (TreeItem) cell.getViewerRow().getItem();
-				item.setData(RWT.CUSTOM_VARIANT, variant);
-			}
-		}
-	}
-	
-	public boolean isMarked(ResourceHoldingObject obj){
-		HashMap<ResourceHoldingObject, Boolean> marked = (HashMap<ResourceHoldingObject, Boolean>) viewer.getData("MARKED");
-		boolean isMarked;
-		if (marked == null) {
-			isMarked = false;
-		} else {
-			isMarked = marked.get(obj) == null ? false : marked.get(obj);
-		}
-		return isMarked;
 	}
 }
