@@ -22,7 +22,7 @@ THE SOFTWARE.
  * */
 package main.java.miro.browser.browser.widgets.browser.display;
 
-import main.java.miro.browser.browser.resources.Colors;
+import main.java.miro.browser.browser.resources.RGBs;
 import main.java.miro.browser.browser.widgets.browser.RPKIBrowser;
 import main.java.miro.validator.types.CertificateObject;
 import main.java.miro.validator.types.RoaObject;
@@ -32,7 +32,9 @@ import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 public class RoaView implements ResourceHolderObservableBinder{
 	
@@ -64,7 +66,7 @@ public class RoaView implements ResourceHolderObservableBinder{
 		ScrolledComposite scrollingContainer = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrollingContainer.setExpandHorizontal(true);
 		scrollingContainer.setExpandVertical(true);
-		scrollingContainer.setBackground(Colors.BROWSER_DISPLAY_WIDGETS_BACKGROUND);
+//		scrollingContainer.setBackground(new Color(Display.getDefault(),Colors.BROWSER_DISPLAY_WIDGETS_BACKGROUND));
 		return scrollingContainer;
 	
 	}

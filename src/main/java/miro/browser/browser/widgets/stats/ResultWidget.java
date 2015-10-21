@@ -24,7 +24,7 @@ package main.java.miro.browser.browser.widgets.stats;
 
 import java.util.List;
 
-import main.java.miro.browser.browser.resources.Colors;
+import main.java.miro.browser.browser.resources.RGBs;
 import main.java.miro.validator.stats.types.Result;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
@@ -36,9 +36,11 @@ import org.eclipse.rap.addons.d3chart.PieChart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Tree;
 
@@ -168,20 +170,20 @@ public class ResultWidget extends Composite {
 			cItem = new ChartItem(objectBreakDownChart);
 			cItem.setValue(item.getFraction());
 			if(item.getKey().endsWith(".cer.objects")){
-				cItem.setColor(Colors.CER_OBJECT_COLOR);
+				cItem.setColor(new Color(Display.getDefault(), RGBs.CER_OBJECT_COLOR));
 				cItem.setText(".cer");
 			}
 			if(item.getKey().endsWith(".mft.objects")){
-				cItem.setColor(Colors.MFT_OBJECT_COLOR);
+				cItem.setColor(new Color(Display.getDefault(), RGBs.MFT_OBJECT_COLOR));
 				cItem.setText(".mft");
 			}
 			if(item.getKey().endsWith(".crl.objects")){
-				cItem.setColor(Colors.CRL_OBJECT_COLOR);
+				cItem.setColor(new Color(Display.getDefault(), RGBs.CRL_OBJECT_COLOR));
 				cItem.setText(".crl");
 			}
 			if(item.getKey().endsWith(".roa.objects")){
+				cItem.setColor(new Color(Display.getDefault(), RGBs.ROA_OBJECT_COLOR));
 				cItem.setText(".roa");
-				cItem.setColor(Colors.ROA_OBJECT_COLOR);
 			}
 		}
 	}
@@ -230,11 +232,11 @@ public class ResultWidget extends Composite {
 			cItem.setText(percentage);
 			
 			if(item.getKey().equals("invalid.objects")){
-				cItem.setColor(Colors.INVALID_OBJECT_COLOR);
+				cItem.setColor(new Color(Display.getDefault(), RGBs.INVALID_OBJECT_COLOR));
 			}
 			
 			if(item.getKey().equals("valid.objects")){
-				cItem.setColor(Colors.VALID_OBJECT_COLOR);
+				cItem.setColor(new Color(Display.getDefault(), RGBs.VALID_OBJECT_COLOR));
 			}
 		}
 	}

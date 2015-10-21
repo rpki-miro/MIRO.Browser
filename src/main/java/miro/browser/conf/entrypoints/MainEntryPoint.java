@@ -22,7 +22,7 @@ THE SOFTWARE.
  * */
 package main.java.miro.browser.conf.entrypoints;
 
-import main.java.miro.browser.browser.resources.Colors;
+import main.java.miro.browser.browser.resources.RGBs;
 import main.java.miro.browser.browser.resources.MagicNumbers;
 import main.java.miro.browser.browser.widgets.ContentContainer;
 import main.java.miro.browser.browser.widgets.browser.RPKIBrowser;
@@ -60,9 +60,6 @@ public class MainEntryPoint extends AbstractEntryPoint{
 			// Enable push, for async. events
 			final ServerPushSession pushSession = new ServerPushSession();
 			pushSession.start();
-
-			// Init resources
-			Colors.init(parent.getDisplay());
 
 			FormLayout layout = new FormLayout();
 			parent.setLayout(layout);

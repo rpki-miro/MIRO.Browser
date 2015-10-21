@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import main.java.miro.browser.browser.resources.Colors;
+import main.java.miro.browser.browser.resources.RGBs;
 import main.java.miro.browser.browser.updater.ModelUpdater;
 import main.java.miro.browser.browser.updater.ObserverType;
 import main.java.miro.browser.browser.updater.StatsObserver;
@@ -49,7 +49,6 @@ public class RPKIStats extends Composite implements StatsObserver{
 	public RPKIStats(Composite parent, int style) {
 		super(parent, style);
 		ModelUpdater.addObserver(this, ObserverType.STATS);
-		setBackground(Colors.BROWSER_BACKGROUND);
 		setLayout(new GridLayout());
 		statsTabFolder = new CTabFolder(this, SWT.NONE);
 		showNewestStats();
