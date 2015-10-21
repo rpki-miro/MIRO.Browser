@@ -73,7 +73,6 @@ public class ResultWidget extends Composite {
 
 	private void initDescriptor() {
 		descriptor = new Label(this, SWT.NONE);
-//		descriptor.setFont(Fonts.SMALL_HEADER_FONT);
 		GridData gridData = new GridData();
 		gridData.horizontalSpan = 2;
 		gridData.verticalAlignment = SWT.BEGINNING;
@@ -110,18 +109,6 @@ public class ResultWidget extends Composite {
 		
 		TreeViewerColumn colorColumn = new TreeViewerColumn(validationStatusViewer, SWT.BORDER);
 		colorColumn.getColumn().setWidth(30);
-		colorColumn.setLabelProvider(new CellLabelProvider() {
-			@Override
-			public void update(ViewerCell cell) {
-				StatsTreeItem item = (StatsTreeItem) cell.getElement();
-				if(item.getKey().endsWith("valid.objects")){
-					cell.setBackground(Colors.VALID_OBJECT_COLOR);
-				}
-				if(item.getKey().endsWith("invalid.objects")){
-					cell.setBackground(Colors.INVALID_OBJECT_COLOR);
-				}
-			}
-		});
 		
 		TreeViewerColumn textColumn = new TreeViewerColumn(validationStatusViewer, SWT.BORDER);
 		textColumn.getColumn().setWidth(250);
@@ -149,25 +136,6 @@ public class ResultWidget extends Composite {
 		
 		TreeViewerColumn colorColumn = new TreeViewerColumn(objectTypeTreeViewer, SWT.BORDER);
 		colorColumn.getColumn().setWidth(30);
-		colorColumn.setLabelProvider(new CellLabelProvider() {
-			@Override
-			public void update(ViewerCell cell) {
-				StatsTreeItem item = (StatsTreeItem) cell.getElement();
-				if(item.getKey().endsWith(".cer.objects")){
-					cell.setBackground(Colors.CER_OBJECT_COLOR);
-				}
-				if(item.getKey().endsWith(".mft.objects")){
-					cell.setBackground(Colors.MFT_OBJECT_COLOR);
-				}
-				if(item.getKey().endsWith(".crl.objects")){
-					cell.setBackground(Colors.CRL_OBJECT_COLOR);
-				}
-				if(item.getKey().endsWith(".roa.objects")){
-					cell.setBackground(Colors.ROA_OBJECT_COLOR);
-				}
-				
-			}
-		});
 		
 		TreeViewerColumn textColumn = new TreeViewerColumn(objectTypeTreeViewer, SWT.NONE);
 		textColumn.getColumn().setWidth(250);
@@ -275,7 +243,6 @@ public class ResultWidget extends Composite {
 		@Override
 		public void update(ViewerCell cell) {
 			StatsTreeItem item = (StatsTreeItem) cell.getElement();
-			String result = item.getKey();
 			cell.setText(item.getKey());
 		}
 	}
