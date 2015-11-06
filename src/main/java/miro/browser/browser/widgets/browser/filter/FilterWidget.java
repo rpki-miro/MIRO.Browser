@@ -196,8 +196,17 @@ public class FilterWidget extends Composite{
 		applyFilter();
 		getShell().setVisible(false);
 	}
-	
+
 	private void applyFilter(){
+		ResourceCertificateTreeFilter treeFilter = getFilter();
+		setFilter(treeFilter);
+	}
+
+	public void setFilter(ResourceCertificateTreeFilter treeFilter){
+		viewerContainer.setViewerFilters(new ViewerFilter[] { treeFilter });
+	}
+
+	private ResourceCertificateTreeFilter getFilter() {
 		List<ResourceHoldingObjectFilter> filters = new ArrayList<ResourceHoldingObjectFilter>();
 		filters.addAll(attributeOption.getFilters());
 		filters.addAll(filetypeOption.getFilters());
@@ -206,7 +215,7 @@ public class FilterWidget extends Composite{
 		ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter(
 				false);
 		treeFilter.addFilters(filters);
-		viewerContainer.setViewerFilters(new ViewerFilter[] { treeFilter });
+		return treeFilter;
 	}
 
 	private void createWidgets() {
