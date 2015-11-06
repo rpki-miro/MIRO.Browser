@@ -232,6 +232,16 @@ public class BrowserControlBar extends Composite implements ModelObserver {
     	dropDown.notifyListeners(SWT.Selection, new Event());
 	}
 	
+	public void selectTrustAnchor(String taKey) {
+		String[] items = dropDown.getItems();
+		for(int i = 0;i<items.length;i++){
+			if(items[i].equals(taKey)){
+				dropDown.select(i);
+				dropDown.notifyListeners(SWT.Selection, new Event());
+				break;
+			}
+		}
+	}
 
 	@Override
 	public void notifyModelChange() {
