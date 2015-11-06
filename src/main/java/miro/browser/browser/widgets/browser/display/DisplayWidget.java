@@ -88,7 +88,7 @@ public abstract class DisplayWidget extends Composite {
 				DownloadHandler dlhand  = new DownloadHandler();
 				CTabItem selectedTab = browser.getDisplayContainer().getSelection();
 				RepositoryObject r = (RepositoryObject) selectedTab.getData();
-				dlhand.sendDownload(r);
+				dlhand.sendDownload(r,false);
 			}
 		});
 	}
