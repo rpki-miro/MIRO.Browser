@@ -15,7 +15,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
 
-public class StatsDLEntryPoint extends AbstractEntryPoint {
+public class StatsEntryPoint extends AbstractEntryPoint {
 
 	@Override
 	protected void createContents(Composite parent) {

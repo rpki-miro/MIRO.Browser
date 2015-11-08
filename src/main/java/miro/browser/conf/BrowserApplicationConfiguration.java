@@ -33,7 +33,7 @@ import main.java.miro.browser.browser.resources.ValidationTranslation;
 import main.java.miro.browser.browser.updater.ModelUpdater;
 import main.java.miro.browser.conf.entrypoints.BrowserEntryPoint;
 import main.java.miro.browser.conf.entrypoints.MainEntryPoint;
-import main.java.miro.browser.conf.entrypoints.StatsDLEntryPoint;
+import main.java.miro.browser.conf.entrypoints.StatsEntryPoint;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.Application;
@@ -87,7 +87,7 @@ public class BrowserApplicationConfiguration implements
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put(WebClient.THEME_ID, "miro" );
 		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Stats");
-		application.addEntryPoint("/stats", StatsDLEntryPoint.class,properties);
+		application.addEntryPoint("/stats", StatsEntryPoint.class,properties);
 	}
 	
 	public void addBrowserEntryPoint(Application application) {
