@@ -37,25 +37,32 @@ public class StatsEntryPoint extends AbstractEntryPoint {
 			HttpServletRequest request = RWT.getRequest();
 			String taKey = getTrustAnchorKey(request);
 			if(isDownloadRequest(request)){
-				RPKIRepositoryStats stats = (RPKIRepositoryStats) RWT
-						.getApplicationContext().getAttribute(ModelUpdater.STATS_NAME_PREFIX+taKey);
-				DownloadHandler dlHandler = new DownloadHandler();
-				dlHandler.sendDownload(stats);
+				handleDownloadRequest(taKey);
 			} else {
-				ScrolledComposite scroller = new ScrolledComposite(parent, SWT.V_SCROLL
-						| SWT.H_SCROLL);
-				scroller.setExpandHorizontal(true);
-				scroller.setExpandVertical(true);
-
-				RPKIStats statsContainer = new RPKIStats(scroller, SWT.NONE);
-				scroller.setContent(statsContainer);
-				scroller.setMinSize(statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-
-				if (isKnownKey(taKey))
-					statsContainer.selectTab(taKey);
+				handleGUIRequest(taKey);
 			}
 		}
+		
+		private void handleDownloadRequest(String taKey) {
+			RPKIRepositoryStats stats = (RPKIRepositoryStats) RWT.getApplicationContext()
+					.getAttribute(ModelUpdater.STATS_NAME_PREFIX + taKey);
+			DownloadHandler dlHandler = new DownloadHandler();
+			dlHandler.sendDownload(stats);
+		}
+			
 
+		private void handleGUIRequest(String taKey) {
+			ScrolledComposite scroller = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
+			scroller.setExpandHorizontal(true);
+			scroller.setExpandVertical(true);
+
+			RPKIStats statsContainer = new RPKIStats(scroller, SWT.NONE);
+			scroller.setContent(statsContainer);
+			scroller.setMinSize(statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
+			if (isKnownKey(taKey))
+				statsContainer.selectTab(taKey);
+		}
 		private boolean isDownloadRequest(HttpServletRequest request) {
 			return request.getParameter("dl") != null;
 		}
