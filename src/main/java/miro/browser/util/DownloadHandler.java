@@ -41,6 +41,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import main.java.miro.browser.browser.widgets.stats.RPKIStats;
 import main.java.miro.browser.logging.LoggerFactory;
 import main.java.miro.validator.export.json.ByteArrayToHexSerializer;
 import main.java.miro.validator.export.json.CRLSerializer;
@@ -51,6 +52,10 @@ import main.java.miro.validator.export.json.RepositoryObjectSerializer;
 import main.java.miro.validator.export.json.ResourceHoldingObjectSerializer;
 import main.java.miro.validator.export.json.RoaSerializer;
 import main.java.miro.validator.export.json.ValidationResultsSerializer;
+import main.java.miro.validator.stats.export.RPKIRepositoryStatsSerializer;
+import main.java.miro.validator.stats.export.ResultSerializer;
+import main.java.miro.validator.stats.types.RPKIRepositoryStats;
+import main.java.miro.validator.stats.types.Result;
 import main.java.miro.validator.types.CRLObject;
 import main.java.miro.validator.types.CertificateObject;
 import main.java.miro.validator.types.ManifestObject;
@@ -99,6 +104,17 @@ public class DownloadHandler {
 		}
 	}
 	
+	public void sendDownload(RPKIRepositoryStats stats) {
+		try {
+			String json = statsToJson(stats);
+			StringBuffer sb = new StringBuffer(json);
+			InputStream stream = new ByteArrayInputStream(sb.toString().getBytes("ASCII"));
+			runDownloadService(stream, stats.getFilename());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private InputStream objectToStream(RepositoryObject obj, boolean subtree) {
 		try {
 			String text = objectToJson(obj,subtree);
@@ -108,6 +124,14 @@ public class DownloadHandler {
 			e.printStackTrace();
 			return new ByteArrayInputStream("ERROR: Unsupported Encoding".getBytes()); 
 		}
+	}
+	
+	private String statsToJson(RPKIRepositoryStats stats) {
+		GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
+		builder.registerTypeAdapter(Result.class, new ResultSerializer());
+		builder.registerTypeAdapter(RPKIRepositoryStats.class, new RPKIRepositoryStatsSerializer());
+		Gson gson = builder.create();
+		return gson.toJson(stats, RPKIRepositoryStats.class);
 	}
 	
 	private String objectToJson(RepositoryObject obj, boolean subtree) {

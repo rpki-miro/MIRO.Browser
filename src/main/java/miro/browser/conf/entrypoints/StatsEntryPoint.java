@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import main.java.miro.browser.browser.updater.ModelUpdater;
 import main.java.miro.browser.browser.widgets.stats.RPKIStats;
+import main.java.miro.browser.util.DownloadHandler;
+import main.java.miro.validator.stats.types.RPKIRepositoryStats;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -32,22 +34,38 @@ public class StatsEntryPoint extends AbstractEntryPoint {
 
 		@Override
 		public void run() {
-			ScrolledComposite scroller = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
-			scroller.setExpandHorizontal(true);
-			scroller.setExpandVertical(true);
-
-			RPKIStats statsContainer = new RPKIStats(scroller, SWT.NONE);
-			scroller.setContent(statsContainer);
-			scroller.setMinSize(statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-
 			HttpServletRequest request = RWT.getRequest();
 			String taKey = getTrustAnchorKey(request);
-			if(isKnownKey(taKey))
-				statsContainer.selectTab(taKey);
+			if(isDownloadRequest(request)){
+				RPKIRepositoryStats stats = (RPKIRepositoryStats) RWT
+						.getApplicationContext().getAttribute(ModelUpdater.STATS_NAME_PREFIX+taKey);
+				DownloadHandler dlHandler = new DownloadHandler();
+				dlHandler.sendDownload(stats);
+			} else {
+				ScrolledComposite scroller = new ScrolledComposite(parent, SWT.V_SCROLL
+						| SWT.H_SCROLL);
+				scroller.setExpandHorizontal(true);
+				scroller.setExpandVertical(true);
+
+				RPKIStats statsContainer = new RPKIStats(scroller, SWT.NONE);
+				scroller.setContent(statsContainer);
+				scroller.setMinSize(statsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
+				if (isKnownKey(taKey))
+					statsContainer.selectTab(taKey);
+			}
+		}
+
+		private boolean isDownloadRequest(HttpServletRequest request) {
+			return request.getParameter("dl") != null;
 		}
 
 		private String getTrustAnchorKey(HttpServletRequest request) {
-			return request.getParameter("trustAnchor");
+			String taKey = request.getParameter("trustAnchor");
+			if(taKey == null)
+				return "";
+			else
+				return taKey;
 		}
 
 		private boolean isKnownKey(String taKey) {
