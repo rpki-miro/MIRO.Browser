@@ -71,6 +71,8 @@ public class ModelUpdater implements Runnable {
 
 	public static final String STATS_NAMES_KEY = "Stats.names";
 
+	public final static String STATS_NAME_PREFIX = "Stats.";
+
 	final String CONFIG_FILE_LOCATION = "/var/data/MIRO/Browser/miro.browser.conf";
 	
 	final String BASE_DIRECTORY = "/var/data/MIRO/Browser/repositories/";
@@ -79,7 +81,6 @@ public class ModelUpdater implements Runnable {
 
 	public static final String EXPORT_DIRECTORY = "/var/data/MIRO/Browser/export/";
 
-	final String STATS_NAME_PREFIX = "Stats.";
 
 	final String STATS_ARCHIVE_DIRECTORY = "/var/data/MIRO/MIRO.Stats/repo/";
 
@@ -209,12 +210,12 @@ public class ModelUpdater implements Runnable {
 		}
 	}
 	
-	public String getModelKey(ResourceCertificateTree tree) {
+	public static String getModelKey(ResourceCertificateTree tree) {
 		return tree.getName();
 	}
 	
-	public String getStatsKey(RPKIRepositoryStats stats) {
-		return STATS_NAME_PREFIX + "." + stats.getName();
+	public static String getStatsKey(RPKIRepositoryStats stats) {
+		return STATS_NAME_PREFIX + stats.getName();
 	}
 
 	public String[] prependToStringArray(String[] arr, String str) {
