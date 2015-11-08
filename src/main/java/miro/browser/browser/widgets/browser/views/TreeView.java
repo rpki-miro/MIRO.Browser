@@ -24,18 +24,28 @@ package main.java.miro.browser.browser.widgets.browser.views;
 
 import java.util.HashMap;
 
+import main.java.miro.browser.util.DownloadHandler;
+import main.java.miro.validator.types.RepositoryObject;
 import main.java.miro.validator.types.ResourceCertificateTree;
 import main.java.miro.validator.types.ResourceHoldingObject;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.GroupMarker;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
 
 
@@ -67,7 +77,43 @@ public class TreeView extends Composite implements RepositoryView{
 				treeItem.setExpanded(expand);
 			}
 		});
+		createContextMenu(treeViewer);
 		
+	}
+	
+	
+	protected void createContextMenu(Viewer viewer) {
+	    MenuManager contextMenu = new MenuManager("#ViewerMenu"); //$NON-NLS-1$
+	    contextMenu.setRemoveAllWhenShown(true);
+	    contextMenu.addMenuListener(new IMenuListener() {
+	        @Override
+	        public void menuAboutToShow(IMenuManager mgr) {
+	            fillContextMenu(mgr);
+	        }
+	    });
+
+	    Menu menu = contextMenu.createContextMenu(viewer.getControl());
+	    viewer.getControl().setMenu(menu);
+	}
+	
+	protected void fillContextMenu(IMenuManager contextMenu) {
+
+	    contextMenu.add(new Action("Download object") {
+	        @Override
+	        public void run() {
+	        	DownloadHandler dlHandler = new DownloadHandler();
+	        	RepositoryObject obj = getSelection();
+	        	dlHandler.sendDownload(obj, false);
+	        }
+	    });
+	    contextMenu.add(new Action("Download object with subtree") {
+	        @Override
+	        public void run() {
+	        	DownloadHandler dlHandler = new DownloadHandler();
+	        	RepositoryObject obj = getSelection();
+	        	dlHandler.sendDownload(obj, true);
+	        }
+	    });
 	}
 	
 	public void setSelection(ResourceHoldingObject obj) {
