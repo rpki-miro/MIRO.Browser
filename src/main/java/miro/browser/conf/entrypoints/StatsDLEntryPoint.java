@@ -1,4 +1,4 @@
-package main.java.miro.browser.conf.entrypoints.downloads;
+package main.java.miro.browser.conf.entrypoints;
 
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.widgets.Composite;

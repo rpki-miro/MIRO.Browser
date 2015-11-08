@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  *
  * */
-package main.java.miro.browser.conf.entrypoints.widgets;
+package main.java.miro.browser.conf.entrypoints;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,13 +70,11 @@ public class BrowserEntryPoint extends AbstractEntryPoint {
 			parent.setLayout(new FillLayout());
 			HttpServletRequest request = RWT.getRequest();
 			String taKey = getTrustAnchorKey(request);
-			if (isKnownKey(taKey)) {
-				List<ResourceHoldingObjectFilter> filters = getFilters(request);
-				if(isDownloadRequest(request)){
-					handleDownloadRequest(taKey,filters);
-				} else {
-					handleGUIRequest(taKey,filters);
-				}
+			List<ResourceHoldingObjectFilter> filters = getFilters(request);
+			if(isDownloadRequest(request)){
+				handleDownloadRequest(taKey,filters);
+			} else {
+				handleGUIRequest(taKey,filters);
 			}
 		}
 
@@ -117,21 +115,25 @@ public class BrowserEntryPoint extends AbstractEntryPoint {
 
 		private void handleGUIRequest(String taKey, List<ResourceHoldingObjectFilter> filters) {
 			RPKIBrowser browser = new RPKIBrowser(parent, SWT.NONE);
-			ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter(false);
-			treeFilter.addFilters(filters);
-			browser.getBrowserControlBar().selectTrustAnchor(taKey);
-			browser.getFilterWidget().setFilter(treeFilter);
+			if(isKnownKey(taKey)){
+				ResourceCertificateTreeFilter treeFilter = new ResourceCertificateTreeFilter(false);
+				treeFilter.addFilters(filters);
+				browser.getBrowserControlBar().selectTrustAnchor(taKey);
+				browser.getFilterWidget().setFilter(treeFilter);
+			}
 		}
 
 		private void handleDownloadRequest(String taKey, List<ResourceHoldingObjectFilter> filters) {
-			ResourceCertificateTree certTree = (ResourceCertificateTree) RWT
-					.getApplicationContext().getAttribute(taKey);
-			DownloadHandler dlHandler = new DownloadHandler();
-			if (filters.isEmpty()) {
-				dlHandler.sendDownload(ModelUpdater.EXPORT_DIRECTORY + certTree.getName());
-			} else {
-				List<RepositoryObject> results = filterObjects(certTree, filters);
-				dlHandler.sendDownload(results);
+			if(isKnownKey(taKey)){
+				ResourceCertificateTree certTree = (ResourceCertificateTree) RWT
+						.getApplicationContext().getAttribute(taKey);
+				DownloadHandler dlHandler = new DownloadHandler();
+				if (filters.isEmpty()) {
+					dlHandler.sendDownload(ModelUpdater.EXPORT_DIRECTORY + certTree.getName());
+				} else {
+					List<RepositoryObject> results = filterObjects(certTree, filters);
+					dlHandler.sendDownload(results);
+				}
 			}
 		}
 
