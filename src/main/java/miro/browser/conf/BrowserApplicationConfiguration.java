@@ -85,7 +85,8 @@ public class BrowserApplicationConfiguration implements
 	
 	public void addStatsDLEntryPoint(Application application) {
 		Map<String, String> properties = new HashMap<String, String>();
-		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Stats Download");
+		properties.put(WebClient.THEME_ID, "miro" );
+		properties.put(WebClient.PAGE_TITLE, "RPKI MIRO - Stats");
 		application.addEntryPoint("/stats", StatsDLEntryPoint.class,properties);
 	}
 	

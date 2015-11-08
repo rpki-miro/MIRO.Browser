@@ -100,6 +100,12 @@ public class RPKIStats extends Composite implements StatsObserver{
 		});
 	}
 	
-	
-
+	public void selectTab(String key) {
+		for(CTabItem tab : statsTabFolder.getItems()){
+			if(tab.getText().equals(key)){
+				statsTabFolder.setSelection(tab);
+				break;
+			}
+		}
+	}
 }
