@@ -45,14 +45,15 @@ import main.java.miro.browser.logging.LoggerFactory;
 import main.java.miro.browser.util.DirectoryFilter;
 import main.java.miro.browser.util.FileExtensionFilter;
 import main.java.miro.validator.ResourceCertificateTreeValidator;
-import main.java.miro.validator.TrustAnchorLocator;
 import main.java.miro.validator.export.json.JsonExporter;
+import main.java.miro.validator.export.rtr.RTRExporter;
 import main.java.miro.validator.fetcher.ObjectFetcher;
 import main.java.miro.validator.fetcher.RsyncFetcher;
 import main.java.miro.validator.stats.ResultExtractor;
 import main.java.miro.validator.stats.types.RPKIRepositoryStats;
 import main.java.miro.validator.stats.types.Result;
 import main.java.miro.validator.types.ResourceCertificateTree;
+import main.java.miro.validator.types.TrustAnchorLocator;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.rap.rwt.service.ApplicationContext;
@@ -83,8 +84,6 @@ public class ModelUpdater implements Runnable {
 
 
 	final String STATS_ARCHIVE_DIRECTORY = "/var/data/MIRO/MIRO.Stats/repo/";
-
-//	private static HashMap<String, String> modelNames;
 
 	private int UPDATE_PORT;
 
@@ -183,7 +182,6 @@ public class ModelUpdater implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	public void addModelToContext(ResourceCertificateTree tree, List<String> modelKeys) {
 		String key = getModelKey(tree);
