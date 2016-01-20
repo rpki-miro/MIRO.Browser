@@ -176,6 +176,7 @@ public class ModelUpdater implements Runnable {
 				addModelToContext(tree, modelKeys);
 				addStatsToContext(getRPKIRepositoryStats(tree), statsKeys);
 				exportTreeAsJson(tree);
+				exportRTR(tree);
 			}
 		} catch (IOException e) {
 			log.log(Level.SEVERE, "Could not process " + talDirectory.getName(), e.getMessage());
@@ -197,6 +198,11 @@ public class ModelUpdater implements Runnable {
 	
 	public void exportTreeAsJson(ResourceCertificateTree tree) {
 		JsonExporter exporter = new JsonExporter(EXPORT_DIRECTORY + tree.getName());
+		exporter.export(tree);
+	}
+	
+	public void exportRTR(ResourceCertificateTree tree){
+		RTRExporter exporter = new RTRExporter(EXPORT_DIRECTORY + "LOLWUT");
 		exporter.export(tree);
 	}
 	
