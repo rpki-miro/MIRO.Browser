@@ -82,7 +82,6 @@ public class ModelUpdater implements Runnable {
 
 	public static final String EXPORT_DIRECTORY = "/var/data/MIRO/Browser/export/";
 
-
 	final String STATS_ARCHIVE_DIRECTORY = "/var/data/MIRO/MIRO.Stats/repo/";
 
 	private int UPDATE_PORT;
@@ -202,7 +201,7 @@ public class ModelUpdater implements Runnable {
 	}
 	
 	public void exportRTR(ResourceCertificateTree tree){
-		RTRExporter exporter = new RTRExporter(EXPORT_DIRECTORY + "LOLWUT");
+		RTRExporter exporter = new RTRExporter(EXPORT_DIRECTORY + "/roas/roas_" + tree.getName() + "_" + tree.getTimeStamp());
 		exporter.export(tree);
 	}
 	
