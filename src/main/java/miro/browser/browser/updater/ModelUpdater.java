@@ -84,7 +84,7 @@ public class ModelUpdater implements Runnable {
 
 	final String STATS_ARCHIVE_DIRECTORY = "/var/data/MIRO/MIRO.Stats/repo/";
 
-	private static HashMap<String, String> modelNames;
+//	private static HashMap<String, String> modelNames;
 
 	private int UPDATE_PORT;
 
@@ -218,15 +218,6 @@ public class ModelUpdater implements Runnable {
 		return STATS_NAME_PREFIX + stats.getName();
 	}
 
-	public String[] prependToStringArray(String[] arr, String str) {
-		String[] resultArr = new String[arr.length + 1];
-		resultArr[0] = str;
-		for (int i = 1; i < resultArr.length; i++) {
-			resultArr[i] = arr[i - 1];
-		}
-		return resultArr;
-	}
-
 	public RPKIRepositoryStats getRPKIRepositoryStats(
 			ResourceCertificateTree certTree) {
 		ResultExtractor extractor = new ResultExtractor(certTree);
@@ -272,25 +263,6 @@ public class ModelUpdater implements Runnable {
 			}
 		}
 	}
-
-	public void readNames(String path) {
-		modelNames = new HashMap<String, String>();
-		Properties prop = new Properties();
-
-		try {
-			InputStream is = new FileInputStream(path);
-			prop.load(is);
-			log.log(Level.FINE, "Reading names file at: {0}", path);
-			String key;
-			for (Object s : prop.keySet()) {
-				key = (String) s;
-				modelNames.put(key, prop.getProperty(key));
-			}
-		} catch (Exception e) {
-			log.log(Level.SEVERE, e.toString(), e);
-		}
-	}
-
 
 	public void notifyObservers() {
 		notifyModelObervers();

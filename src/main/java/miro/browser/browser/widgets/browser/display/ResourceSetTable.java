@@ -35,11 +35,15 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.client.service.JavaScriptExecutor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 
 import com.google.common.collect.Iterables;
 /**
@@ -59,6 +63,7 @@ public class ResourceSetTable extends Composite{
 		tableViewer = new TableViewer(this, SWT.V_SCROLL | SWT.VIRTUAL);
 		tableViewer.setContentProvider(new ResourceContentProvider());
 		createColumns(tableViewer.getTable());
+		addCopyPasteListener();
 	}
 	
 	private void createColumns(Table table) {
@@ -81,6 +86,30 @@ public class ResourceSetTable extends Composite{
 	
 	public void setInput(IpResourceSet res) {
 		tableViewer.setInput(res);
+	}
+	
+	private void addCopyPasteListener() {
+		tableViewer.getTable().addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.stateMask == SWT.CTRL && e.keyCode == 'c') {
+					Table table = (Table)e.widget;
+					TableItem[] selectedItems = table.getSelection();
+					String result = "";
+					for(TableItem item : selectedItems) {
+						result +=item.getData().toString();
+						result += "\n";
+					}
+				}
+				
+			}
+		});
 	}
 	
 	
