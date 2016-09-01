@@ -35,7 +35,6 @@ import main.java.miro.browser.conf.entrypoints.BrowserEntryPoint;
 import main.java.miro.browser.conf.entrypoints.MainEntryPoint;
 import main.java.miro.browser.conf.entrypoints.StatsEntryPoint;
 
-import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.Application.OperationMode;
 import org.eclipse.rap.rwt.application.ApplicationConfiguration;
