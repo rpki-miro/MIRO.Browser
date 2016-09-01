@@ -6,7 +6,6 @@ target/
 *.project
 *.classpath
 bin/
-miro.browser.warproduct
 WEB-INF/
 
 #Test
