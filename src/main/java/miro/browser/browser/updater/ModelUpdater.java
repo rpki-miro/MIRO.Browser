@@ -48,7 +48,6 @@ import main.java.miro.validator.stats.types.Result;
 import main.java.miro.validator.types.ResourceCertificateTree;
 import main.java.miro.validator.types.TrustAnchorLocator;
 
-import org.apache.commons.io.FileUtils;
 import org.eclipse.rap.rwt.service.ApplicationContext;
 import org.joda.time.DateTime;
 
@@ -306,11 +305,6 @@ public class ModelUpdater implements Runnable {
 		default:
 			return false;
 		}
-	}
-
-	private void setInputdir(String key) {
-		inputPath = key;
-		log.log(Level.FINE, "Set inputDir: {0}", key);
 	}
 
 	private void setPort(String port2) {
