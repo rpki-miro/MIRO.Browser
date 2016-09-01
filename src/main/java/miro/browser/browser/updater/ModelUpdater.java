@@ -67,21 +67,18 @@ public class ModelUpdater implements Runnable {
 	public final static String STATS_NAME_PREFIX = "Stats.";
 
 	final String CONFIG_FILE_LOCATION = "/var/data/MIRO/Browser/miro.browser.conf";
-	
+
 	final String BASE_DIRECTORY = "/var/data/MIRO/Browser/repositories/";
 
 	final String PREFETCH_FILE_DIRECTORY = "/var/data/MIRO/Browser/prefetching/";
 
 	public static final String EXPORT_DIRECTORY = "/var/data/MIRO/Browser/export/";
 
-	final String STATS_ARCHIVE_DIRECTORY = "/var/data/MIRO/MIRO.Stats/repo/";
+	final String STATS_ARCHIVE_DIRECTORY = "/var/data/MIRO/Stats/repo/";
 
 	private int UPDATE_PORT;
 
-	private String inputPath;
-
 	private String TALDirectory;
-
 
 	private volatile boolean run;
 
