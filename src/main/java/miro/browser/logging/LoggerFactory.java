@@ -31,7 +31,6 @@ import java.util.logging.SimpleFormatter;
 
 
 public class LoggerFactory {
-	private static String logDir = "/var/data/MIRO/MIRO.Browser/logs/miro.log";
 	private static FileHandler filehandler;
 	
 	
@@ -42,7 +41,6 @@ public class LoggerFactory {
 		log.setLevel(lev);
 		removeHandlers(log);
 		log.addHandler(getConsoleHandler(lev));
-		log.addHandler(getFileHandler(lev, logDir));
 		return log;
 	}
 	
@@ -58,19 +56,4 @@ public class LoggerFactory {
 		ch.setLevel(lev);
 		return ch;
 	}
-	
-	private static FileHandler getFileHandler(Level lev, String filepath) {
-		
-		if(filehandler == null){
-			try {
-				filehandler = new FileHandler(filepath);
-				filehandler.setLevel(lev);
-				filehandler.setFormatter(new SimpleFormatter());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return filehandler;
-	}
-	
 }
