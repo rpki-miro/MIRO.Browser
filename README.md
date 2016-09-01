@@ -4,32 +4,45 @@ Web application that allows browsing and inspection of RPKI objects
 ## Install
 There is a publicly available instance of MIRO running at http://rpki-browser.realmv6.org/
 
-If you wish to deploy MIRO yourself, download the latest release and follow these instruction:
+If you wish to deploy MIRO yourself, download the latest release (miro-x.x.tar.bz2) and follow these instruction:
 
 ### Web archive file
-The release contains the file 'miro.war'. This needs to be deployed with a servlet container such as [http://tomcat.apache.org/]tomcat.
+The release contains the file 'miro.war'. This needs to be deployed with a servlet container such as [tomcat](http://tomcat.apache.org/).
 
-In case of tomcat you can just drop the miro.war file into tomcat/webapps.
+In case of tomcat:
+```
+tar -xzf apache-tomcat.tar.gz
+mv MIRO/miro.war apache-tomcat/webapps
+./apache-tomcat/bin/startup.sh
+```
+MIRO should show up at localhost:8080/miro/
+
 
 ### Necessary directory structure
-In order for MIRO to work, you need to copy the directory "MIRO" found in the release archive to "/var/data". 
-IMPORTANT: The user who is running the servlet container needs to have read/write access to /var/data/MIRO
+In order for MIRO to work, you need to copy the directory `MIRO` found in the release archive to `/var/data`.
+
+**IMPORTANT: The user who is running the servlet container needs to have read/write access to `/var/data/MIRO`**
 
 ### Adding your own trust anchor locators
-The default directory for trust anchor locators is /var/data/MIRO/Browser/tals/
-The .tal files are grouped in sub-directories (RIPE, ARIN, APNIC, LACNIC, AFRINIC).
+The default directory for trust anchor locators is `/var/data/MIRO/Browser/tals/`.
+
+The .tal files are grouped in sub-directories (`RIPE, ARIN, APNIC, LACNIC, AFRINIC`).
+
+
 If you wish to add your own trust anchor locators, make a new sub-directory and place your .tals in there:
 /var/data/MIRO/Browser/tals/<your-sub-directory>/<your-tal>.tal
 
-Trust anchor locators are grouped by the repository the trust anchor resides is, so APNICs 5 trust anchors are all grouped together. This is done to make prefetching easier.
+Trust anchor locators should be grouped by _the repository the trust anchor resides in_. For example all 5 of APNICs trust anchors are grouped together. This is done to make prefetching easier.
 
 #### Prefetching
-Some repositories have a flat structure, and thus the normal recursive fetching process takes a long time (using rsync). To shorten the process prefetching aims to download as much of the repository in advance. In MIRO/Browser/prefetching you can see the URIs set to being prefetched for every TAL grouping.
+Some repositories have a flat structure, and thus the normal recursive fetching process takes a long time (using rsync). To shorten the process prefetching aims to download as much of the repository in advance. In `MIRO/Browser/prefetching` you can see the URIs set to being prefetched for every TAL grouping. 
+
+If you are adding new TALs that point to repositories that are flat, it would be a good idea to make a file `/var/data/MIRO/Browser/prefetching/<your TAL group>` that contains URIs to prefetch.
 
 ### Updating
-In order to trigger an update, a connection coming from the loopback interface needs to be made to the update port (default 9234).
-One way to do this (python):
-```
+In order to trigger an update, a connection coming from the **loopback interface** needs to be made to the update port (default 9234).
+One way to do this (python2):
+```python
 sock = socket.socket()
 try:
 	sock.connect(("localhost",9234))
@@ -40,10 +53,10 @@ except socket_error as e:
  To setup regular updates, use a cronjob.
 
 ### Export
-The last downloaded resource certificate trees as well as ROAs are saved at /var/data/MIRO/Browser/exports
+The last downloaded resource certificate trees as well as ROAs are saved at `/var/data/MIRO/Browser/exports`
 
 ### Config file
-In the conf file /var/data/MIRO/Browser/miro.browser.conf you can change the update port (default 9234)
+In the conf file `/var/data/MIRO/Browser/miro.browser.conf` you can change the update port (default 9234)
 
 
 ##API
