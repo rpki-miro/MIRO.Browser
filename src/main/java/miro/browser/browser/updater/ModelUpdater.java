@@ -245,30 +245,16 @@ public class ModelUpdater implements Runnable {
 		return totalStats;
 	}
 
-	public void readConfig(String path) throws IOException {
+	public void readConfig(String path) {
 		Properties prop = new Properties();
-
-		InputStream is = new FileInputStream(path);
-
-		prop.load(is);
-
 		log.log(Level.FINE, "Reading config file at: {0}", path);
-		String key;
-		for (Object s : prop.keySet()) {
-			key = (String) s;
-			switch (key) {
-			case "port":
-				setPort(prop.getProperty(key));
-				break;
-			case "inputDir":
-				setInputdir(prop.getProperty(key));
-				break;
-			case "TALDir":
-				setTALDir(prop.getProperty(key));
-				break;
-			default:
-				break;
-			}
+		try {
+			prop.load(new FileInputStream(path));
+		} catch (IOException e) {
+			log.log(Level.INFO, "Could not read config file at {0}, falling back on default",CONFIG_FILE_LOCATION);
+		} finally {
+			setPort(prop.getProperty("port", "9123"));
+			setTALDir(prop.getProperty("tals", "/var/data/MIRO/Browser/tals/"));
 		}
 	}
 
