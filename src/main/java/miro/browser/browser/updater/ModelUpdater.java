@@ -253,7 +253,7 @@ public class ModelUpdater implements Runnable {
 		} catch (IOException e) {
 			log.log(Level.INFO, "Could not read config file at {0}, falling back on default",CONFIG_FILE_LOCATION);
 		} finally {
-			setPort(prop.getProperty("port", "9123"));
+			setPort(prop.getProperty("port", "9234"));
 			setTALDir(prop.getProperty("tals", "/var/data/MIRO/Browser/tals/"));
 		}
 	}
