@@ -95,7 +95,7 @@ public class ModelUpdater implements Runnable {
 			readConfig(CONFIG_FILE_LOCATION);
 			ServerSocket triggerSocket = new ServerSocket(UPDATE_PORT);
 			update();
-			while(run) {
+			while (run) {
 				waitForUpdateTrigger(triggerSocket);
 				update();
 			}
@@ -137,14 +137,20 @@ public class ModelUpdater implements Runnable {
 		context.setAttribute(MODEL_NAMES_KEY, modelKeys);
 		context.setAttribute(STATS_NAMES_KEY, statsKeys);
 	}
-	
+
 	public File[] getTALGroupDirectories() {
 		File talMainDir = new File(TALDirectory);
 		File[] talGroupDirectories = talMainDir.listFiles(new DirectoryFilter());
+		if (talGroupDirectories == null) {
+			log.log(Level.INFO, "Could not access {0}. No trust anchor locators found.", TALDirectory);
+			return new File[0];
+		}
 		return talGroupDirectories;
+		
 	}
-	
-	public void addModelsFromTALGroup(File talDirectory, List<String> modelKeys, List<String> statsKeys) {
+
+	public void addModelsFromTALGroup(File talDirectory,
+			List<String> modelKeys, List<String> statsKeys) {
 		ResourceCertificateTreeValidator validator;
 		ObjectFetcher fetcher;
 		TrustAnchorLocator tal;
@@ -154,8 +160,10 @@ public class ModelUpdater implements Runnable {
 					+ talDirectory.getName());
 			validator = new ResourceCertificateTreeValidator(fetcher);
 
-			for (String filename : talDirectory.list(new FileExtensionFilter("tal"))) {
-				tal = new TrustAnchorLocator(talDirectory.getAbsolutePath() + "/" + filename);
+			for (String filename : talDirectory.list(new FileExtensionFilter(
+					"tal"))) {
+				tal = new TrustAnchorLocator(talDirectory.getAbsolutePath()
+						+ "/" + filename);
 				tree = validator.withTAL(tal);
 
 				if (tree == null)
@@ -167,45 +175,52 @@ public class ModelUpdater implements Runnable {
 				exportRTR(tree);
 			}
 		} catch (IOException e) {
-			log.log(Level.SEVERE, "Could not process " + talDirectory.getName(), e.getMessage());
+			log.log(Level.SEVERE,
+					"Could not process " + talDirectory.getName(),
+					e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
-	public void addModelToContext(ResourceCertificateTree tree, List<String> modelKeys) {
+
+	public void addModelToContext(ResourceCertificateTree tree,
+			List<String> modelKeys) {
 		String key = getModelKey(tree);
 		context.setAttribute(key, tree);
 		modelKeys.add(key);
 	}
-	
-	public void addStatsToContext(RPKIRepositoryStats stats, List<String> statsKeys) {
+
+	public void addStatsToContext(RPKIRepositoryStats stats,
+			List<String> statsKeys) {
 		String key = getStatsKey(stats);
 		context.setAttribute(key, stats);
 		statsKeys.add(key);
 	}
-	
+
 	public void exportTreeAsJson(ResourceCertificateTree tree) {
-		JsonExporter exporter = new JsonExporter(EXPORT_DIRECTORY + tree.getName());
+		JsonExporter exporter = new JsonExporter(EXPORT_DIRECTORY
+				+ tree.getName());
 		exporter.export(tree);
 	}
-	
-	public void exportRTR(ResourceCertificateTree tree){
-		RTRExporter exporter = new RTRExporter(EXPORT_DIRECTORY + "/roas/roas_" + tree.getName() + "_" + tree.getTimeStamp());
+
+	public void exportRTR(ResourceCertificateTree tree) {
+		RTRExporter exporter = new RTRExporter(EXPORT_DIRECTORY + "/roas/roas_"
+				+ tree.getName() + "_" + tree.getTimeStamp());
 		exporter.export(tree);
 	}
-	
+
 	public void archiveStats(List<String> statsKeys) {
 		RPKIRepositoryStats stats;
-		for(String statsKey : statsKeys) {
+		for (String statsKey : statsKeys) {
 			stats = (RPKIRepositoryStats) context.getAttribute(statsKey);
-			ResultExtractor.archiveStats(stats, STATS_ARCHIVE_DIRECTORY + stats.getName());
+			ResultExtractor.archiveStats(stats,
+					STATS_ARCHIVE_DIRECTORY + stats.getName());
 		}
 	}
-	
+
 	public static String getModelKey(ResourceCertificateTree tree) {
 		return tree.getName();
 	}
-	
+
 	public static String getStatsKey(RPKIRepositoryStats stats) {
 		return STATS_NAME_PREFIX + stats.getName();
 	}
@@ -219,7 +234,8 @@ public class ModelUpdater implements Runnable {
 
 	private RPKIRepositoryStats getTotalStats(List<String> statsKeys) {
 
-		RPKIRepositoryStats totalStats = new RPKIRepositoryStats("Global RPKI", new DateTime(), "All", new Result("Total"),
+		RPKIRepositoryStats totalStats = new RPKIRepositoryStats("Global RPKI",
+				new DateTime(), "All", new Result("Total"),
 				new ArrayList<Result>());
 		for (String statsKey : statsKeys) {
 			RPKIRepositoryStats stats = (RPKIRepositoryStats) context
@@ -270,7 +286,6 @@ public class ModelUpdater implements Runnable {
 					.getName());
 		}
 	}
-	
 
 	private static void notifyStatsObservers() {
 		log.log(Level.FINE, "Notifying {0} stats observers",
