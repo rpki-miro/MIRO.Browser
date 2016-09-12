@@ -9,7 +9,7 @@ If you wish to deploy MIRO yourself, download the latest release (miro-x.x.tar.b
 ### Web archive file
 The release contains the file 'miro.war'. This needs to be deployed with a servlet container such as [tomcat](http://tomcat.apache.org/).
 
-In case of tomcat:
+In case of tomcat (using a local tomcat, not system wide):
 ```
 tar -xzf apache-tomcat.tar.gz
 mv MIRO/miro.war apache-tomcat/webapps
