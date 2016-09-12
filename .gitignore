@@ -2,11 +2,6 @@
 target/
 
 #Eclipse
-*.settings/
-*.project
 *.classpath
 bin/
-WEB-INF/
-
-#Test
 
