@@ -59,11 +59,11 @@ The last downloaded resource certificate trees as well as ROAs are saved at `/va
 In the conf file `/var/data/MIRO/Browser/miro.browser.conf` you can change the update port (default 9234)
 
 
-##API
+## API
 The MIRO API allows you to filter for specific groups of objects and link to them or download them
 in JSON format.
 
-###Browser
+### Browser
 Download or view RPKI objects
 
 **Context path: /browser**
@@ -86,7 +86,7 @@ Download all ROAs in the LACNIC certificate tree with resource 'AS11562':
 
 http://rpki-browser.realmv6.org/browser?trustAnchor=LACNIC&attributeKey=resource&attributeValue=AS11562&filetype=roa&dl=true
 
-###Statistics
+### Statistics
 Download or view basic statistics about the RPKI
 
 **Context path: /stats**
