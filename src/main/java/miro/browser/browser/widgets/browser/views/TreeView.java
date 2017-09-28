@@ -62,7 +62,7 @@ public class TreeView extends Composite implements RepositoryView{
 	private void init() {
 		setLayout(new FillLayout());
 		treeViewer = new TreeViewer(this, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.VIRTUAL);	
-		treeViewer.setUseHashlookup(true);
+		//treeViewer.setUseHashlookup(true);
 		treeViewer.setAutoExpandLevel(2);
 		ViewLabelProvider label_provider = new ViewLabelProvider();
 		LazyTreeViewContentProvider content_provider = new LazyTreeViewContentProvider();
@@ -151,14 +151,14 @@ public class TreeView extends Composite implements RepositoryView{
 
 	@Override
 	public void setFilters(ViewerFilter[] filters) {
-		treeViewer.setData("MARKED", new HashMap<ResourceHoldingObject, Boolean>());
+		//treeViewer.setData("MARKED", new HashMap<ResourceHoldingObject, Boolean>());
 		treeViewer.setFilters(filters);
 		treeViewer.expandToLevel(3);
 	}
 
 	@Override
 	public void resetFilters() {
-		treeViewer.setData("MARKED", new HashMap<ResourceHoldingObject, Boolean>());
+		//treeViewer.setData("MARKED", new HashMap<ResourceHoldingObject, Boolean>());
 		treeViewer.resetFilters();
 	}
 
@@ -171,5 +171,7 @@ public class TreeView extends Composite implements RepositoryView{
 	public ResourceCertificateTree getInput() {
 		return (ResourceCertificateTree) treeViewer.getInput();
 	}
+	
+	
 
 }
