@@ -162,8 +162,13 @@ public class ModelUpdater implements Runnable {
 
 			for (String filename : talDirectory.list(new FileExtensionFilter(
 					"tal"))) {
-				tal = new TrustAnchorLocator(talDirectory.getAbsolutePath()
-						+ "/" + filename);
+				try {
+					tal = new TrustAnchorLocator(talDirectory.getAbsolutePath()
+							+ "/" + filename);
+				} catch (Exception e) {
+					log.log(Level.SEVERE, "Error reading TAL " + filename +". Skipping");
+					continue;
+				}
 				tree = validator.withTAL(tal);
 
 				if (tree == null)
