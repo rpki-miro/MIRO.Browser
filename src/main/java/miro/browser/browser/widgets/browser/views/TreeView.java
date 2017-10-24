@@ -161,14 +161,14 @@ public class TreeView extends Composite implements RepositoryView{
 
 	@Override
 	public void setFilters(ViewerFilter[] filters) {
-		//treeViewer.setData("MARKED", new HashMap<ResourceHoldingObject, Boolean>());
+		treeViewer.setData("MARKED", new HashMap<ResourceHoldingObject, Boolean>());
 		treeViewer.setFilters(filters);
 		treeViewer.expandToLevel(3);
 	}
 
 	@Override
 	public void resetFilters() {
-		//treeViewer.setData("MARKED", new HashMap<ResourceHoldingObject, Boolean>());
+		treeViewer.setData("MARKED", new HashMap<ResourceHoldingObject, Boolean>());
 		treeViewer.resetFilters();
 	}
 
@@ -181,7 +181,5 @@ public class TreeView extends Composite implements RepositoryView{
 	public ResourceCertificateTree getInput() {
 		return (ResourceCertificateTree) treeViewer.getInput();
 	}
-	
-	
 
 }
