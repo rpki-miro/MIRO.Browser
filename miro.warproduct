@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="MIRO" uid="miro" version="1.0.1" useFeatures="false" includeLaunchers="false">
+<product name="MIRO" uid="miro" version="1.0.2" useFeatures="false" includeLaunchers="false">
    <plugins>
       <plugin id="MIRO.Browser"/>
       <plugin id="MIRO.Validator"/>
