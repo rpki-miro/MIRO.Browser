@@ -41,6 +41,8 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -69,12 +71,20 @@ public class TreeView extends Composite implements RepositoryView{
 		treeViewer.setContentProvider(content_provider);
 		treeViewer.setLabelProvider(label_provider);
 		treeViewer.getTree().addListener(SWT.DefaultSelection, new Listener() {
-			
+	
 			@Override
 			public void handleEvent(Event event) {
 				TreeItem treeItem = (TreeItem) event.item;
 				boolean expand = !treeItem.getExpanded();
 				treeItem.setExpanded(expand);
+			}
+		});
+
+		addDisposeListener(new DisposeListener() {
+
+			@Override
+			public void widgetDisposed(DisposeEvent event) {
+				treeViewer.setData("MARKED", null);
 			}
 		});
 		createContextMenu(treeViewer);
